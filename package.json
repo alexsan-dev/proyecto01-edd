@@ -8,6 +8,7 @@
 	},
 	"scripts": {
 		"build": "tsc",
+		"add-page": "node ./cli/pages.js",
 		"start": "tsc --watch",
 		"lint": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix",
