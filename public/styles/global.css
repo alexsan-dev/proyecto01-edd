@@ -32,6 +32,10 @@ body {
 	--darkGray: #272829;
 }
 
+ul {
+	list-style: none;
+}
+
 button {
 	height: 50px;
 	font-weight: 500;
