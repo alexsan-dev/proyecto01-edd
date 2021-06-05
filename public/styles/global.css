@@ -49,3 +49,38 @@ button {
 button:hover {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
+.input {
+	display: flex;
+	align-items: center;
+	height: 50px;
+	background: #fff;
+	border-radius: var(--radius);
+	padding: 10px 20px;
+}
+
+.input > label > i {
+	color: #aab8c6;
+	margin-right: 20px;
+	transition: color 0.2s ease-in-out;
+}
+
+.input > input {
+	width: 100%;
+	border: none;
+	outline: none;
+	appearance: none;
+	font-weight: 500;
+}
+
+.input > input::placeholder {
+	color: #aab8c6;
+}
+
+.input > input:focus {
+	color: var(--darkGray);
+}
+
+.input:focus-within > label > i {
+	color: var(--darkGray);
+}
