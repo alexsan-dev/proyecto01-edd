@@ -1,24 +1,92 @@
-@font-face {
-	src: url('../fonts/Montserrat-Light.ttf');
-	font-weight: 400;
-	font-family: 'Montserrat';
+nav {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 250px;
+	background: #fff;
+	height: 100%;
 }
 
-@font-face {
-	src: url('../fonts/Montserrat-Regular.ttf');
+nav > #logo {
+	width: calc(100% - 60px);
+	margin: 30px;
+	height: 100px;
+	background: var(--lightGray);
+	opacity: 0.3;
+	border-radius: var(--radius);
+}
+
+nav > ul {
+	width: 100%;
+	font-size: 15px;
+	color: var(--lightGray);
 	font-weight: 500;
-	font-family: 'Montserrat';
 }
 
-@font-face {
-	src: url('../fonts/Montserrat-Bold.ttf');
-	font-weight: 600;
-	font-family: 'Montserrat';
+nav > ul > li {
+	width: 100%;
+	padding-left: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	height: 35px;
+	margin-bottom: 15px;
+	border-right: 3px solid transparent;
+	transition: border-color 0.2s ease-in-out;
 }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Montserrat';
+nav > ul > li > i {
+	position: relative;
+	top: -1px;
+	margin-right: 20px;
+	font-size: 1.3em;
+	transition: color 0.2s ease-in-out;
+}
+
+nav > ul > li > span {
+	transition: color 0.2s ease-in-out;
+}
+
+nav > ul > li.active-path,
+nav > ul > li:hover {
+	cursor: pointer;
+	border-color: var(--blue);
+}
+
+nav > ul > li.active-path > i,
+nav > ul > li:hover > i {
+	color: var(--blue);
+}
+
+nav > ul > li.active-path > span,
+nav > ul > li:hover > span {
+	color: var(--darkGray);
+}
+
+nav > #git-info {
+	width: calc(100% - 60px);
+	margin: 70px 30px 30px 30px;
+	background-color: #f5f5fb;
+	border-radius: var(--radius);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 30px;
+}
+
+nav > #git-info > svg {
+	margin-top: -70px;
+}
+
+nav > #git-info > p {
+	color: #778dad;
+	font-weight: 500;
+	font-size: 15px;
+	margin: 20px 0;
+}
+
+nav > #git-info > button {
+	font-size: 15px;
+	width: 100%;
 }

@@ -7,9 +7,9 @@ const args = process.argv
 const pageName = args[2]
 
 // ESCRIBIR ARCHIVO
-const writeFile = (dirName, ext, content) => {
+const writeFile = (dirName, filename, content) => {
 	fs.writeFile(
-		path.resolve(`./${dirName}/pages/${pageName}/index.${ext}`),
+		path.resolve(`./${dirName}/pages/${pageName}/${filename}`),
 		content,
 		'utf-8',
 		(err) => {
@@ -37,7 +37,7 @@ fs.exists(path.resolve(`./public/pages/${pageName}/index.html`), (exists) => {
 		createDir('public', () => {
 			writeFile(
 				'public',
-				'html',
+				'index.html',
 				`<!DOCTYPE html>
 <html lang="es">
     <head>
@@ -45,8 +45,9 @@ fs.exists(path.resolve(`./public/pages/${pageName}/index.html`), (exists) => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link href="./styles/index.css" rel="stylesheet" />
-		<link href="../../icons/lineicons.css" rel="stylesheet" />
+        <link href="./styles.css" rel="stylesheet" />
+        <link href="../../styles/global.css" rel="stylesheet" />
+		<link href="../../icons/style.css" rel="stylesheet" />
 		<link href="../../styles/normalize.css" rel="stylesheet" />
     </head>
     <body>
@@ -55,11 +56,12 @@ fs.exists(path.resolve(`./public/pages/${pageName}/index.html`), (exists) => {
 </html>
             `,
 			)
+			writeFile('public', 'styles.css', '')
 		})
 
 		// ESCRIBIR TYPESCRIPT
 		createDir('lib', () => {
-			writeFile('lib', 'ts', '')
+			writeFile('lib', 'index.ts', '')
 		})
 	} else console.log('Esta pagina ya existe')
 })
