@@ -39,12 +39,15 @@ fs.exists(path.resolve(`./public/pages/${pageName}/index.html`), (exists) => {
 				'public',
 				'html',
 				`<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
+        <title>${pageName}</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>${pageName}</title>
+        <link href="./styles/index.css" rel="stylesheet" />
+		<link href="../../icons/lineicons.css" rel="stylesheet" />
+		<link href="../../styles/normalize.css" rel="stylesheet" />
     </head>
     <body>
         <script src="../../../scripts/pages/${pageName}/index.js"></script>
