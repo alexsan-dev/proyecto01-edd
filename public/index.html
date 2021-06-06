@@ -12,10 +12,12 @@
 	</head>
 	<body>
 		<nav>
-			<div id="logo"></div>
+			<div id="logo">
+				<img src="./images/fiusac.png" alt="Fiusac" />
+			</div>
 			<ul>
 				<li class="active-path">
-					<i class="icon-code"></i><span>Algoritmos</span>
+					<i class="icon-code"></i><span>Estructuras</span>
 				</li>
 				<li><i class="icon-info"></i><span>Información</span></li>
 				<li><i class="icon-book"></i><span>Documentación</span></li>
@@ -94,7 +96,7 @@
 						><i class="icon-search"></i
 					></label>
 					<input
-						placeholder="Buscar algoritmo"
+						placeholder="Buscar estructuras"
 						type="search"
 						id="search"
 						name="search"
@@ -105,11 +107,58 @@
 				</button>
 			</div>
 			<div id="topbar-tabs">
-				<h1>Todos los algoritmos</h1>
+				<h1>Estructuras de datos</h1>
 				<ul>
 					<li><button class="active-tab" type="button">Completos</button></li>
 					<li><button type="button">Desarrollo</button></li>
 				</ul>
+			</div>
+			<div id="cards">
+				<div class="card">
+					<img src="./images/pages/basics.png" alt="Sorting Banner" />
+					<div>
+						<h2>Ordenamientos</h2>
+						<p>7 estructuras</p>
+					</div>
+					<button type="button" class="card-play">
+						<i class="icon-play"></i>
+					</button>
+					<span>
+						<i class="icon-box"></i>
+					</span>
+				</div>
+				<div class="card">
+					<img src="./images/pages/recursion.png" alt="Recursion Banner" />
+					<div>
+						<h2>Arbóreas</h2>
+						<p>4 estructuras</p>
+					</div>
+					<button type="button" class="card-play">
+						<i class="icon-play"></i>
+					</button>
+					<span>
+						<i class="icon-repeat"></i>
+					</span>
+				</div>
+				<div class="card">
+					<img src="./images/pages/indexing.png" alt="Indexing Banner" />
+					<div>
+						<h2>Lineales</h2>
+						<p>5 estructuras</p>
+					</div>
+					<button type="button" class="card-play">
+						<i class="icon-play"></i>
+					</button>
+					<span>
+						<i class="icon-archive"></i>
+					</span>
+				</div>
+				<div class="card">
+					<img src="./images/pages/sorting.png" alt="Sorting Banner" />
+				</div>
+				<div class="card">
+					<img src="./images/pages/nolineal.png" alt="No linear Banner" />
+				</div>
 			</div>
 		</main>
 		<script src="../scripts/index.js"></script>
