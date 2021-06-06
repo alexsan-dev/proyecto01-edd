@@ -350,3 +350,125 @@ main > #cards > .card > span > i {
 	color: #011f3b;
 	font-size: 1.3em;
 }
+
+aside {
+	position: relative;
+	background-color: #fff;
+	width: 100%;
+	height: 100vh;
+	padding: 30px;
+}
+
+aside > #user {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 40px;
+}
+
+aside > #user > img {
+	height: 100%;
+}
+
+aside > #user > h2 {
+	color: #011f3b;
+	font-size: 1.17em;
+	font-weight: 500;
+}
+
+aside > #user > h2 > span {
+	display: block;
+}
+
+aside > #user > h2 > span:last-child {
+	color: #83919e;
+	font-size: 0.7em;
+}
+
+aside > h3 {
+	color: #011f3b;
+	font-size: 1.1em;
+	font-weight: 500;
+	margin: 30px 0;
+}
+
+aside > ul > li {
+	display: grid;
+	align-items: center;
+	grid-template-columns: 50px 80px auto;
+	column-gap: 20px;
+	margin-bottom: 20px;
+}
+
+aside > ul > li > label {
+	width: max-content;
+}
+
+aside > ul > li > label > span:first-child {
+	display: block;
+	color: #011f3b;
+	font-size: 0.9em;
+	font-weight: 500;
+	opacity: 0.8;
+}
+
+aside > ul > li > label > span:nth-child(2) {
+	display: block;
+	color: #83919e;
+	font-size: 0.8em;
+}
+
+aside > ul > li > i {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #eef2fd;
+	height: 50px;
+	min-width: 50px;
+	color: #5e81f4;
+	border-radius: var(--radius);
+	font-size: 1.3em;
+}
+
+aside > ul > li > progress {
+	width: 100%;
+	border-radius: 100%;
+	appearance: none;
+}
+
+aside > ul > li > progress::-webkit-progress-bar {
+	background-color: #dfe6fd;
+	border-radius: 100px;
+	height: 10px;
+}
+
+aside > ul > li > progress::-webkit-progress-value {
+	background-color: #5e81f4;
+	border-radius: 100%;
+}
+
+aside > ul > li:nth-child(2) > i {
+	color: #0cc3e7;
+	background: #d5f5fb;
+}
+
+aside > ul > li:nth-child(2) > progress::-webkit-progress-bar {
+	background-color: #d3f4fb;
+}
+
+aside > ul > li:nth-child(2) > progress::-webkit-progress-value {
+	background-color: #0cc3e7;
+}
+
+aside > ul > li:nth-child(3) > i {
+	color: #ffae33;
+	background: #ffefd6;
+}
+
+aside > ul > li:nth-child(3) > progress::-webkit-progress-bar {
+	background-color: #ffe6e8;
+}
+
+aside > ul > li:nth-child(3) > progress::-webkit-progress-value {
+	background-color: #ffae33;
+}
