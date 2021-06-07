@@ -1,0 +1,116 @@
+body {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+main {
+	position: relative;
+	height: calc(100vh - 60px);
+	width: calc(100% - 60px);
+	max-width: 1306px;
+	max-height: 690px;
+	display: grid;
+	grid-template-columns: 230px 1fr 300px;
+	border-radius: var(--radius);
+	overflow: hidden;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.07);
+}
+
+nav {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: var(--whiteDark);
+	padding: 0 30px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+nav > div {
+	display: flex;
+	align-items: center;
+}
+
+nav > div > h1 {
+	font-size: 1em;
+	color: var(--moonOceanOpal);
+}
+
+nav > ul,
+nav > div > ul {
+	display: flex;
+	align-items: center;
+}
+
+nav > div > ul {
+	margin-left: 20px;
+}
+
+nav > ul > li > button,
+nav > div > ul > li > button {
+	font-size: 0.9em;
+	background: transparent;
+	color: var(--moonOceanOpal);
+}
+
+nav > div > ul > li > button {
+	opacity: 0.5;
+}
+
+nav > ul > li > button:hover,
+nav > div > ul > li > button:hover {
+	box-shadow: none;
+	opacity: 1;
+	color: var(--moonOceanOpal);
+}
+
+nav > ul:last-child > li:first-child > button {
+	position: relative;
+	top: 10px;
+	left: 10px;
+	justify-content: center;
+	background: var(--boneNight);
+	border-radius: 100%;
+	height: 40px;
+	width: 40px;
+	z-index: 2;
+}
+
+nav > ul:last-child > li:first-child > button > i {
+	margin: 0;
+}
+
+nav > ul:last-child > li:last-child > button {
+	position: relative;
+	top: 23px;
+	margin-right: 8px;
+	font-weight: 600;
+	padding: 10px 20px;
+	color: var(--pale);
+	background: linear-gradient(to right, #5e81f4, hsl(226, 87%, 60%));
+}
+
+svg {
+	font: 10px sans-serif;
+	shape-rendering: crispEdges;
+	margin-top: 50px;
+	background-color: var(--paperHole);
+}
+
+rect {
+	fill: var(--paperHole);
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: var(--paleDarkNight);
+	stroke-width: 1;
+	shape-rendering: crispEdges;
+}

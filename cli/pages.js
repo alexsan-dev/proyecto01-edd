@@ -46,14 +46,15 @@ fs.exists(path.resolve(`./public/pages/${pageName}/index.html`), (exists) => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link href="public/pages/${pageName}/styles.css" rel="stylesheet" />
-        <link href="public/styles/global.css" rel="stylesheet" />
-		<link href="public/icons/style.css" rel="stylesheet" />
-		<link href="public/styles/normalize.css" rel="stylesheet" />
+        <link href="styles.css" rel="stylesheet" />
+        <link href="../../styles/global.css" rel="stylesheet" />
+		<link href="../../icons/style.css" rel="stylesheet" />
+		<link href="../../styles/normalize.css" rel="stylesheet" />
     </head>
 	<body>
-		<script src="scripts/utils/colors.js"></script>
-        <script src="scripts/pages/${pageName}/index.js"></script>
+		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="../../../scripts/utils/colors.js"></script>
+        <script src="../../../scripts/pages/${pageName}/index.js"></script>
     </body>
 </html>
             `,
