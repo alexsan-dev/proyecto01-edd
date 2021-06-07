@@ -25,11 +25,9 @@
 
 body {
 	font-size: 17px;
-	background-color: hsl(0, 0%, 90%);
+	background-color: var(--paleDarkNight);
 	--radius: 10px;
-	--blue: #5e81f4;
-	--lightGray: #8da1b5;
-	--darkGray: #272829;
+	transition: background-color 0.2s ease-in-out;
 }
 
 ul {

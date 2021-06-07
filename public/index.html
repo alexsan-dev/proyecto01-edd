@@ -103,8 +103,8 @@
 							name="search"
 						/>
 					</div>
-					<button type="button" id="algo-view-btn">
-						<i class="icon-list"></i>
+					<button type="button" onclick="toggleDarkBtn()" id="darkmode-btn">
+						<i class="icon-moon"></i>
 					</button>
 				</div>
 				<div id="topbar-tabs">
@@ -115,50 +115,138 @@
 					</ul>
 				</div>
 				<div id="cards">
-					<div class="card">
-						<img src="./images/pages/basics.png" alt="Sorting Banner" />
-						<div>
-							<h2>Ordenamientos</h2>
-							<p>7 estructuras</p>
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="card-list">
+								<div>
+									<h2>Ordenamientos</h2>
+									<p>
+										Ponen elementos de una lista en una secuencia con relación
+										de orden.
+									</p>
+									<ul>
+										<li><a href="" title="Bubble Sort">Burbuja</a></li>
+										<li><a href="" title="Bubble Sort">Selección</a></li>
+										<li><a href="" title="Bubble Sort">Inserción</a></li>
+										<li><a href="" title="Bubble Sort">Rápido</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="card-content">
+								<img src="./images/pages/basics.png" alt="Sorting Banner" />
+								<div>
+									<h2>Ordenamientos</h2>
+									<p>4 estructuras</p>
+								</div>
+								<button type="button" class="card-play">
+									<i class="icon-play"></i>
+								</button>
+								<span>
+									<i class="icon-bar-chart-2"></i>
+								</span>
+							</div>
 						</div>
-						<button type="button" class="card-play">
-							<i class="icon-play"></i>
-						</button>
-						<span>
-							<i class="icon-bar-chart-2"></i>
-						</span>
 					</div>
-					<div class="card">
-						<img src="./images/pages/recursion.png" alt="Recursion Banner" />
-						<div>
-							<h2>Arbóreas</h2>
-							<p>4 estructuras</p>
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="card-list">
+								<div>
+									<h2>Arbóreas</h2>
+									<p>
+										Grafos no dirigidos con las nociones de raíz y de
+										descendencia.
+									</p>
+									<ul>
+										<li>
+											<a href="" title="Bubble Sort">Árbol de búsqueda</a>
+										</li>
+										<li><a href="" title="Bubble Sort">AVL</a></li>
+										<li><a href="" title="Bubble Sort">Árbol B</a></li>
+										<li><a href="" title="Bubble Sort">Árbol B+</a></li>
+										<li><a href="" title="Bubble Sort">Árbol de Merkle</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="card-content">
+								<img
+									src="./images/pages/recursion.png"
+									alt="Recursion Banner"
+								/>
+								<div>
+									<h2>Arbóreas</h2>
+									<p>5 estructuras</p>
+								</div>
+								<button type="button" class="card-play">
+									<i class="icon-play"></i>
+								</button>
+								<span>
+									<i class="icon-git-branch"></i>
+								</span>
+							</div>
 						</div>
-						<button type="button" class="card-play">
-							<i class="icon-play"></i>
-						</button>
-						<span>
-							<i class="icon-git-branch"></i>
-						</span>
 					</div>
-					<div class="card">
-						<img src="./images/pages/indexing.png" alt="Indexing Banner" />
-						<div>
-							<h2>Lineales</h2>
-							<p>5 estructuras</p>
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="card-list">
+								<div>
+									<h2>Lineales</h2>
+									<p>
+										Grafos no dirigidos con las nociones de raíz y de
+										descendencia.
+									</p>
+									<ul>
+										<li><a href="" title="Bubble Sort">Lista simple</a></li>
+										<li><a href="" title="Bubble Sort">Lista doble</a></li>
+										<li><a href="" title="Bubble Sort">Lista circular</a></li>
+										<li>
+											<a href="" title="Bubble Sort">Lista circular doble</a>
+										</li>
+										<li><a href="" title="Bubble Sort">Pila</a></li>
+										<li><a href="" title="Bubble Sort">Cola</a></li>
+										<li>
+											<a href="" title="Bubble Sort">Cola de prioridad</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="card-content">
+								<img src="./images/pages/indexing.png" alt="Indexing Banner" />
+								<div>
+									<h2>Lineales</h2>
+									<p>5 estructuras</p>
+								</div>
+								<button type="button" class="card-play">
+									<i class="icon-play"></i>
+								</button>
+								<span>
+									<i class="icon-git-commit"></i>
+								</span>
+							</div>
 						</div>
-						<button type="button" class="card-play">
-							<i class="icon-play"></i>
-						</button>
-						<span>
-							<i class="icon-git-commit"></i>
-						</span>
 					</div>
-					<div class="card">
-						<img src="./images/pages/sorting.png" alt="Sorting Banner" />
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="card-list">
+								<ul>
+									<li>hola</li>
+								</ul>
+							</div>
+							<div class="card-content">
+								<img src="./images/pages/sorting.png" alt="Sorting Banner" />
+							</div>
+						</div>
 					</div>
-					<div class="card">
-						<img src="./images/pages/nolineal.png" alt="No linear Banner" />
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="card-list">
+								<ul>
+									<li>hola</li>
+								</ul>
+							</div>
+							<div class="card-content">
+								<img src="./images/pages/nolineal.png" alt="Sorting Banner" />
+							</div>
+						</div>
 					</div>
 				</div>
 			</main>
@@ -173,7 +261,7 @@
 						<i class="icon-bar-chart-2"></i>
 						<label for="sorting-progress">
 							<span>Ordenar</span>
-							<span>1 de 7 edd</span>
+							<span>1 de 4 edd</span>
 						</label>
 						<progress id="sorting-progress" value="1" max="7"></progress>
 					</li>
@@ -181,7 +269,7 @@
 						<i class="icon-git-commit"></i>
 						<label for="sorting-progress">
 							<span>Lineal</span>
-							<span>1 de 7 edd</span>
+							<span>1 de 5 edd</span>
 						</label>
 						<progress id="lineal-progress" value="1" max="7"></progress>
 					</li>
@@ -196,6 +284,7 @@
 				</ul>
 			</aside>
 		</div>
+		<script src="../scripts/utils/colors.js"></script>
 		<script src="../scripts/index.js"></script>
 	</body>
 </html>

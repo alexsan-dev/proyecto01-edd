@@ -24,7 +24,7 @@ nav {
 	top: 0;
 	left: 0;
 	width: 100%;
-	background: #fff;
+	background: var(--whiteDark);
 	height: 100%;
 }
 
@@ -48,7 +48,6 @@ nav > #logo > img {
 nav > ul {
 	width: 100%;
 	font-size: 0.88em;
-	color: var(--lightGray);
 	font-weight: 500;
 }
 
@@ -67,34 +66,36 @@ nav > ul > li {
 nav > ul > li > i {
 	margin-right: 20px;
 	font-size: 1.3em;
+	color: var(--lightGrayGray);
 	transition: color 0.2s ease-in-out;
 }
 
 nav > ul > li > span {
+	color: var(--lightGrayGray);
 	transition: color 0.2s ease-in-out;
 }
 
 nav > ul > li.active-path,
 nav > ul > li:hover {
 	cursor: pointer;
-	border-color: var(--blue);
+	border-color: var(--blueOceanBright);
 }
 
 nav > ul > li.active-path > i,
 nav > ul > li:hover > i {
-	color: var(--blue);
+	color: var(--blueOceanBright);
 	font-weight: bold;
 }
 
 nav > ul > li.active-path > span,
 nav > ul > li:hover > span {
-	color: var(--darkGray);
+	color: var(--darkGrayWhite);
 }
 
 nav > #git-info {
 	width: calc(100% - 60px);
 	margin: 70px 30px 30px 30px;
-	background-color: #f5f5fb;
+	background-color: var(--boneNight);
 	border-radius: var(--radius);
 	display: flex;
 	flex-direction: column;
@@ -108,7 +109,7 @@ nav > #git-info > svg {
 }
 
 nav > #git-info > p {
-	color: #778dad;
+	color: var(--lightBlueGrayPale);
 	font-weight: 500;
 	font-size: 0.88em;
 	margin: 20px 0;
@@ -127,7 +128,7 @@ main {
 	height: 100%;
 	overflow-y: scroll;
 	scrollbar-width: none;
-	background-color: hsl(0, 0%, 95%);
+	background-color: var(--paperHole);
 }
 
 main::-webkit-scrollbar {
@@ -154,7 +155,6 @@ main > #topbar > .input > label > i {
 
 main > #topbar > button {
 	background: transparent;
-	color: var(--darkGray);
 }
 
 main > #topbar > button:hover {
@@ -162,7 +162,7 @@ main > #topbar > button:hover {
 }
 
 main > #topbar > button > i {
-	color: #768492;
+	color: var(--blueGrayWhite);
 	font-weight: bold;
 	font-size: 1.3em;
 }
@@ -176,7 +176,7 @@ main > #topbar-tabs {
 }
 
 main > #topbar-tabs > h1 {
-	color: rgba(1, 31, 59, 0.8);
+	color: var(--moonOceanWhite);
 	font-size: 1.4em;
 }
 
@@ -187,7 +187,7 @@ main > #topbar-tabs > ul {
 }
 
 main > #topbar-tabs > ul > li > button {
-	color: #768492;
+	color: var(--blueGrayGray);
 	opacity: 0.8;
 	position: relative;
 	background: transparent;
@@ -201,7 +201,7 @@ main > #topbar-tabs > ul > li > button::before {
 	position: absolute;
 	bottom: -7px;
 	height: 2px;
-	background: var(--blue);
+	background: var(--blueOceanBright);
 	width: 00px;
 	left: 50%;
 	transform: translateX(-50%);
@@ -211,7 +211,7 @@ main > #topbar-tabs > ul > li > button::before {
 main > #topbar-tabs > ul > li > button.active-tab,
 main > #topbar-tabs > ul > li > button:hover {
 	opacity: 1;
-	color: var(--blue);
+	color: var(--blueOceanBright);
 }
 
 main > #topbar-tabs > ul > li > button.active-tab::before,
@@ -230,13 +230,17 @@ main > #cards {
 	grid-gap: 30px;
 }
 
-main > #cards > .card:first-child {
+main > #cards > .flip-card:first-child {
 	grid-column: 1/4;
 	grid-row: 1/3;
-	background-color: #8095ff;
 }
 
-main > #cards > .card:first-child > img {
+main > #cards > .flip-card:first-child > .flip-card-inner > .card-content,
+main > #cards > .flip-card:first-child > .flip-card-inner > .card-list {
+	background-color: var(--oceanLight);
+}
+
+main > #cards > .flip-card:first-child .card-content > img {
 	position: relative;
 	left: 60px;
 	height: 150%;
@@ -244,43 +248,61 @@ main > #cards > .card:first-child > img {
 	object-fit: contain;
 }
 
-main > #cards > .card:nth-child(2) {
+main > #cards > .flip-card:nth-child(2) {
 	grid-column: 4/6;
 	grid-row: 1/4;
-	background-color: #ffd280;
 }
 
-main > #cards > .card:nth-child(3) {
+main > #cards > .flip-card:nth-child(2) > .flip-card-inner > .card-content,
+main > #cards > .flip-card:nth-child(2) > .flip-card-inner > .card-list {
+	background-color: var(--lightOrange);
+}
+
+main > #cards > .flip-card:nth-child(3) {
 	grid-column: 2/4;
 	grid-row: 3/5;
-	background-color: #8fc7ff;
 }
 
-main > #cards > .card:nth-child(3) > img {
+main > #cards > .flip-card:nth-child(3) > .flip-card-inner > .card-content,
+main > #cards > .flip-card:nth-child(3) > .flip-card-inner > .card-list {
+	background-color: var(--oceanBright);
+}
+
+main > #cards > .flip-card:nth-child(3) .card-content > img {
 	position: relative;
 	left: 40px;
 	top: 10px;
 }
 
-main > #cards > .card:nth-child(4) {
+main > #cards > .flip-card:nth-child(4) {
 	grid-column: 1/2;
 	grid-row: 3/5;
-	background-color: #ffb1a3;
+	pointer-events: none;
 }
 
-main > #cards > .card:nth-child(4) > img {
+main > #cards > .flip-card:nth-child(4) > .flip-card-inner > .card-content,
+main > #cards > .flip-card:nth-child(4) > .flip-card-inner > .card-list {
+	background-color: var(--lightRose);
+}
+
+main > #cards > .flip-card:nth-child(4) .card-content > img {
 	position: relative;
 	left: 10px;
 	top: 10px;
 }
 
-main > #cards > .card:nth-child(5) {
+main > #cards > .flip-card:nth-child(5) {
 	grid-column: 4/6;
 	grid-row: 4/5;
-	background-color: #9ba0fc;
+	pointer-events: none;
 }
 
-main > #cards > .card:nth-child(5) > img {
+main > #cards > .flip-card:nth-child(5) > .flip-card-inner > .card-content,
+main > #cards > .flip-card:nth-child(5) > .flip-card-inner > .card-list {
+	background-color: var(--lightPurple);
+}
+
+main > #cards > .flip-card:nth-child(5) .card-content > img {
 	position: relative;
 	top: -50px;
 	left: 45px;
@@ -288,21 +310,118 @@ main > #cards > .card:nth-child(5) > img {
 	object-fit: contain;
 }
 
-main > #cards > .card {
+main > #cards > .flip-card {
+	background-color: transparent;
+	perspective: 1000px;
 	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+main > #cards > .flip-card > .flip-card-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transition: transform 0.6s;
+	transform-style: preserve-3d;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list,
+main > #cards > .flip-card > .flip-card-inner > .card-content {
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	border-radius: var(--radius);
 	overflow: hidden;
+	-webkit-backface-visibility: visible;
+	backface-visibility: hidden;
 }
 
-main > #cards > .card > img {
+main > #cards > .flip-card:hover > .flip-card-inner {
+	transform: rotateY(180deg);
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-content {
+	pointer-events: none;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list {
+	position: relative;
+	background-color: #2980b9;
+	color: white;
+	transform: rotateY(180deg);
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list > div {
+	width: 100%;
+	height: 100%;
+	padding: 30px;
+	background: rgba(0, 0, 0, 0.3);
+	z-index: 1;
+
+	overflow: auto;
+	scrollbar-width: none;
+}
+
+main
+	> #cards
+	> .flip-card
+	> .flip-card-inner
+	> .card-list
+	> div::-webkit-scrollbar {
+	display: none;
+	width: 0;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list > div {
+	position: relative;
+	z-index: 2;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list > div > h2 {
+	font-weight: 500;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list > div > p {
+	font-size: 0.9em;
+	margin: 5px 0 10px 0;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list > div > ul {
+	list-style: disc;
+	margin-left: 20px;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list > div > ul > li {
+	margin-bottom: 5px;
+}
+
+main
+	> #cards
+	> .flip-card
+	> .flip-card-inner
+	> .card-list
+	> div
+	> ul
+	> li:last-child {
+	margin-bottom: 0px;
+}
+
+main > #cards > .flip-card > .flip-card-inner > .card-list > div > ul > li > a {
+	font-weight: 500;
+	color: var(--white);
+	text-decoration: none;
+}
+
+main > #cards > .flip-card .card-content > img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-main > #cards > .card::before {
+main > #cards > .flip-card .card-content::before {
 	content: '';
 	position: absolute;
 	top: 0;
@@ -313,23 +432,23 @@ main > #cards > .card::before {
 	background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent);
 }
 
-main > #cards > .card:nth-child(4)::before {
+main > #cards > .flip-card:nth-child(4) .card-content::before {
 	display: none;
 }
 
-main > #cards > .card > div {
+main > #cards > .flip-card .card-content > div {
 	position: absolute;
 	top: 30px;
 	left: 30px;
 	z-index: 2;
-	color: #fff;
+	color: var(--white);
 }
 
-main > #cards > .card > div > h2 {
+main > #cards > .flip-card .card-content > div > h2 {
 	font-weight: 500;
 }
 
-main > #cards > .card > .card-play {
+main > #cards > .flip-card .card-content > .card-play {
 	position: absolute;
 	bottom: 30px;
 	left: 30px;
@@ -343,13 +462,13 @@ main > #cards > .card > .card-play {
 	z-index: 2;
 }
 
-main > #cards > .card > .card-play:hover {
+main > #cards > .flip-card .card-content > .card-play:hover {
 	box-shadow: none;
 }
 
-main > #cards > .card > span {
+main > #cards > .flip-card .card-content > span {
 	position: absolute;
-	background: #fff;
+	background: var(--white);
 	border-radius: 100%;
 	height: 40px;
 	width: 40px;
@@ -359,18 +478,17 @@ main > #cards > .card > span {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
 	z-index: 2;
 }
 
-main > #cards > .card > span > i {
-	color: #011f3b;
+main > #cards > .flip-card .card-content > span > i {
+	color: var(--darkOcean);
 	font-size: 1.3em;
 }
 
 aside {
 	position: relative;
-	background-color: #fff;
+	background-color: var(--whiteDark);
 	width: 100%;
 	height: 100%;
 	padding: 30px;
@@ -388,7 +506,7 @@ aside > #user > img {
 }
 
 aside > #user > h2 {
-	color: #011f3b;
+	color: var(--darkOceanWhite);
 	font-size: 1.17em;
 	font-weight: 500;
 }
@@ -398,12 +516,12 @@ aside > #user > h2 > span {
 }
 
 aside > #user > h2 > span:last-child {
-	color: #83919e;
+	color: var(--lightOceanGray);
 	font-size: 0.7em;
 }
 
 aside > h3 {
-	color: #011f3b;
+	color: var(--darkOceanWhite);
 	font-size: 1.1em;
 	font-weight: 500;
 	margin: 30px 0;
@@ -423,7 +541,7 @@ aside > ul > li > label {
 
 aside > ul > li > label > span:first-child {
 	display: block;
-	color: #011f3b;
+	color: var(--darkOceanWhite);
 	font-size: 0.9em;
 	font-weight: 500;
 	opacity: 0.8;
@@ -431,7 +549,7 @@ aside > ul > li > label > span:first-child {
 
 aside > ul > li > label > span:nth-child(2) {
 	display: block;
-	color: #83919e;
+	color: var(--lightOceanGrayPale);
 	font-size: 0.8em;
 }
 
@@ -439,10 +557,10 @@ aside > ul > li > i {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #eef2fd;
+	background: var(--lightTeal);
 	height: 50px;
 	min-width: 50px;
-	color: #5e81f4;
+	color: var(--teal);
 	border-radius: var(--radius);
 	font-size: 1.3em;
 }
@@ -454,38 +572,38 @@ aside > ul > li > progress {
 }
 
 aside > ul > li > progress::-webkit-progress-bar {
-	background-color: #dfe6fd;
+	background-color: var(--brightTeal);
 	border-radius: 100px;
 	height: 10px;
 }
 
 aside > ul > li > progress::-webkit-progress-value {
-	background-color: #5e81f4;
+	background-color: var(--teal);
 	border-radius: 100%;
 }
 
 aside > ul > li:nth-child(2) > i {
-	color: #0cc3e7;
-	background: #d5f5fb;
+	color: var(--ice);
+	background: var(--lightIce);
 }
 
 aside > ul > li:nth-child(2) > progress::-webkit-progress-bar {
-	background-color: #d3f4fb;
+	background-color: var(--cold);
 }
 
 aside > ul > li:nth-child(2) > progress::-webkit-progress-value {
-	background-color: #0cc3e7;
+	background-color: var(--ice);
 }
 
 aside > ul > li:nth-child(3) > i {
-	color: #ffae33;
-	background: #ffefd6;
+	color: var(--soda);
+	background: var(--lightSoda);
 }
 
 aside > ul > li:nth-child(3) > progress::-webkit-progress-bar {
-	background-color: #ffe6e8;
+	background-color: var(--brightSoda);
 }
 
 aside > ul > li:nth-child(3) > progress::-webkit-progress-value {
-	background-color: #ffae33;
+	background-color: var(--soda);
 }
