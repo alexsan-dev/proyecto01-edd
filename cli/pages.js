@@ -50,7 +50,8 @@ fs.exists(path.resolve(`./public/pages/${pageName}/index.html`), (exists) => {
 		<link href="../../icons/style.css" rel="stylesheet" />
 		<link href="../../styles/normalize.css" rel="stylesheet" />
     </head>
-    <body>
+	<body>
+		<script src="../../../scripts/utils/colors.js"></script>
         <script src="../../../scripts/pages/${pageName}/index.js"></script>
     </body>
 </html>
