@@ -2,18 +2,21 @@
 	src: url('../fonts/Montserrat-Light.ttf');
 	font-weight: 400;
 	font-family: 'Montserrat';
+	font-display: swap;
 }
 
 @font-face {
 	src: url('../fonts/Montserrat-Regular.ttf');
 	font-weight: 500;
 	font-family: 'Montserrat';
+	font-display: swap;
 }
 
 @font-face {
 	src: url('../fonts/Montserrat-Bold.ttf');
 	font-weight: 600;
 	font-family: 'Montserrat';
+	font-display: swap;
 }
 
 * {
@@ -22,7 +25,6 @@
 	box-sizing: border-box;
 	font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI',
 		Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	font-display: swap;
 }
 
 body {
