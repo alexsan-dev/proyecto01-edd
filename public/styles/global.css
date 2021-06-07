@@ -42,7 +42,7 @@ button {
 	outline: none;
 	appearance: none;
 	padding: 0 10px;
-	color: #fff;
+	color: var(--whiteLightPale);
 	cursor: pointer;
 	transition: box-shadow 0.2s ease-in-out;
 	background: linear-gradient(to right, #5e81f4, hsl(226, 87%, 60%));
@@ -56,7 +56,7 @@ button:hover {
 	display: flex;
 	align-items: center;
 	height: 50px;
-	background: #fff;
+	background: var(--whiteDark);
 	border-radius: var(--radius);
 	padding: 10px 20px;
 }
@@ -73,16 +73,28 @@ button:hover {
 	outline: none;
 	appearance: none;
 	font-weight: 500;
+	background: transparent;
+	color: var(--moonOceanOpal);
+}
+
+.input > input:-webkit-autofill,
+.input > input:-webkit-autofill:hover,
+.input > input:-webkit-autofill:focus,
+.input > textarea:-webkit-autofill,
+.input > textarea:-webkit-autofill:hover,
+.input > textarea:-webkit-autofill:focus,
+.input > select:-webkit-autofill,
+.input > select:-webkit-autofill:hover,
+.input > select:-webkit-autofill:focus {
+	-webkit-text-fill-color: var(--moonOceanOpal);
+	-webkit-box-shadow: 0 0 0 30px var(--whiteDark) inset;
+	background-color: transparent;
 }
 
 .input > input::placeholder {
-	color: #aab8c6;
-}
-
-.input > input:focus {
-	color: var(--darkGray);
+	color: var(--blueGrayGray);
 }
 
 .input:focus-within > label > i {
-	color: var(--darkGray);
+	color: var(--darkGrayPale);
 }

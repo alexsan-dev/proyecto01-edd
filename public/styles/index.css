@@ -40,7 +40,7 @@ nav > #logo {
 
 nav > #logo > img {
 	height: auto;
-	width: 80%;
+	width: 50%;
 	object-fit: contain;
 	opacity: 0.8;
 }
@@ -89,7 +89,7 @@ nav > ul > li:hover > i {
 
 nav > ul > li.active-path > span,
 nav > ul > li:hover > span {
-	color: var(--darkGrayWhite);
+	color: var(--darkGrayOpal);
 }
 
 nav > #git-info {
@@ -109,7 +109,7 @@ nav > #git-info > svg {
 }
 
 nav > #git-info > p {
-	color: var(--lightBlueGrayPale);
+	color: var(--lightBlueGrayOpal);
 	font-weight: 500;
 	font-size: 0.88em;
 	margin: 20px 0;
@@ -162,7 +162,7 @@ main > #topbar > button:hover {
 }
 
 main > #topbar > button > i {
-	color: var(--blueGrayWhite);
+	color: var(--blueGrayOpal);
 	font-weight: bold;
 	font-size: 1.3em;
 }
@@ -176,7 +176,7 @@ main > #topbar-tabs {
 }
 
 main > #topbar-tabs > h1 {
-	color: var(--moonOceanWhite);
+	color: var(--moonOceanOpal);
 	font-size: 1.4em;
 }
 
@@ -350,7 +350,7 @@ main > #cards > .flip-card > .flip-card-inner > .card-content {
 main > #cards > .flip-card > .flip-card-inner > .card-list {
 	position: relative;
 	background-color: #2980b9;
-	color: white;
+	color: var(--whiteLightPale);
 	transform: rotateY(180deg);
 }
 
@@ -360,7 +360,6 @@ main > #cards > .flip-card > .flip-card-inner > .card-list > div {
 	padding: 30px;
 	background: rgba(0, 0, 0, 0.3);
 	z-index: 1;
-
 	overflow: auto;
 	scrollbar-width: none;
 }
@@ -441,7 +440,7 @@ main > #cards > .flip-card .card-content > div {
 	top: 30px;
 	left: 30px;
 	z-index: 2;
-	color: var(--white);
+	color: var(--whiteLightPale);
 }
 
 main > #cards > .flip-card .card-content > div > h2 {
@@ -506,7 +505,7 @@ aside > #user > img {
 }
 
 aside > #user > h2 {
-	color: var(--darkOceanWhite);
+	color: var(--darkOceanOpal);
 	font-size: 1.17em;
 	font-weight: 500;
 }
@@ -521,7 +520,7 @@ aside > #user > h2 > span:last-child {
 }
 
 aside > h3 {
-	color: var(--darkOceanWhite);
+	color: var(--darkOceanOpal);
 	font-size: 1.1em;
 	font-weight: 500;
 	margin: 30px 0;
@@ -541,7 +540,7 @@ aside > ul > li > label {
 
 aside > ul > li > label > span:first-child {
 	display: block;
-	color: var(--darkOceanWhite);
+	color: var(--darkOceanOpal);
 	font-size: 0.9em;
 	font-weight: 500;
 	opacity: 0.8;
@@ -549,7 +548,7 @@ aside > ul > li > label > span:first-child {
 
 aside > ul > li > label > span:nth-child(2) {
 	display: block;
-	color: var(--lightOceanGrayPale);
+	color: var(--lightOceanGrayOpal);
 	font-size: 0.8em;
 }
 
