@@ -18,37 +18,92 @@
 					<h1>Ordenamiento Burbuja</h1>
 					<ul>
 						<li>
-							<button type="button">
-								<i class="icon-upload-cloud"></i>Cargar
-							</button>
+							<label for="array-json" class="btn">
+								<i class="icon-upload-cloud"></i>Cargar</label
+							>
+							<input
+								type="file"
+								onchange="onChangeSortLoad(event)"
+								id="array-json"
+								style="display: none"
+							/>
 						</li>
 						<li>
 							<button type="button"><i class="icon-save"></i>Guardar</button>
 						</li>
 						<li>
-							<button type="button">
+							<input type="checkbox" style="display: none" id="show-velocity" />
+							<label class="btn" for="show-velocity" type="button">
 								<i class="icon-fast-forward"></i>Velocidad
-							</button>
+								<i class="icon-chevron-down"></i>
+							</label>
+							<div class="range-container">
+								<input
+									type="range"
+									min="100"
+									max="500"
+									id="velocity"
+									onchange="onChangeSortVelocity()"
+								/>
+							</div>
 						</li>
 					</ul>
 				</div>
 				<ul>
 					<li>
-						<button class="reset" type="button">
+						<button class="reset" onclick="restartSortedData()" type="button">
 							<i class="icon-repeat"></i>
 						</button>
 					</li>
 					<li>
-						<button type="button"><i class="icon-play"></i>Iniciar</button>
+						<button type="button" onclick="startBubbleSort()">
+							<i class="icon-play"></i>Iniciar
+						</button>
 					</li>
 				</ul>
 			</nav>
-			<svg width="100%" height="100%"></svg>
-		</main>
-		<script src="https://d3js.org/d3.v5.min.js"></script>
+			<div class="grid">
+				<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+					<defs>
+						<pattern
+							id="smallGrid"
+							width="40"
+							height="40"
+							patternUnits="userSpaceOnUse"
+						>
+							<path
+								d="M 40 0 L 0 0 0 40"
+								fill="none"
+								stroke="gray"
+								stroke-width="0.5"
+							/>
+						</pattern>
+						<pattern
+							id="grid"
+							width="400"
+							height="400"
+							patternUnits="userSpaceOnUse"
+						>
+							<rect width="400" height="400" fill="url(#smallGrid)" />
+							<path
+								d="M 400 0 L 0 0 0 400"
+								fill="none"
+								stroke="gray"
+								stroke-width="1"
+							/>
+						</pattern>
+					</defs>
 
+					<rect width="100%" height="100%" fill="url(#grid)" />
+				</svg>
+			</div>
+
+			<canvas id="canvas"></canvas>
+		</main>
+		<script src="../../../scripts/utils/sort.js"></script>
 		<script src="../../../scripts/utils/canvas.js"></script>
 		<script src="../../../scripts/utils/colors.js"></script>
+		<script src="../../../scripts/pages/bubblesort/utils/edd.js"></script>
 		<script src="../../../scripts/pages/bubblesort/index.js"></script>
 	</body>
 </html>

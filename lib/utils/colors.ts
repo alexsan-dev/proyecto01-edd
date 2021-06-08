@@ -1,4 +1,4 @@
-const toCamelCase = (text: string) =>
+const toCamelCase = (text: string): string =>
 	text.replace(text.charAt(0), text.charAt(0).toUpperCase())
 
 // COLORES
@@ -75,7 +75,7 @@ primaryColors.forEach((pColor: IPColor) => {
 // COLORES FINALES
 const colors: IColor[] = baseColors.concat(colorPer)
 
-const changeColor = (selectedColor: IColor, dark: boolean) => {
+const changeColor = (selectedColor: IColor, dark: boolean): void => {
 	// SELECCIONAR BODY
 	const { body } = document
 

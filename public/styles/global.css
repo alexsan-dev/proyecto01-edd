@@ -38,9 +38,11 @@ ul {
 	list-style: none;
 }
 
-button {
+button,
+.btn {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	height: 50px;
 	font-weight: 500;
 	border-radius: var(--radius);
@@ -54,12 +56,19 @@ button {
 	background: linear-gradient(to right, #5e81f4, hsl(226, 87%, 60%));
 }
 
-button:hover {
+button:hover,
+.btn:hover {
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-button > i {
+button > i:first-child,
+.btn > i:first-child {
 	margin-right: 10px;
+}
+
+button > i ~ i,
+.btn > i ~ i {
+	margin-left: 10px;
 }
 
 .input {

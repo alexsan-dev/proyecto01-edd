@@ -566,7 +566,7 @@ aside > ul > li > i {
 
 aside > ul > li > progress {
 	width: 100%;
-	border-radius: 100%;
+	border-radius: 100px;
 	appearance: none;
 }
 

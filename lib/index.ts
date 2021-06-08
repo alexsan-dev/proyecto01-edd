@@ -6,7 +6,7 @@ const darkBtn: HTMLElement | null = document.querySelector(
 )
 
 // CAMBIAR DARKMODE
-const toggleDarkBtn = () => {
+const toggleDarkBtn = (): void => {
 	// DARKMODE LOCAL
 	const darkValue: boolean = window.localStorage.getItem('darkmode') === '1'
 
@@ -16,7 +16,7 @@ const toggleDarkBtn = () => {
 }
 
 // INICIAR CON DARKMODE
-const setIconDark = (darkValue: boolean) => {
+const setIconDark = (darkValue: boolean): void => {
 	if (darkBtn) darkBtn.className = darkValue ? 'icon-sun' : 'icon-moon'
 }
 setIconDark(localInitDarkValue)

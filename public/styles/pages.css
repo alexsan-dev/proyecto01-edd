@@ -18,6 +18,7 @@ main {
 	border-radius: var(--radius);
 	overflow: hidden;
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.07);
+	background-color: var(--paperHole);
 }
 
 nav {
@@ -30,6 +31,7 @@ nav {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	z-index: 3;
 }
 
 nav > div {
@@ -53,21 +55,53 @@ nav > div > ul {
 }
 
 nav > ul > li > button,
-nav > div > ul > li > button {
+nav > div > ul > li > button,
+nav > div > ul > li > .btn {
 	font-size: 0.9em;
 	background: transparent;
 	color: var(--moonOceanOpal);
 }
 
-nav > div > ul > li > button {
+nav > div > ul > li > button,
+nav > div > ul > li > .btn {
 	opacity: 0.5;
 }
 
 nav > ul > li > button:hover,
-nav > div > ul > li > button:hover {
+nav > div > ul > li > button:hover,
+nav > div > ul > li > .btn:hover {
 	box-shadow: none;
 	opacity: 1;
 	color: var(--moonOceanOpal);
+}
+
+nav > div > ul > li > .range-container {
+	position: absolute;
+	transition: opacity 0.2s ease-in-out;
+	opacity: 0;
+	background: var(--whiteDark);
+	padding: 10px;
+	width: 200px;
+	border-radius: 0 0 var(--radius) var(--radius);
+	pointer-events: none;
+}
+
+nav > div > ul > li > .range-container > input {
+	width: 100%;
+}
+
+nav > div > ul > li > #show-velocity:checked ~ .range-container {
+	opacity: 1;
+	pointer-events: all;
+}
+
+nav > div > ul > li > #show-velocity ~ label > i:last-child {
+	transform: rotate(0deg);
+	transition: transform 0.2s ease-in-out;
+}
+
+nav > div > ul > li > #show-velocity:checked ~ label > i:last-child {
+	transform: rotate(180deg);
 }
 
 nav > ul:last-child > li:first-child > button {
@@ -96,21 +130,24 @@ nav > ul:last-child > li:last-child > button {
 	background: linear-gradient(to right, #5e81f4, hsl(226, 87%, 60%));
 }
 
-svg {
-	font: 10px sans-serif;
-	shape-rendering: crispEdges;
-	margin-top: 50px;
-	background-color: var(--paperHole);
-}
-
-rect {
-	fill: var(--paperHole);
-}
-
 .axis path,
 .axis line {
 	fill: none;
 	stroke: var(--paleDarkNight);
 	stroke-width: 1;
 	shape-rendering: crispEdges;
+}
+
+.grid {
+	pointer-events: none;
+	width: 100%;
+	height: calc(100% - 50px);
+	position: absolute;
+	top: 50px;
+	z-index: 1;
+}
+
+canvas {
+	position: relative;
+	z-index: 2;
 }
