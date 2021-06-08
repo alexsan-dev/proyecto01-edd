@@ -17,6 +17,7 @@ var globalSortLength = globalSortData.length;
 var sortBarWidth = (BAR_WIDTH / globalSortLength) * 100;
 var maxSortDataValue = Math.max.apply(Math, globalSortData);
 var sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
+var codeDataArray = document.getElementById('code-data-array');
 var barColors = [
     '#ffd280',
     '#ffb1a3',
@@ -39,6 +40,8 @@ var onChangeSortLoad = function (ev) {
         sortBarWidth = (BAR_WIDTH / json.data.length) * 100;
         maxSortDataValue = Math.max.apply(Math, json.data);
         sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
+        if (codeDataArray)
+            codeDataArray.textContent = json.data.join(', ');
     };
     if (file)
         reader.readAsText(file);

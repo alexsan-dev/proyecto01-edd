@@ -15,6 +15,9 @@ let sortBarWidth: number = (BAR_WIDTH / globalSortLength) * 100
 let maxSortDataValue: number = Math.max(...globalSortData)
 let sortBarHeight: number = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 
+// ELEMENTOS
+const codeDataArray = document.getElementById('code-data-array')
+
 // COLORES
 const barColors: string[] = [
 	'#ffd280',
@@ -39,12 +42,17 @@ const onChangeSortLoad = (ev: Event): void => {
 		const json = JSON.parse(
 			typeof text === 'string' ? text : '{}',
 		) as JSONSortFile
+
+		// ASIGNAR VARIABLES GLOBALES
 		globalCopySortData = json.data
 		globalSortData = json.data
 		globalSortLength = json.data.length
 		sortBarWidth = (BAR_WIDTH / json.data.length) * 100
 		maxSortDataValue = Math.max(...json.data)
 		sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
+
+		// CAMBIAR MUESTRA DE CÓDIGO
+		if (codeDataArray) codeDataArray.textContent = json.data.join(', ')
 	}
 
 	// LEER

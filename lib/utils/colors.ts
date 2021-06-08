@@ -46,6 +46,7 @@ const primaryColors: IPColor[] = [
 	{ name: '--lightIce', value: '#d5f5fb' },
 	{ name: '--cold', value: '#d3f4fb' },
 	{ name: '--soda', value: '#ffae33' },
+	{ name: '--green', value: '#77dd77' },
 	{ name: '--lightSoda', value: '#ffefd6' },
 	{ name: '--brightSoda', value: '#ffe6e8' },
 ]
