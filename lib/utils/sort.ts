@@ -96,12 +96,25 @@ const drawInCanvas: () => unknown = () => {
 			// BARRA
 			canvasCtx.fillRect(
 				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20,
-				-(sortBarHeight * globalSortData[barIndex]) + 150,
+				-(sortBarHeight * globalSortData[barIndex]) + 138,
 				sortBarWidth,
 				sortBarHeight * globalSortData[barIndex],
 			)
 
 			// TEXTO
+			canvasCtx.fillStyle = '#fff'
+			canvasCtx.font = 'bold 20px Montserrat'
+			canvasCtx.textAlign = 'center'
+			canvasCtx.fillText(
+				globalSortData[barIndex].toString(),
+				sortBarWidth * barIndex +
+					BAR_MARGIN * (barIndex + 1) -
+					width / 2 +
+					32 +
+					sortBarWidth / 2 -
+					canvasCtx.measureText(globalSortData[0].toString()).width,
+				160,
+			)
 		}
 	}
 }
