@@ -71,6 +71,5 @@ var restartSortedData = function () {
 };
 var onChangeSortVelocity = function (ev) {
     var target = ev.target;
-    console.log(+target.value);
     VELOCITY = +target.value;
 };

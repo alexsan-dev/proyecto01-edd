@@ -105,6 +105,5 @@ const restartSortedData = () => {
 // CAMBIAR VELOCIDAD
 const onChangeSortVelocity = (ev: Event) => {
 	const target = ev.target as HTMLInputElement
-	console.log(+target.value)
 	VELOCITY = +target.value
 }
