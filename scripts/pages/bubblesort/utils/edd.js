@@ -16,7 +16,8 @@ var bubbleSort = function (data, stepCallback) {
                 copy[j + 1] = temp;
             }
             counter++;
-            stepCallback(copy, counter);
+            if (stepCallback)
+                stepCallback(copy, counter);
         }
     }
     return copy;

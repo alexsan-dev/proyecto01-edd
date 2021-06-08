@@ -1,2 +1,2 @@
 // ORDENAMIENTO
-const startBubbleSort = () => startSorting(bubbleSort)
+sortMethod = bubbleSort

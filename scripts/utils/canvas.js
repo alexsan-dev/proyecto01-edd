@@ -1,8 +1,8 @@
 "use strict";
 var canvas = document.getElementById('canvas');
 var canvasCtx = canvas.getContext('2d');
-var width = window.innerWidth;
-var height = window.innerHeight;
+var width = window.innerWidth - 60;
+var height = window.innerHeight - 160;
 var cameraOffset = {
     x: width / 2,
     y: height / 2,

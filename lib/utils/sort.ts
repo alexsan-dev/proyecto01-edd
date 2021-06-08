@@ -5,7 +5,6 @@ const BAR_HEIGHT: number = 300
 let VELOCITY: number = 200
 
 // GLOBALES
-let runningSortAnimation: boolean = false
 let globalSortData: number[] = [
 	4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7,
 ]
@@ -17,16 +16,28 @@ let sortBarHeight: number = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 
 // ELEMENTOS
 const codeDataArray = document.getElementById('code-data-array')
+const sortStepText = document.getElementById('sort-step-text')
+const sortRuntime = document.getElementById('sort-runtime')
+
+// METODO DE SORT
+let sortMethod: (
+	data: number[],
+	stepCallback?: (newSortData: number[], step: number) => unknown,
+) => unknown = () => null
 
 // COLORES
 const barColors: string[] = [
-	'#ffd280',
-	'#ffb1a3',
-	'#5e81f4',
-	'#8fc7ff',
-	'#9ba0fc',
-	'#5e81f4',
-	'#ffae33',
+	'#F44336',
+	'#E91E63',
+	'#9C27B0',
+	'#673AB7',
+	'#3F51B5',
+	'#2196F3',
+	'#009688',
+	'#4CAF50',
+	'#CDDC39',
+	'#FFC107',
+	'#FF5722',
 ]
 
 // CARDAR JSON
@@ -53,6 +64,7 @@ const onChangeSortLoad = (ev: Event): void => {
 
 		// CAMBIAR MUESTRA DE CÓDIGO
 		if (codeDataArray) codeDataArray.textContent = json.data.join(', ')
+		setSortRuntime()
 	}
 
 	// LEER
@@ -67,6 +79,7 @@ const drawInCanvas: () => unknown = () => {
 
 		// DIBUJAR BARRAS
 		for (let barIndex: number = 0; barIndex < globalSortLength; barIndex++) {
+			// COLOR
 			canvasCtx.fillStyle =
 				barColors[
 					barIndex > barColors.length - 1
@@ -74,34 +87,44 @@ const drawInCanvas: () => unknown = () => {
 						  barColors.length * Math.floor(barIndex / barColors.length)
 						: barIndex
 				]
+
+			// BARRA
 			canvasCtx.fillRect(
 				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20,
 				-(sortBarHeight * globalSortData[barIndex]) + 150,
 				sortBarWidth,
 				sortBarHeight * globalSortData[barIndex],
 			)
+
+			// TEXTO
 		}
 	}
 }
 
 // INICIAR ORDENAMIENTO
-const startSorting = (
-	sortMethod: (
-		data: number[],
-		stepCallback: (newSortData: number[], step: number) => unknown,
-	) => unknown,
-) => {
+const startSorting = () => {
 	// ORDENAMIENTO
 	sortMethod(globalSortData, (newSortData: number[], step: number) => {
 		// COPIAR DATOS
 		let tmpSortData = [...newSortData]
 
 		// ANIMAR
-		runningSortAnimation = true
 		setTimeout(() => {
 			globalSortData = tmpSortData
+			if (sortStepText) sortStepText.textContent = step.toString()
 		}, step * VELOCITY)
 	})
+}
+
+// TIEMPO DE EJECUCION
+const setSortRuntime = () => {
+	// CALCULAR TIEMPO
+	const t0 = performance.now()
+	sortMethod(globalSortData)
+	const tf = performance.now()
+
+	// MOSTRAR
+	if (sortRuntime) sortRuntime.textContent = `${(tf - t0).toFixed(2)}ms`
 }
 
 // REINICIAR DATOS
@@ -113,5 +136,8 @@ const restartSortedData = () => {
 // CAMBIAR VELOCIDAD
 const onChangeSortVelocity = (ev: Event) => {
 	const target = ev.target as HTMLInputElement
-	VELOCITY = +target.value
+	VELOCITY = 850 - +target.value
 }
+
+// INICIAR A ORDENAR
+setSortRuntime()

@@ -12,8 +12,8 @@ let canvas: HTMLCanvasElement = document.getElementById(
 let canvasCtx: CanvasRenderingContext2D | null = canvas.getContext('2d')
 
 // CONFIG
-const width: number = window.innerWidth
-const height: number = window.innerHeight
+const width: number = window.innerWidth - 60
+const height: number = window.innerHeight - 160
 let cameraOffset: CanvasCoords = {
 	x: width / 2,
 	y: height / 2,

@@ -8,7 +8,6 @@ var BAR_MARGIN = 10;
 var BAR_WIDTH = 5;
 var BAR_HEIGHT = 300;
 var VELOCITY = 200;
-var runningSortAnimation = false;
 var globalSortData = [
     4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7,
 ];
@@ -18,14 +17,21 @@ var sortBarWidth = (BAR_WIDTH / globalSortLength) * 100;
 var maxSortDataValue = Math.max.apply(Math, globalSortData);
 var sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
 var codeDataArray = document.getElementById('code-data-array');
+var sortStepText = document.getElementById('sort-step-text');
+var sortRuntime = document.getElementById('sort-runtime');
+var sortMethod = function () { return null; };
 var barColors = [
-    '#ffd280',
-    '#ffb1a3',
-    '#5e81f4',
-    '#8fc7ff',
-    '#9ba0fc',
-    '#5e81f4',
-    '#ffae33',
+    '#F44336',
+    '#E91E63',
+    '#9C27B0',
+    '#673AB7',
+    '#3F51B5',
+    '#2196F3',
+    '#009688',
+    '#4CAF50',
+    '#CDDC39',
+    '#FFC107',
+    '#FF5722',
 ];
 var onChangeSortLoad = function (ev) {
     var input = ev.target;
@@ -42,6 +48,7 @@ var onChangeSortLoad = function (ev) {
         sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
         if (codeDataArray)
             codeDataArray.textContent = json.data.join(', ');
+        setSortRuntime();
     };
     if (file)
         reader.readAsText(file);
@@ -59,14 +66,22 @@ var drawInCanvas = function () {
         }
     }
 };
-var startSorting = function (sortMethod) {
+var startSorting = function () {
     sortMethod(globalSortData, function (newSortData, step) {
         var tmpSortData = __spreadArray([], newSortData);
-        runningSortAnimation = true;
         setTimeout(function () {
             globalSortData = tmpSortData;
+            if (sortStepText)
+                sortStepText.textContent = step.toString();
         }, step * VELOCITY);
     });
+};
+var setSortRuntime = function () {
+    var t0 = performance.now();
+    sortMethod(globalSortData);
+    var tf = performance.now();
+    if (sortRuntime)
+        sortRuntime.textContent = (tf - t0).toFixed(2) + "ms";
 };
 var restartSortedData = function () {
     resetCanvas();
@@ -74,5 +89,6 @@ var restartSortedData = function () {
 };
 var onChangeSortVelocity = function (ev) {
     var target = ev.target;
-    VELOCITY = +target.value;
+    VELOCITY = 850 - +target.value;
 };
+setSortRuntime();

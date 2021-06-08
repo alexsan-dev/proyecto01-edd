@@ -115,7 +115,7 @@ nav > div > ul > li > #show-velocity:checked ~ label > i:last-child {
 .grid {
 	pointer-events: none;
 	width: 100%;
-	height: calc(100% - 50px);
+	height: calc(100% - 100px);
 	position: absolute;
 	top: 50px;
 	z-index: 1;
@@ -123,6 +123,7 @@ nav > div > ul > li > #show-velocity:checked ~ label > i:last-child {
 
 canvas {
 	position: relative;
+	margin-top: 50px;
 	z-index: 2;
 }
 
@@ -131,10 +132,10 @@ canvas {
 	position: absolute;
 	top: 25px;
 	right: 30px;
-	width: 400px;
+	width: 450px;
 	max-height: calc(100vh - 110px);
 	z-index: 3;
-	background: var(--boneNight);
+	background: var(--holeNight);
 	padding: 10px 30px;
 	border-radius: var(--radius);
 }
@@ -184,4 +185,32 @@ canvas {
 
 .editor > pre > code > i {
 	font-style: normal;
+}
+
+footer {
+	position: relative;
+	top: -5px;
+	width: 100%;
+	height: 50px;
+	background-color: var(--whiteDark);
+	color: var(--moonOceanOpal);
+	z-index: 3;
+	padding: 0 30px;
+	display: flex;
+	align-items: center;
+	font-size: 0.9em;
+}
+
+footer > span {
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+}
+
+footer > span > i {
+	margin-right: 5px;
+}
+
+footer > span > strong {
+	margin-left: 5px;
 }

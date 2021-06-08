@@ -55,7 +55,6 @@
 				<pre>
 					<code>
 <strong style="color:var(--ice)">const</strong> data:<strong style="color:var(--ice)">number</strong>[] <i style='color:var(--soda)'>=</i> [<strong style="color:var(--lightPurple)" id='code-data-array'>4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7</strong>]
-
 <strong style="color: var(--green)">bubbleSort</strong>(data)</code>
 					</pre>
 				<ul>
@@ -65,7 +64,7 @@
 						</button>
 					</li>
 					<li>
-						<button type="button" onclick="startBubbleSort()">
+						<button type="button" onclick="startSorting()">
 							<i class="icon-play"></i>Iniciar
 						</button>
 					</li>
@@ -109,6 +108,17 @@
 			</div>
 
 			<canvas id="canvas"></canvas>
+			<footer>
+				<span>Visualizador de Estructuras de Datos v1.0.0</span>
+				<span>
+					<i class="icon-clock"></i>Ejecución:
+					<strong id="sort-runtime">0ms</strong>
+				</span>
+				<span>
+					<i class="icon-skip-forward"></i>Iteraciones:
+					<strong id="sort-step-text">0</strong>
+				</span>
+			</footer>
 		</main>
 		<script src="../../../scripts/utils/sort.js"></script>
 		<script src="../../../scripts/utils/canvas.js"></script>

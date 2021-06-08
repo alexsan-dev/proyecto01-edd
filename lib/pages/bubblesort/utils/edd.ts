@@ -1,6 +1,6 @@
 const bubbleSort = (
 	data: number[],
-	stepCallback: (dataRef: number[], counter: number) => unknown,
+	stepCallback?: (dataRef: number[], counter: number) => unknown,
 ): number[] => {
 	// COPIAR
 	const copy = [...data]
@@ -17,7 +17,7 @@ const bubbleSort = (
 			}
 
 			counter++
-			stepCallback(copy, counter)
+			if (stepCallback) stepCallback(copy, counter)
 		}
 	}
 
