@@ -40,8 +40,27 @@ nav > div {
 }
 
 nav > div > h1 {
+	display: flex;
+	align-items: center;
 	font-size: 1em;
 	color: var(--moonOceanOpal);
+}
+
+nav > div > h1 > .btn {
+	background: transparent;
+	padding: 0;
+	margin: 0;
+	height: max-content;
+	text-decoration: none;
+}
+
+nav > div > h1 > .btn > i {
+	margin: 0;
+	color: var(--moonOceanOpal);
+}
+
+nav > div > h1 > .btn:hover {
+	box-shadow: none;
 }
 
 nav > ul,
@@ -132,11 +151,11 @@ canvas {
 	position: absolute;
 	top: 25px;
 	right: 30px;
-	width: 450px;
+	width: 475px;
 	max-height: calc(100vh - 110px);
 	z-index: 3;
 	background: var(--holeNight);
-	padding: 10px 30px;
+	padding: 30px;
 	border-radius: var(--radius);
 }
 
@@ -185,6 +204,19 @@ canvas {
 
 .editor > pre > code > i {
 	font-style: normal;
+}
+
+.sort-banner {
+	position: absolute;
+	width: 450px;
+	bottom: -20px;
+	right: -100px;
+	z-index: 4;
+}
+
+.sort-banner > img {
+	height: 100%;
+	width: 100%;
 }
 
 footer {

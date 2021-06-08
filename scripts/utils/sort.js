@@ -19,6 +19,8 @@ var sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
 var codeDataArray = document.getElementById('code-data-array');
 var sortStepText = document.getElementById('sort-step-text');
 var sortRuntime = document.getElementById('sort-runtime');
+var sortPerformance = document.getElementById('sort-performance');
+var sortLengthText = document.getElementById('sort-length');
 var sortMethod = function () { return null; };
 var barColors = [
     '#F44336',
@@ -46,8 +48,14 @@ var onChangeSortLoad = function (ev) {
         sortBarWidth = (BAR_WIDTH / json.data.length) * 100;
         maxSortDataValue = Math.max.apply(Math, json.data);
         sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
+        if (sortLengthText)
+            sortLengthText.textContent = globalSortLength.toString();
         if (codeDataArray)
             codeDataArray.textContent = json.data.join(', ');
+        if (sortStepText)
+            sortStepText.textContent = '0';
+        if (sortPerformance)
+            sortPerformance.textContent = '0%';
         setSortRuntime();
     };
     if (file)
@@ -73,6 +81,9 @@ var startSorting = function () {
             globalSortData = tmpSortData;
             if (sortStepText)
                 sortStepText.textContent = step.toString();
+            if (sortPerformance)
+                sortPerformance.textContent = ((globalSortLength / step) *
+                    100).toFixed(2) + "%";
         }, step * VELOCITY);
     });
 };

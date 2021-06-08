@@ -18,6 +18,8 @@ let sortBarHeight: number = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 const codeDataArray = document.getElementById('code-data-array')
 const sortStepText = document.getElementById('sort-step-text')
 const sortRuntime = document.getElementById('sort-runtime')
+const sortPerformance = document.getElementById('sort-performance')
+const sortLengthText = document.getElementById('sort-length')
 
 // METODO DE SORT
 let sortMethod: (
@@ -63,7 +65,10 @@ const onChangeSortLoad = (ev: Event): void => {
 		sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 
 		// CAMBIAR MUESTRA DE CÓDIGO
+		if (sortLengthText) sortLengthText.textContent = globalSortLength.toString()
 		if (codeDataArray) codeDataArray.textContent = json.data.join(', ')
+		if (sortStepText) sortStepText.textContent = '0'
+		if (sortPerformance) sortPerformance.textContent = '0%'
 		setSortRuntime()
 	}
 
@@ -112,6 +117,11 @@ const startSorting = () => {
 		setTimeout(() => {
 			globalSortData = tmpSortData
 			if (sortStepText) sortStepText.textContent = step.toString()
+			if (sortPerformance)
+				sortPerformance.textContent = `${(
+					(globalSortLength / step) *
+					100
+				).toFixed(2)}%`
 		}, step * VELOCITY)
 	})
 }

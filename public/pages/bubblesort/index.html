@@ -15,7 +15,16 @@
 		<main>
 			<nav>
 				<div>
-					<h1>Ordenamiento Burbuja</h1>
+					<h1>
+						<a
+							title="Home"
+							href="../../../index.html"
+							class="btn"
+							type="button"
+							aria-label="Home"
+							><i class="icon-home"></i></a
+						>Ordenamiento Burbuja
+					</h1>
 					<ul>
 						<li>
 							<label for="array-json" class="btn">
@@ -52,11 +61,8 @@
 			</nav>
 
 			<div class="editor">
-				<pre>
-					<code>
-<strong style="color:var(--ice)">const</strong> data:<strong style="color:var(--ice)">number</strong>[] <i style='color:var(--soda)'>=</i> [<strong style="color:var(--lightPurple)" id='code-data-array'>4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7</strong>]
-<strong style="color: var(--green)">bubbleSort</strong>(data)</code>
-					</pre>
+				<pre><code><strong style="color:var(--ice)">const</strong> data:<strong style="color:var(--ice)">number</strong>[] <i style='color:var(--soda)'>=</i> [<strong style="color:var(--lightPurple)" id='code-data-array'>4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7</strong>]
+<strong style="color: var(--green)">bubbleSort</strong>(data)</code></pre>
 				<ul>
 					<li>
 						<button class="reset" onclick="restartSortedData()" type="button">
@@ -107,6 +113,10 @@
 				</svg>
 			</div>
 
+			<div class="sort-banner">
+				<img src="../../images/pages/sort.png" alt="Bot" />
+			</div>
+
 			<canvas id="canvas"></canvas>
 			<footer>
 				<span>Visualizador de Estructuras de Datos v1.0.0</span>
@@ -115,8 +125,16 @@
 					<strong id="sort-runtime">0ms</strong>
 				</span>
 				<span>
+					<i class="icon-grid"></i>Elementos:
+					<strong id="sort-length">15</strong>
+				</span>
+				<span>
 					<i class="icon-skip-forward"></i>Iteraciones:
-					<strong id="sort-step-text">0</strong>
+					<strong id="sort-step-text">105</strong>
+				</span>
+				<span>
+					<i class="icon-check-circle"></i>Eficiencia:
+					<strong id="sort-performance">14.29%</strong>
 				</span>
 			</footer>
 		</main>
