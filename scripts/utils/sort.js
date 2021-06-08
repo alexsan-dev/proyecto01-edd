@@ -92,7 +92,7 @@ var setSortRuntime = function () {
     sortMethod(globalSortData);
     var tf = performance.now();
     if (sortRuntime)
-        sortRuntime.textContent = (tf - t0).toFixed(2) + "ms";
+        sortRuntime.textContent = (tf - t0).toFixed(3) + "ms";
 };
 var restartSortedData = function () {
     resetCanvas();

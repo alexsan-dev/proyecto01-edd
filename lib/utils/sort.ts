@@ -134,7 +134,7 @@ const setSortRuntime = () => {
 	const tf = performance.now()
 
 	// MOSTRAR
-	if (sortRuntime) sortRuntime.textContent = `${(tf - t0).toFixed(2)}ms`
+	if (sortRuntime) sortRuntime.textContent = `${(tf - t0).toFixed(3)}ms`
 }
 
 // REINICIAR DATOS
