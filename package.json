@@ -27,7 +27,6 @@
 	},
 	"homepage": "/",
 	"devDependencies": {
-		"@types/d3": "^5.7.1",
 		"@typescript-eslint/eslint-plugin": "^4.26.0",
 		"@typescript-eslint/parser": "^4.26.0",
 		"eslint": "^7.27.0",
