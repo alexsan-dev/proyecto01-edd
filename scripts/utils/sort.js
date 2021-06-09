@@ -61,7 +61,7 @@ var onChangeSortLoad = function (ev) {
     if (file)
         reader.readAsText(file);
 };
-var drawInCanvas = function () {
+drawInCanvas = function () {
     if (canvasCtx) {
         canvasCtx.clearRect(0, 0, width, height);
         for (var barIndex = 0; barIndex < globalSortLength; barIndex++) {

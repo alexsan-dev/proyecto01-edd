@@ -29,6 +29,9 @@ let dragStart: CanvasCoords = { x: 0, y: 0 }
 let initialPinchDistance: number | null = null
 let lastZoom: number = cameraZoom
 
+// METODOS
+let drawInCanvas: () => unknown = () => {}
+
 // DIBUJAR
 const draw = (): void => {
 	// PROPIEDADES INICIALES

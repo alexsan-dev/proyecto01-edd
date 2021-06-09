@@ -77,7 +77,7 @@ const onChangeSortLoad = (ev: Event): void => {
 }
 
 // CALLBACK PARA DIBUJAR
-const drawInCanvas: () => unknown = () => {
+drawInCanvas = () => {
 	if (canvasCtx) {
 		// LIMPIAR
 		canvasCtx.clearRect(0, 0, width, height)

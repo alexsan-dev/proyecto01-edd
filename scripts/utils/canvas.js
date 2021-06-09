@@ -15,6 +15,7 @@ var isDragging = false;
 var dragStart = { x: 0, y: 0 };
 var initialPinchDistance = null;
 var lastZoom = cameraZoom;
+var drawInCanvas = function () { };
 var draw = function () {
     canvas.width = width;
     canvas.height = height;
