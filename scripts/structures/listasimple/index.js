@@ -132,7 +132,7 @@ var ListaSimple = (function () {
         console.log('Lista Contenido:');
         if (this.raiz != null) {
             var aux = this.raiz;
-            var salida = "";
+            var salida = '';
             while (aux != null) {
                 salida += aux.valor + ' -> ';
                 aux = aux.siguiente;
