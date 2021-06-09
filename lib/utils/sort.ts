@@ -13,6 +13,7 @@ let globalSortLength: number = globalSortData.length
 let sortBarWidth: number = (BAR_WIDTH / globalSortLength) * 100
 let maxSortDataValue: number = Math.max(...globalSortData)
 let sortBarHeight: number = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
+let fontSize: number = 20
 
 // ELEMENTOS
 const codeDataArray = document.getElementById('code-data-array')
@@ -20,6 +21,8 @@ const sortStepText = document.getElementById('sort-step-text')
 const sortRuntime = document.getElementById('sort-runtime')
 const sortPerformance = document.getElementById('sort-performance')
 const sortLengthText = document.getElementById('sort-length')
+const sortBanner = document.getElementById('sort-banner')
+const startButton = document.getElementById('start-btn')
 
 // METODO DE SORT
 let sortMethod: (
@@ -64,11 +67,20 @@ const onChangeSortLoad = (ev: Event): void => {
 		maxSortDataValue = Math.max(...json.data)
 		sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 
+		// TAMAÑOS DE FUENTE
+		if (globalSortLength > 0 && globalSortLength <= 10) fontSize = 25
+		else if (globalSortLength > 15 && globalSortLength <= 30) fontSize = 17
+		else if (globalSortLength > 30 && globalSortLength <= 50) fontSize = 13
+		else fontSize = 10
+
 		// CAMBIAR MUESTRA DE CÓDIGO
 		if (sortLengthText) sortLengthText.textContent = globalSortLength.toString()
 		if (codeDataArray) codeDataArray.textContent = json.data.join(', ')
 		if (sortStepText) sortStepText.textContent = '0'
 		if (sortPerformance) sortPerformance.textContent = '0%'
+
+		// ESTILOS Y TEXTOS
+		removeBanner()
 		setSortRuntime()
 	}
 
@@ -94,25 +106,21 @@ drawInCanvas = () => {
 				]
 
 			// BARRA
-			canvasCtx.fillRect(
-				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20,
-				-(sortBarHeight * globalSortData[barIndex]) + 138,
-				sortBarWidth,
-				sortBarHeight * globalSortData[barIndex],
-			)
+			const rectX: number =
+				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20
+			const rectY: number = -(sortBarHeight * globalSortData[barIndex]) + 138
+			const rectH: number = sortBarHeight * globalSortData[barIndex]
+
+			canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH)
 
 			// TEXTO
 			canvasCtx.fillStyle = '#fff'
-			canvasCtx.font = 'bold 20px Montserrat'
+			canvasCtx.font = `bold ${fontSize}px Montserrat`
 			canvasCtx.textAlign = 'center'
+			canvasCtx.textBaseline = 'middle'
 			canvasCtx.fillText(
 				globalSortData[barIndex].toString(),
-				sortBarWidth * barIndex +
-					BAR_MARGIN * (barIndex + 1) -
-					width / 2 +
-					32 +
-					sortBarWidth / 2 -
-					canvasCtx.measureText(globalSortData[0].toString()).width,
+				rectX + sortBarWidth / 2,
 				160,
 			)
 		}
@@ -162,5 +170,18 @@ const onChangeSortVelocity = (ev: Event) => {
 	VELOCITY = 850 - +target.value
 }
 
+// ELIMINAR IMAGEN DE BANNER
+const removeBanner = () => {
+	if (startButton && sortBanner) {
+		setTimeout(() => {
+			const btnRect = startButton.getBoundingClientRect().bottom
+			const bannerRect = sortBanner.getBoundingClientRect().top + 24
+
+			if (btnRect - bannerRect > 20) sortBanner.style.display = 'none'
+		}, 100)
+	}
+}
+
 // INICIAR A ORDENAR
+removeBanner()
 setSortRuntime()

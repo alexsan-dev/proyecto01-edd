@@ -16,11 +16,14 @@ var globalSortLength = globalSortData.length;
 var sortBarWidth = (BAR_WIDTH / globalSortLength) * 100;
 var maxSortDataValue = Math.max.apply(Math, globalSortData);
 var sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
+var fontSize = 20;
 var codeDataArray = document.getElementById('code-data-array');
 var sortStepText = document.getElementById('sort-step-text');
 var sortRuntime = document.getElementById('sort-runtime');
 var sortPerformance = document.getElementById('sort-performance');
 var sortLengthText = document.getElementById('sort-length');
+var sortBanner = document.getElementById('sort-banner');
+var startButton = document.getElementById('start-btn');
 var sortMethod = function () { return null; };
 var barColors = [
     '#F44336',
@@ -48,6 +51,14 @@ var onChangeSortLoad = function (ev) {
         sortBarWidth = (BAR_WIDTH / json.data.length) * 100;
         maxSortDataValue = Math.max.apply(Math, json.data);
         sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
+        if (globalSortLength > 0 && globalSortLength <= 10)
+            fontSize = 25;
+        else if (globalSortLength > 15 && globalSortLength <= 30)
+            fontSize = 17;
+        else if (globalSortLength > 30 && globalSortLength <= 50)
+            fontSize = 13;
+        else
+            fontSize = 10;
         if (sortLengthText)
             sortLengthText.textContent = globalSortLength.toString();
         if (codeDataArray)
@@ -56,6 +67,7 @@ var onChangeSortLoad = function (ev) {
             sortStepText.textContent = '0';
         if (sortPerformance)
             sortPerformance.textContent = '0%';
+        removeBanner();
         setSortRuntime();
     };
     if (file)
@@ -70,16 +82,15 @@ drawInCanvas = function () {
                     ? barIndex -
                         barColors.length * Math.floor(barIndex / barColors.length)
                     : barIndex];
-            canvasCtx.fillRect(sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20, -(sortBarHeight * globalSortData[barIndex]) + 138, sortBarWidth, sortBarHeight * globalSortData[barIndex]);
+            var rectX = sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20;
+            var rectY = -(sortBarHeight * globalSortData[barIndex]) + 138;
+            var rectH = sortBarHeight * globalSortData[barIndex];
+            canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH);
             canvasCtx.fillStyle = '#fff';
-            canvasCtx.font = 'bold 20px Montserrat';
+            canvasCtx.font = "bold " + fontSize + "px Montserrat";
             canvasCtx.textAlign = 'center';
-            canvasCtx.fillText(globalSortData[barIndex].toString(), sortBarWidth * barIndex +
-                BAR_MARGIN * (barIndex + 1) -
-                width / 2 +
-                32 +
-                sortBarWidth / 2 -
-                canvasCtx.measureText(globalSortData[0].toString()).width, 160);
+            canvasCtx.textBaseline = 'middle';
+            canvasCtx.fillText(globalSortData[barIndex].toString(), rectX + sortBarWidth / 2, 160);
         }
     }
 };
@@ -111,4 +122,15 @@ var onChangeSortVelocity = function (ev) {
     var target = ev.target;
     VELOCITY = 850 - +target.value;
 };
+var removeBanner = function () {
+    if (startButton && sortBanner) {
+        setTimeout(function () {
+            var btnRect = startButton.getBoundingClientRect().bottom;
+            var bannerRect = sortBanner.getBoundingClientRect().top + 24;
+            if (btnRect - bannerRect > 20)
+                sortBanner.style.display = 'none';
+        }, 100);
+    }
+};
+removeBanner();
 setSortRuntime();
