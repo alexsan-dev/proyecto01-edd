@@ -9,17 +9,19 @@ const selectionSort = (
 
 	for (let i = 0; i < len; i++) {
 		let min = i
+
 		for (let j = i + 1; j < len; j++) {
 			if (copy[j] < copy[min]) min = j
+			if (stepCallback) stepCallback(copy, ++counter)
 		}
+
 		if (min != i) {
 			let tmp = copy[i]
 			copy[i] = copy[min]
 			copy[min] = tmp
 		}
 
-		counter++
-		if (stepCallback) stepCallback(copy, counter)
+		if (stepCallback) stepCallback(copy, ++counter)
 	}
 
 	// RETORNAR

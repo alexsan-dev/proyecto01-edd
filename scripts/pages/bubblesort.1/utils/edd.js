@@ -9,6 +9,7 @@ var bubbleSort = function (data, stepCallback) {
     var len = data.length;
     var counter = 0;
     for (var i = 0; i < len; i++) {
+        counter++;
         for (var j = 0; j < len - i - 1; j++) {
             if (copy[j] > copy[j + 1]) {
                 var temp = copy[j];

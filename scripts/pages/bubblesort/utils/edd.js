@@ -15,10 +15,11 @@ var bubbleSort = function (data, stepCallback) {
                 copy[j] = copy[j + 1];
                 copy[j + 1] = temp;
             }
-            counter++;
             if (stepCallback)
-                stepCallback(copy, counter);
+                stepCallback(copy, ++counter);
         }
+        if (stepCallback)
+            stepCallback(copy, ++counter);
     }
     return copy;
 };

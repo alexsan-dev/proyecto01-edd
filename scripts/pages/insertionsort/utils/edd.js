@@ -4,23 +4,20 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
         to[j] = from[i];
     return to;
 };
-var selectionSort = function (data, stepCallback) {
+var insertionSort = function (data, stepCallback) {
     var copy = __spreadArray([], data);
     var len = data.length;
     var counter = 0;
-    for (var i = 0; i < len; i++) {
-        var min = i;
-        for (var j = i + 1; j < len; j++) {
-            if (copy[j] < copy[min])
-                min = j;
+    for (var i = 1; i < len; i++) {
+        var current = copy[i];
+        var j = i - 1;
+        while (j > -1 && current < copy[j]) {
+            copy[j + 1] = copy[j];
+            j--;
             if (stepCallback)
                 stepCallback(copy, ++counter);
         }
-        if (min != i) {
-            var tmp = copy[i];
-            copy[i] = copy[min];
-            copy[min] = tmp;
-        }
+        copy[j + 1] = current;
         if (stepCallback)
             stepCallback(copy, ++counter);
     }

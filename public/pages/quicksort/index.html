@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 	<head>
-		<title>Selection Sort</title>
+		<title>Quick Sort</title>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -22,7 +22,7 @@
 							type="button"
 							aria-label="Home"
 							><i class="icon-home"></i></a
-						>Ordenamiento por Selección
+						>Ordenamiento Rápido
 					</h1>
 					<ul>
 						<li>
@@ -61,7 +61,7 @@
 
 			<div class="editor">
 				<pre><code><strong style="color:var(--ice)">const</strong> data:<strong style="color:var(--ice)">number</strong>[] <i style='color:var(--soda)'>=</i> [<strong style="color:var(--lightPurple)" id='code-data-array'>4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7</strong>]
-<strong style="color: var(--green)">selectionSort</strong>(data)</code></pre>
+<strong style="color: var(--green)">quickSort</strong>(data)</code></pre>
 				<ul>
 					<li>
 						<button class="reset" onclick="restartSortedData()" type="button">
@@ -129,18 +129,18 @@
 				</span>
 				<span>
 					<i class="icon-skip-forward"></i>Iteraciones:
-					<strong id="sort-step-text">120</strong>
+					<strong id="sort-step-text">59</strong>
 				</span>
 				<span>
 					<i class="icon-check-circle"></i>Eficiencia:
-					<strong id="sort-performance">12.50%</strong>
+					<strong id="sort-performance">25.42%</strong>
 				</span>
 			</footer>
 		</main>
 		<script src="../../../scripts/utils/sort.js"></script>
 		<script src="../../../scripts/utils/canvas.js"></script>
 		<script src="../../../scripts/utils/colors.js"></script>
-		<script src="../../../scripts/pages/selectionsort/utils/edd.js"></script>
-		<script src="../../../scripts/pages/selectionsort/index.js"></script>
+		<script src="../../../scripts/pages/quicksort/utils/edd.js"></script>
+		<script src="../../../scripts/pages/quicksort/index.js"></script>
 	</body>
 </html>
