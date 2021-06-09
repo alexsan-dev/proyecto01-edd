@@ -10,7 +10,17 @@ var ListaSimple = (function () {
     function ListaSimple() {
         this.raiz = null;
         this.tamaño = 0;
+        this.nodoActual = null;
     }
+    ListaSimple.prototype.setActualRaiz = function () {
+        this.nodoActual = this.raiz;
+    };
+    ListaSimple.prototype.pasarSiguiente = function () {
+        this.nodoActual = this.nodoActual.siguiente;
+    };
+    ListaSimple.prototype.getNodoActual = function () {
+        return this.nodoActual.valor;
+    };
     ListaSimple.prototype.insertar = function (valor) {
         if (this.raiz == null) {
             this.raiz = new NodoSimple(valor);

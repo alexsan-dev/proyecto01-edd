@@ -13,12 +13,31 @@ class NodoSimple{
 class ListaSimple{
     private raiz:any
     private tamaño:number
+    public nodoActual:any
 
     constructor(){
         this.raiz = null
         this.tamaño = 0
+        this.nodoActual = null
     }
 
+    //METODOS PARA GRAFICAR ---------------------------------------------------->
+    //Pone la variable en la raiz del la lista
+    setActualRaiz(){
+        this.nodoActual = this.raiz
+    }
+
+    //Mueve le nodo actual a la siguiente posicion
+    pasarSiguiente(){
+        this.nodoActual = this.nodoActual.siguiente
+    }
+
+    //Devuelve el nodo Actual
+    getNodoActual(){
+        return this.nodoActual.valor
+    }
+
+    //METODOS DE LISTA -------------------------------------------------------------->
     //Insertar al final
     insertar(valor:any){
         if(this.raiz == null){
