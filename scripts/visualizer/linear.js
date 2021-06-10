@@ -2,6 +2,7 @@
 var linearStructure = null;
 var simple = true;
 var linearStructureLength = 0;
+var VELOCITY = 200;
 canvasBannerDif = 20;
 var setLinearStructure = function (newLinearStructure, newSimple) {
     linearStructure = newLinearStructure;
@@ -57,6 +58,9 @@ CanvasRenderingContext2D.prototype.arrow = function (x, y, distance, width, down
         this.closePath();
     }
 };
+fileUploadCallback = function (json) {
+    console.log(json);
+};
 drawInCanvas = function () {
     if (canvasCtx) {
         canvasCtx.globalCompositeOperation = 'destination-over';
@@ -93,4 +97,8 @@ drawInCanvas = function () {
             }
         }
     }
+};
+var onChangeSortVelocity = function (ev) {
+    var target = ev.target;
+    VELOCITY = 850 - +target.value;
 };

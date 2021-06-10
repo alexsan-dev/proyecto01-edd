@@ -27,35 +27,142 @@
 					</h1>
 					<ul>
 						<li>
-							<input type="checkbox" style="display: none" id="show-velocity" />
-							<label class="btn" for="show-velocity" type="button">
+							<input
+								type="checkbox"
+								style="display: none"
+								id="show-files-menu"
+							/>
+							<label class="btn" for="show-files-menu" type="button">
 								<i class="icon-file"></i>Archivos
 								<i class="icon-chevron-down"></i>
 							</label>
-							<div class="range-container">
-								<input
-									type="range"
-									min="50"
-									max="800"
-									id="velocity"
-									onchange="onChangeSortVelocity(event)"
-								/>
+							<div class="files-menu-container">
+								<ul>
+									<li>
+										<label for="array-json" class="btn">
+											<i class="icon-upload-cloud"></i>Cargar</label
+										>
+										<input
+											type="file"
+											onchange="onChangeUploadInput(event)"
+											id="array-json"
+											style="display: none"
+										/>
+									</li>
+									<li>
+										<button><i class="icon-save"></i>Guardar</button>
+									</li>
+								</ul>
 							</div>
 						</li>
 						<li>
-							<input type="checkbox" style="display: none" id="show-velocity" />
-							<label class="btn" for="show-velocity" type="button">
+							<input
+								type="checkbox"
+								style="display: none"
+								id="show-nodes-menu"
+							/>
+							<label class="btn" for="show-nodes-menu" type="button">
 								<i class="icon-circle"></i>Nodos
 								<i class="icon-chevron-down"></i>
 							</label>
-							<div class="range-container">
-								<input
-									type="range"
-									min="50"
-									max="800"
-									id="velocity"
-									onchange="onChangeSortVelocity(event)"
-								/>
+							<div class="nodes-menu-container">
+								<ul>
+									<li>
+										<button type="button" aria-label="Agregar">
+											<i class="icon-plus"></i>Agregar
+										</button>
+									</li>
+									<li>
+										<button type="button" aria-label="Agregar">
+											<i class="icon-trash-2"></i>Eliminar
+										</button>
+									</li>
+									<li>
+										<button type="button" aria-label="Agregar">
+											<i class="icon-disc"></i>Actualizar
+										</button>
+									</li>
+									<li>
+										<button type="button" aria-label="Agregar">
+											<i class="icon-search"></i>Buscar
+										</button>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<input
+								type="checkbox"
+								style="display: none"
+								id="show-settings-menu"
+							/>
+							<label class="btn" for="show-settings-menu" type="button">
+								<i class="icon-settings"></i>Configuración
+								<i class="icon-chevron-down"></i>
+							</label>
+							<div class="settings-menu-container">
+								<ul>
+									<li>
+										<button>
+											<i class="icon-plus-circle"></i> Agregar en:
+										</button>
+										<ul>
+											<li>
+												<label for="addAtStart">Inicio</label>
+												<input
+													type="radio"
+													id="addAtStart"
+													name="addAt"
+													value="start"
+												/>
+											</li>
+
+											<li>
+												<label for="addAtEnd">Final</label>
+												<input
+													type="radio"
+													id="addAtEnd"
+													name="addAt"
+													value="end"
+												/>
+											</li>
+
+											<li>
+												<label for="addAtOrder">Orden</label>
+												<input
+													type="radio"
+													id="addAtOrder"
+													name="addAt"
+													value="order"
+												/>
+											</li>
+										</ul>
+									</li>
+
+									<li>
+										<label class="btn" type="button" aria-label="Agregar">
+											<i class="icon-repeat"></i>Repetición<input
+												type="checkbox"
+												id="repeat-elements-switch"
+											/>
+										</label>
+									</li>
+
+									<li>
+										<button type="button">
+											<i class="icon-fast-forward"></i>Velocidad
+										</button>
+										<div class="range-container">
+											<input
+												type="range"
+												min="50"
+												max="800"
+												id="velocity"
+												onchange="onChangeSortVelocity(event)"
+											/>
+										</div>
+									</li>
+								</ul>
 							</div>
 						</li>
 					</ul>

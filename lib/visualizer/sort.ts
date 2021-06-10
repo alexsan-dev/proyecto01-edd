@@ -2,8 +2,7 @@
 const BAR_MARGIN: number = 10
 const BAR_WIDTH: number = 5
 const BAR_HEIGHT: number = 300
-let VELOCITY: number = 200
-canvasBannerDif = 20
+canvasBannerDif = 25
 
 // GLOBALES
 let globalSortData: number[] = [
@@ -30,46 +29,30 @@ let sortMethod: (
 ) => unknown = () => null
 
 // CARDAR JSON
-const onChangeSortLoad = (ev: Event): void => {
-	// INPUT
-	const input = ev.target as HTMLInputElement
-	const file = input.files ? input.files[0] : null
+fileUploadCallback = (json: JSONSortFile) => {
+	// ASIGNAR VARIABLES GLOBALES
+	globalCopySortData = json.data
+	globalSortData = json.data
+	globalSortLength = json.data.length
+	sortBarWidth = (BAR_WIDTH / json.data.length) * 100
+	maxSortDataValue = Math.max(...json.data)
+	sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 
-	// READER
-	const reader = new FileReader()
-	reader.onload = () => {
-		const text = reader.result
-		const json = JSON.parse(
-			typeof text === 'string' ? text : '{}',
-		) as JSONSortFile
+	// TAMAÑOS DE FUENTE
+	if (globalSortLength > 0 && globalSortLength <= 10) fontSize = 25
+	else if (globalSortLength > 15 && globalSortLength <= 30) fontSize = 17
+	else if (globalSortLength > 30 && globalSortLength <= 50) fontSize = 13
+	else fontSize = 10
 
-		// ASIGNAR VARIABLES GLOBALES
-		globalCopySortData = json.data
-		globalSortData = json.data
-		globalSortLength = json.data.length
-		sortBarWidth = (BAR_WIDTH / json.data.length) * 100
-		maxSortDataValue = Math.max(...json.data)
-		sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
+	// CAMBIAR MUESTRA DE CÓDIGO
+	if (sortLengthText) sortLengthText.textContent = globalSortLength.toString()
+	if (codeDataArray) codeDataArray.textContent = json.data.join(', ')
+	if (sortStepText) sortStepText.textContent = '0'
+	if (sortPerformance) sortPerformance.textContent = '0%'
 
-		// TAMAÑOS DE FUENTE
-		if (globalSortLength > 0 && globalSortLength <= 10) fontSize = 25
-		else if (globalSortLength > 15 && globalSortLength <= 30) fontSize = 17
-		else if (globalSortLength > 30 && globalSortLength <= 50) fontSize = 13
-		else fontSize = 10
-
-		// CAMBIAR MUESTRA DE CÓDIGO
-		if (sortLengthText) sortLengthText.textContent = globalSortLength.toString()
-		if (codeDataArray) codeDataArray.textContent = json.data.join(', ')
-		if (sortStepText) sortStepText.textContent = '0'
-		if (sortPerformance) sortPerformance.textContent = '0%'
-
-		// ESTILOS Y TEXTOS
-		removeBanner()
-		setSortRuntime()
-	}
-
-	// LEER
-	if (file) reader.readAsText(file)
+	// ESTILOS Y TEXTOS
+	removeBanner()
+	setSortRuntime()
 }
 
 // CALLBACK PARA DIBUJAR
@@ -149,11 +132,6 @@ const restartSortedData = () => {
 	globalSortData = globalCopySortData
 }
 
-// CAMBIAR VELOCIDAD
-const onChangeSortVelocity = (ev: Event) => {
-	const target = ev.target as HTMLInputElement
-	VELOCITY = 850 - +target.value
-}
 
 // ELIMINAR IMAGEN DE BANNER
 const removeBanner = () => {

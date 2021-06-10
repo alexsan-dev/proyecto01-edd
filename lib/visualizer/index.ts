@@ -30,3 +30,25 @@ const resetCanvas = () => {
 		lastZoom = 1
 	}
 }
+
+// CALLBACK AL SUBIR ARCHIVO
+let fileUploadCallback: (json: any) => unknown = () => {}
+
+const onChangeUploadInput = (ev: Event): void => {
+	// INPUT
+	const input = ev.target as HTMLInputElement
+	const file = input.files ? input.files[0] : null
+
+	// READER
+	const reader = new FileReader()
+	reader.onload = () => {
+		const text = reader.result
+		const json = JSON.parse(
+			typeof text === 'string' ? text : '{}',
+		) as JSONSortFile
+		fileUploadCallback(json)
+	}
+
+	// LEER
+	if (file) reader.readAsText(file)
+}

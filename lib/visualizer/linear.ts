@@ -2,6 +2,9 @@
 let linearStructure: LinearStructure | null = null
 let simple: boolean = true
 let linearStructureLength: number = 0
+
+// CONFIGURACIÓN GLOBAL
+let VELOCITY: number = 200
 canvasBannerDif = 20
 
 // DATOS INICIALES
@@ -86,6 +89,12 @@ CanvasRenderingContext2D.prototype.arrow = function (
 	}
 }
 
+// LEER ARCHIVO
+fileUploadCallback = (json: any) => {
+	console.log(json)
+}
+
+// DIBUJAR
 drawInCanvas = () => {
 	if (canvasCtx) {
 		canvasCtx.globalCompositeOperation = 'destination-over'
@@ -144,4 +153,10 @@ drawInCanvas = () => {
 			}
 		}
 	}
+}
+
+// CAMBIAR VELOCIDAD
+const onChangeSortVelocity = (ev: Event) => {
+	const target = ev.target as HTMLInputElement
+	VELOCITY = 850 - +target.value
 }

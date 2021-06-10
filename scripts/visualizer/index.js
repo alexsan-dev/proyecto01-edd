@@ -25,3 +25,16 @@ var resetCanvas = function () {
         lastZoom = 1;
     }
 };
+var fileUploadCallback = function () { };
+var onChangeUploadInput = function (ev) {
+    var input = ev.target;
+    var file = input.files ? input.files[0] : null;
+    var reader = new FileReader();
+    reader.onload = function () {
+        var text = reader.result;
+        var json = JSON.parse(typeof text === 'string' ? text : '{}');
+        fileUploadCallback(json);
+    };
+    if (file)
+        reader.readAsText(file);
+};
