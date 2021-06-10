@@ -27,13 +27,14 @@ let sortMethod: (
 ) => unknown = () => null
 
 // CARDAR JSON
-fileUploadCallback = (json: JSONSortFile) => {
+fileUploadCallback = (json: JSONInputFile) => {
 	// ASIGNAR VARIABLES GLOBALES
-	globalCopySortData = json.data
-	globalSortData = json.data
-	globalSortLength = json.data.length
-	sortBarWidth = (BAR_WIDTH / json.data.length) * 100
-	maxSortDataValue = Math.max(...json.data)
+	const valores = json.valores as number[]
+	globalCopySortData = valores
+	globalSortData = valores
+	globalSortLength = valores.length
+	sortBarWidth = (BAR_WIDTH / valores.length) * 100
+	maxSortDataValue = Math.max(...valores)
 	sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 
 	// TAMAÑOS DE FUENTE
@@ -44,7 +45,7 @@ fileUploadCallback = (json: JSONSortFile) => {
 
 	// CAMBIAR MUESTRA DE CÓDIGO
 	if (sortLengthText) sortLengthText.textContent = globalSortLength.toString()
-	if (codeDataArray) codeDataArray.textContent = json.data.join(', ')
+	if (codeDataArray) codeDataArray.textContent = valores.join(', ')
 	if (sortStepText) sortStepText.textContent = '0'
 	if (sortPerformance) sortPerformance.textContent = '0%'
 

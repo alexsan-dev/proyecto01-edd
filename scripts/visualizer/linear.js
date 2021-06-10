@@ -64,7 +64,11 @@ CanvasRenderingContext2D.prototype.arrow = function (x, y, distance, width, down
     }
 };
 fileUploadCallback = function (json) {
-    console.log(json);
+    var valores = json.valores;
+    valores.forEach(function (valor) {
+        newNodeValue = valor.toString();
+        addNode();
+    });
 };
 drawInCanvas = function () {
     if (canvasCtx) {

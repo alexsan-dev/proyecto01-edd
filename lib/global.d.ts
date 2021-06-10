@@ -1,5 +1,7 @@
-interface JSONSortFile {
-	data: number[]
+interface JSONInputFile {
+	categoria: string
+	nombre: string
+	valores: (number | string)[]
 }
 
 type LinearStructure = ListaSimple

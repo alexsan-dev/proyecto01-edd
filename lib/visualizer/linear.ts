@@ -100,8 +100,13 @@ CanvasRenderingContext2D.prototype.arrow = function (
 }
 
 // LEER ARCHIVO
-fileUploadCallback = (json: any) => {
-	console.log(json)
+fileUploadCallback = (json: JSONInputFile) => {
+	const { valores } = json
+	// ITERAR
+	valores.forEach((valor: string | number) => {
+		newNodeValue = valor.toString()
+		addNode()
+	})
 }
 
 // DIBUJAR

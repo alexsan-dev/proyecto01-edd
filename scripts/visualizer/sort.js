@@ -22,11 +22,12 @@ var sortStepText = document.getElementById('sort-step-text');
 var sortPerformance = document.getElementById('sort-performance');
 var sortMethod = function () { return null; };
 fileUploadCallback = function (json) {
-    globalCopySortData = json.data;
-    globalSortData = json.data;
-    globalSortLength = json.data.length;
-    sortBarWidth = (BAR_WIDTH / json.data.length) * 100;
-    maxSortDataValue = Math.max.apply(Math, json.data);
+    var valores = json.valores;
+    globalCopySortData = valores;
+    globalSortData = valores;
+    globalSortLength = valores.length;
+    sortBarWidth = (BAR_WIDTH / valores.length) * 100;
+    maxSortDataValue = Math.max.apply(Math, valores);
     sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
     if (globalSortLength > 0 && globalSortLength <= 10)
         fontSize = 25;
@@ -39,7 +40,7 @@ fileUploadCallback = function (json) {
     if (sortLengthText)
         sortLengthText.textContent = globalSortLength.toString();
     if (codeDataArray)
-        codeDataArray.textContent = json.data.join(', ');
+        codeDataArray.textContent = valores.join(', ');
     if (sortStepText)
         sortStepText.textContent = '0';
     if (sortPerformance)

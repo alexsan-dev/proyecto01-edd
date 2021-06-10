@@ -48,7 +48,7 @@ const onChangeUploadInput = (ev: Event): void => {
 		const text = reader.result
 		const json = JSON.parse(
 			typeof text === 'string' ? text : '{}',
-		) as JSONSortFile
+		) as JSONInputFile
 		fileUploadCallback(json)
 	}
 
