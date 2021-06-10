@@ -134,6 +134,10 @@ nav > div > ul > li > #show-settings-menu:checked ~ label > i:last-child {
 	transform: rotate(180deg);
 }
 
+nav > div > ul > li > .files-menu-container > ul > li {
+	width: 155px;
+}
+
 nav > div > ul > li > .settings-menu-container > ul > li > ul {
 	margin-left: 20px;
 }
@@ -153,9 +157,16 @@ nav > div > ul > li > .settings-menu-container > ul > li > ul > li {
 }
 
 nav > div > ul > li > .settings-menu-container > ul > li > .range-container {
-	padding: 20px;
+	padding: 10px;
 	padding-top: 0;
-	width: 160px;
+	width: 155px;
+}
+
+nav > div > ul > li > .nodes-menu-container > .input {
+	margin-bottom: 0px;
+	width: 155px;
+	font-size: 0.9em;
+	padding: 0 10px;
 }
 
 nav
