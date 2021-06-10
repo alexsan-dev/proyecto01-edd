@@ -32,14 +32,18 @@
 								style="display: none"
 								id="show-files-menu"
 							/>
-							<label class="btn" for="show-files-menu" type="button">
+							<label class="btn nav-btn" for="show-files-menu" type="button">
 								<i class="icon-file"></i>Archivos
 								<i class="icon-chevron-down"></i>
 							</label>
 							<div class="files-menu-container">
 								<ul>
 									<li>
-										<label for="array-json" class="btn">
+										<label
+											onclick="hideNavMenu(0)"
+											for="array-json"
+											class="btn"
+										>
 											<i class="icon-upload-cloud"></i>Cargar</label
 										>
 										<input
@@ -50,7 +54,9 @@
 										/>
 									</li>
 									<li>
-										<button><i class="icon-save"></i>Guardar</button>
+										<button onclick="hideNavMenu(0)">
+											<i class="icon-save"></i>Guardar
+										</button>
 									</li>
 								</ul>
 							</div>
@@ -61,37 +67,63 @@
 								style="display: none"
 								id="show-nodes-menu"
 							/>
-							<label class="btn" for="show-nodes-menu" type="button">
+							<label class="btn nav-btn" for="show-nodes-menu" type="button">
 								<i class="icon-circle"></i>Nodos
 								<i class="icon-chevron-down"></i>
 							</label>
 							<div class="nodes-menu-container">
-								<div class='input'>
-									<label for='index-input'><i class="icon-hash"></i></label>
-									<input type='text' id='index-input' placeholder='Posición'/>
+								<div class="input">
+									<label for="index-input"><i class="icon-hash"></i></label>
+									<input
+										type="text"
+										id="index-input"
+										oninput="saveOldNodeValue(event)"
+										placeholder="Valor"
+									/>
 								</div>
-								<div class='input'>
-									<label for='add-input'><i class="icon-edit"></i></label>
-									<input type='text' id='add-input' placeholder='Valor'/>
+								<div class="input">
+									<label for="add-input"><i class="icon-edit"></i></label>
+									<input
+										type="text"
+										id="add-input"
+										oninput="saveNewNodeValue(event)"
+										placeholder="Nuevo valor"
+									/>
 								</div>
 								<ul>
 									<li>
-										<button type="button" aria-label="Agregar">
+										<button
+											type="button"
+											onclick="addNode()"
+											aria-label="Agregar"
+										>
 											<i class="icon-plus"></i>Agregar
 										</button>
 									</li>
 									<li>
-										<button type="button" aria-label="Agregar">
+										<button
+											type="button"
+											onclick="removeNode()"
+											aria-label="Eliminar"
+										>
 											<i class="icon-trash-2"></i>Eliminar
 										</button>
 									</li>
 									<li>
-										<button type="button" aria-label="Agregar">
+										<button
+											type="button"
+											onclick="updateNode()"
+											aria-label="Actualizar"
+										>
 											<i class="icon-disc"></i>Actualizar
 										</button>
 									</li>
 									<li>
-										<button type="button" aria-label="Agregar">
+										<button
+											type="button"
+											onclick="findNode()"
+											aria-label="Buscar"
+										>
 											<i class="icon-search"></i>Buscar
 										</button>
 									</li>
@@ -104,7 +136,7 @@
 								style="display: none"
 								id="show-settings-menu"
 							/>
-							<label class="btn" for="show-settings-menu" type="button">
+							<label class="btn nav-btn" for="show-settings-menu" type="button">
 								<i class="icon-settings"></i>Configuración
 								<i class="icon-chevron-down"></i>
 							</label>
@@ -118,6 +150,7 @@
 											<li>
 												<label for="addAtStart">Inicio</label>
 												<input
+													onchange="changeInsertMode(event)"
 													type="radio"
 													id="addAtStart"
 													name="addAt"
@@ -130,6 +163,7 @@
 												<input
 													type="radio"
 													id="addAtEnd"
+													onchange="changeInsertMode(event)"
 													name="addAt"
 													value="end"
 												/>
@@ -140,6 +174,7 @@
 												<input
 													type="radio"
 													id="addAtOrder"
+													onchange="changeInsertMode(event)"
 													name="addAt"
 													value="order"
 												/>
@@ -150,6 +185,8 @@
 									<li>
 										<label class="btn" type="button" aria-label="Agregar">
 											<i class="icon-repeat"></i>Repetición<input
+											checked="true"
+												onchange="changeRepeatValues(event)"
 												type="checkbox"
 												id="repeat-elements-switch"
 											/>

@@ -3,6 +3,7 @@ interface JSONSortFile {
 }
 
 type LinearStructure = ListaSimple
+type LinearNode = NodoSimple
 
 interface CanvasRenderingContext2D {
 	arrow: (

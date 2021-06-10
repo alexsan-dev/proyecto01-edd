@@ -1,8 +1,11 @@
 // ELEMENTOS
 const sortRuntime = document.getElementById('sort-runtime')
 const sortLengthText = document.getElementById('sort-length')
+const startButton = document.getElementById('start-btn')
+const sortBanner = document.getElementById('sort-banner')
 
 let canvasBannerDif: number = 20
+let VELOCITY: number = 200
 
 // COLORES
 const canvasObjectColors: string[] = [
@@ -52,3 +55,25 @@ const onChangeUploadInput = (ev: Event): void => {
 	// LEER
 	if (file) reader.readAsText(file)
 }
+
+// CAMBIAR VELOCIDAD
+const onChangeSortVelocity = (ev: Event) => {
+	const target = ev.target as HTMLInputElement
+	VELOCITY = 850 - +target.value
+}
+
+// ELIMINAR IMAGEN DE BANNER
+const removeBanner = () => {
+	if (startButton && sortBanner) {
+		setTimeout(() => {
+			const btnRect = startButton.getBoundingClientRect().bottom
+			const bannerRect = sortBanner.getBoundingClientRect().top + 24
+
+			if (btnRect - bannerRect > canvasBannerDif)
+				sortBanner.style.display = 'none'
+		}, 100)
+	}
+}
+
+// INICIAR A ORDENAR
+removeBanner()

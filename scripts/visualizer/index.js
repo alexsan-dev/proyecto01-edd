@@ -1,7 +1,10 @@
 "use strict";
 var sortRuntime = document.getElementById('sort-runtime');
 var sortLengthText = document.getElementById('sort-length');
+var startButton = document.getElementById('start-btn');
+var sortBanner = document.getElementById('sort-banner');
 var canvasBannerDif = 20;
+var VELOCITY = 200;
 var canvasObjectColors = [
     '#F44336',
     '#E91E63',
@@ -38,3 +41,18 @@ var onChangeUploadInput = function (ev) {
     if (file)
         reader.readAsText(file);
 };
+var onChangeSortVelocity = function (ev) {
+    var target = ev.target;
+    VELOCITY = 850 - +target.value;
+};
+var removeBanner = function () {
+    if (startButton && sortBanner) {
+        setTimeout(function () {
+            var btnRect = startButton.getBoundingClientRect().bottom;
+            var bannerRect = sortBanner.getBoundingClientRect().top + 24;
+            if (btnRect - bannerRect > canvasBannerDif)
+                sortBanner.style.display = 'none';
+        }, 100);
+    }
+};
+removeBanner();

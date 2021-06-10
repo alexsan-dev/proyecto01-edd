@@ -107,3 +107,8 @@ if (!localDarkValue) {
 	window.localStorage.setItem('darkmode', '1')
 	toggleDarkMode()
 } else setEachColors(localDarkValue === '1')
+
+const getColor = (name: string) => {
+	const style = getComputedStyle(document.body)
+	return style.getPropertyValue(name)
+}

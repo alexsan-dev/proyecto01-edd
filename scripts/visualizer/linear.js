@@ -2,11 +2,15 @@
 var linearStructure = null;
 var simple = true;
 var linearStructureLength = 0;
-var VELOCITY = 200;
-canvasBannerDif = 20;
+var insertMode = 'start';
+var repeatValues = true;
+var newNodeValue = '';
+var oldNodeValue = '';
+canvasBannerDif = 135;
+var editor = document.querySelector('.editor > pre > code');
+var navBtns = document.querySelectorAll('.nav-btn');
 var setLinearStructure = function (newLinearStructure, newSimple) {
     linearStructure = newLinearStructure;
-    linearStructureLength = 5;
     simple = newSimple;
     if (linearStructure) {
         linearStructure.insertar(1);
@@ -15,6 +19,7 @@ var setLinearStructure = function (newLinearStructure, newSimple) {
         linearStructure.insertar(4);
         linearStructure.insertar(5);
     }
+    linearStructureLength = (linearStructure === null || linearStructure === void 0 ? void 0 : linearStructure.getTamaño()) || 5;
 };
 CanvasRenderingContext2D.prototype.arrow = function (x, y, distance, width, down, left, double) {
     var lineWidth = width || 4;
@@ -87,7 +92,7 @@ drawInCanvas = function () {
             if (nodeIndex < linearStructureLength - 1) {
                 canvasCtx.beginPath();
                 canvasCtx.fillStyle = 'white';
-                canvasCtx.arrow(nodeX + 5 + (simple ? 25 : 0), -1, simple ? 120 : 95, simple ? 5 : 4);
+                canvasCtx.arrow(nodeX + 5 + (simple ? 25 : 0), -1, simple ? 120 : 95, 4);
             }
             if (nodeIndex > 0 && !simple) {
                 canvasCtx.beginPath();
@@ -98,7 +103,102 @@ drawInCanvas = function () {
         }
     }
 };
-var onChangeSortVelocity = function (ev) {
+var saveNewNodeValue = function (ev) {
     var target = ev.target;
-    VELOCITY = 850 - +target.value;
+    newNodeValue = target.value;
+};
+var saveOldNodeValue = function (ev) {
+    var target = ev.target;
+    oldNodeValue = target.value;
+};
+var changeRepeatValues = function (ev) {
+    var target = ev.target;
+    repeatValues = target.checked;
+};
+var changeInsertMode = function (ev) {
+    var target = ev.target;
+    insertMode = target.value;
+};
+var addTestCode = function (method, value) {
+    if (editor)
+        editor.innerHTML =
+            editor.innerHTML +
+                ("\ndata.<strong style=\"color: var(--green)\">" + method + "</strong>(<strong style=\"color: var(--lightPurple)\">" + value + "</strong>)");
+};
+var addNode = function () {
+    if (linearStructure && newNodeValue.length > 0) {
+        var nodeOnStructure = linearStructure.buscar(newNodeValue);
+        if (repeatValues || (!repeatValues && nodeOnStructure === null)) {
+            if (insertMode === 'start')
+                linearStructure.push(newNodeValue);
+            else if (insertMode === 'end')
+                linearStructure.insertar(newNodeValue);
+            linearStructureLength = linearStructure.getTamaño();
+            addTestCode(insertMode === 'start'
+                ? 'push'
+                : insertMode === 'end'
+                    ? 'insertar'
+                    : 'insertar', newNodeValue);
+            hideNavMenu(1);
+            removeBanner();
+        }
+    }
+};
+var removeNode = function () {
+    if (linearStructure && oldNodeValue.length > 0) {
+        var nodeOnStructure = linearStructure.buscar(oldNodeValue);
+        if (nodeOnStructure !== null) {
+            linearStructure.eliminar(oldNodeValue);
+            linearStructureLength = linearStructure.getTamaño();
+            addTestCode('eliminar', oldNodeValue);
+            hideNavMenu(1);
+            removeBanner();
+        }
+    }
+};
+var findNode = function () {
+    if (linearStructure && oldNodeValue.length > 0) {
+        var nodeOnStructure = linearStructure.buscar(oldNodeValue);
+        if (nodeOnStructure !== null) {
+            linearStructure.buscar(oldNodeValue);
+            linearStructureLength = linearStructure.getTamaño();
+            addTestCode('buscar', oldNodeValue);
+            hideNavMenu(1);
+            removeBanner();
+        }
+    }
+};
+var updateNode = function () {
+    if (linearStructure && newNodeValue.length > 0 && oldNodeValue.length > 0) {
+        var nodeOnStructure = linearStructure.buscar(oldNodeValue);
+        var newNodeOnStructure = linearStructure.buscar(newNodeValue);
+        if (nodeOnStructure !== null &&
+            (repeatValues || (newNodeOnStructure === null && !repeatValues))) {
+            linearStructure.actualizar(oldNodeValue, newNodeValue);
+            linearStructureLength = linearStructure.getTamaño();
+            addTestCode('actualizar', oldNodeValue + "," + newNodeValue);
+            hideNavMenu(1);
+            removeBanner();
+        }
+    }
+};
+var inputsMenuSwitcher = Array.prototype.slice
+    .call(navBtns)
+    .map(function (element) {
+    return element.previousElementSibling;
+})
+    .filter(Boolean);
+navBtns.forEach(function (navElement, navIndex) {
+    return navElement.addEventListener('click', function () {
+        return inputsMenuSwitcher.forEach(function (inputElement, inpIndex) {
+            if (navIndex !== inpIndex)
+                inputElement.checked = false;
+        });
+    });
+});
+var hideNavMenu = function (index) {
+    inputsMenuSwitcher.forEach(function (inputElement, inpIndex) {
+        if (index === inpIndex)
+            inputElement.checked = false;
+    });
 };

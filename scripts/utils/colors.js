@@ -71,3 +71,7 @@ if (!localDarkValue) {
 }
 else
     setEachColors(localDarkValue === '1');
+var getColor = function (name) {
+    var style = getComputedStyle(document.body);
+    return style.getPropertyValue(name);
+};

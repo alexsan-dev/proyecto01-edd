@@ -146,6 +146,7 @@ nav > div > ul > li > .settings-menu-container > ul > li > ul > li > label {
 	color: var(--moonOceanOpal);
 	font-size: 0.9em;
 	font-weight: 500;
+	cursor: pointer;
 }
 
 nav > div > ul > li > .settings-menu-container > ul > li > ul > li {
@@ -167,6 +168,11 @@ nav > div > ul > li > .nodes-menu-container > .input {
 	width: 155px;
 	font-size: 0.9em;
 	padding: 0 10px;
+}
+
+nav > div > ul > li > .nodes-menu-container > .input > label {
+	width: 15px;
+	margin-right: 10px;
 }
 
 nav

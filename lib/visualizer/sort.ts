@@ -19,8 +19,6 @@ let fontSize: number = 20
 const codeDataArray = document.getElementById('code-data-array')
 const sortStepText = document.getElementById('sort-step-text')
 const sortPerformance = document.getElementById('sort-performance')
-const sortBanner = document.getElementById('sort-banner')
-const startButton = document.getElementById('start-btn')
 
 // METODO DE SORT
 let sortMethod: (
@@ -132,20 +130,4 @@ const restartSortedData = () => {
 	globalSortData = globalCopySortData
 }
 
-
-// ELIMINAR IMAGEN DE BANNER
-const removeBanner = () => {
-	if (startButton && sortBanner) {
-		setTimeout(() => {
-			const btnRect = startButton.getBoundingClientRect().bottom
-			const bannerRect = sortBanner.getBoundingClientRect().top + 24
-
-			if (btnRect - bannerRect > canvasBannerDif)
-				sortBanner.style.display = 'none'
-		}, 100)
-	}
-}
-
-// INICIAR A ORDENAR
-removeBanner()
 setSortRuntime()

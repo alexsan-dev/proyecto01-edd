@@ -20,8 +20,6 @@ var fontSize = 20;
 var codeDataArray = document.getElementById('code-data-array');
 var sortStepText = document.getElementById('sort-step-text');
 var sortPerformance = document.getElementById('sort-performance');
-var sortBanner = document.getElementById('sort-banner');
-var startButton = document.getElementById('start-btn');
 var sortMethod = function () { return null; };
 fileUploadCallback = function (json) {
     globalCopySortData = json.data;
@@ -95,15 +93,4 @@ var restartSortedData = function () {
     resetCanvas();
     globalSortData = globalCopySortData;
 };
-var removeBanner = function () {
-    if (startButton && sortBanner) {
-        setTimeout(function () {
-            var btnRect = startButton.getBoundingClientRect().bottom;
-            var bannerRect = sortBanner.getBoundingClientRect().top + 24;
-            if (btnRect - bannerRect > canvasBannerDif)
-                sortBanner.style.display = 'none';
-        }, 100);
-    }
-};
-removeBanner();
 setSortRuntime();
