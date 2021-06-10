@@ -1,2 +1,2 @@
 "use strict";
-setLinearStructure(new ListaSimple());
+setLinearStructure(new ListaSimple(), false);

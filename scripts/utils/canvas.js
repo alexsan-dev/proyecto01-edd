@@ -27,16 +27,6 @@ var draw = function () {
         requestAnimationFrame(draw);
     }
 };
-var resetCanvas = function () {
-    if (canvasCtx) {
-        isDragging = false;
-        initialPinchDistance = null;
-        cameraOffset = { x: width / 2, y: height / 2 };
-        dragStart = { x: 0, y: 0 };
-        cameraZoom = 1;
-        lastZoom = 1;
-    }
-};
 var getEventLocation = function (event) {
     if (event.touches && event.touches.length == 1) {
         return { x: event.touches[0].clientX, y: event.touches[0].clientY };

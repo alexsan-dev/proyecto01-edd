@@ -3,6 +3,7 @@ const BAR_MARGIN: number = 10
 const BAR_WIDTH: number = 5
 const BAR_HEIGHT: number = 300
 let VELOCITY: number = 200
+canvasBannerDif = 20
 
 // GLOBALES
 let globalSortData: number[] = [
@@ -18,9 +19,7 @@ let fontSize: number = 20
 // ELEMENTOS
 const codeDataArray = document.getElementById('code-data-array')
 const sortStepText = document.getElementById('sort-step-text')
-const sortRuntime = document.getElementById('sort-runtime')
 const sortPerformance = document.getElementById('sort-performance')
-const sortLengthText = document.getElementById('sort-length')
 const sortBanner = document.getElementById('sort-banner')
 const startButton = document.getElementById('start-btn')
 
@@ -29,21 +28,6 @@ let sortMethod: (
 	data: number[],
 	stepCallback?: (newSortData: number[], step: number) => unknown,
 ) => unknown = () => null
-
-// COLORES
-const barColors: string[] = [
-	'#F44336',
-	'#E91E63',
-	'#9C27B0',
-	'#673AB7',
-	'#3F51B5',
-	'#2196F3',
-	'#009688',
-	'#4CAF50',
-	'#CDDC39',
-	'#FFC107',
-	'#FF5722',
-]
 
 // CARDAR JSON
 const onChangeSortLoad = (ev: Event): void => {
@@ -98,10 +82,11 @@ drawInCanvas = () => {
 		for (let barIndex: number = 0; barIndex < globalSortLength; barIndex++) {
 			// COLOR
 			canvasCtx.fillStyle =
-				barColors[
-					barIndex > barColors.length - 1
+				canvasObjectColors[
+					barIndex > canvasObjectColors.length - 1
 						? barIndex -
-						  barColors.length * Math.floor(barIndex / barColors.length)
+						  canvasObjectColors.length *
+								Math.floor(barIndex / canvasObjectColors.length)
 						: barIndex
 				]
 
@@ -177,7 +162,8 @@ const removeBanner = () => {
 			const btnRect = startButton.getBoundingClientRect().bottom
 			const bannerRect = sortBanner.getBoundingClientRect().top + 24
 
-			if (btnRect - bannerRect > 20) sortBanner.style.display = 'none'
+			if (btnRect - bannerRect > canvasBannerDif)
+				sortBanner.style.display = 'none'
 		}, 100)
 	}
 }

@@ -8,6 +8,7 @@ var BAR_MARGIN = 10;
 var BAR_WIDTH = 5;
 var BAR_HEIGHT = 300;
 var VELOCITY = 200;
+canvasBannerDif = 20;
 var globalSortData = [
     4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7,
 ];
@@ -19,25 +20,10 @@ var sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
 var fontSize = 20;
 var codeDataArray = document.getElementById('code-data-array');
 var sortStepText = document.getElementById('sort-step-text');
-var sortRuntime = document.getElementById('sort-runtime');
 var sortPerformance = document.getElementById('sort-performance');
-var sortLengthText = document.getElementById('sort-length');
 var sortBanner = document.getElementById('sort-banner');
 var startButton = document.getElementById('start-btn');
 var sortMethod = function () { return null; };
-var barColors = [
-    '#F44336',
-    '#E91E63',
-    '#9C27B0',
-    '#673AB7',
-    '#3F51B5',
-    '#2196F3',
-    '#009688',
-    '#4CAF50',
-    '#CDDC39',
-    '#FFC107',
-    '#FF5722',
-];
 var onChangeSortLoad = function (ev) {
     var input = ev.target;
     var file = input.files ? input.files[0] : null;
@@ -78,9 +64,10 @@ drawInCanvas = function () {
         canvasCtx.clearRect(0, 0, width, height);
         for (var barIndex = 0; barIndex < globalSortLength; barIndex++) {
             canvasCtx.fillStyle =
-                barColors[barIndex > barColors.length - 1
+                canvasObjectColors[barIndex > canvasObjectColors.length - 1
                     ? barIndex -
-                        barColors.length * Math.floor(barIndex / barColors.length)
+                        canvasObjectColors.length *
+                            Math.floor(barIndex / canvasObjectColors.length)
                     : barIndex];
             var rectX = sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20;
             var rectY = -(sortBarHeight * globalSortData[barIndex]) + 138;
@@ -127,7 +114,7 @@ var removeBanner = function () {
         setTimeout(function () {
             var btnRect = startButton.getBoundingClientRect().bottom;
             var bannerRect = sortBanner.getBoundingClientRect().top + 24;
-            if (btnRect - bannerRect > 20)
+            if (btnRect - bannerRect > canvasBannerDif)
                 sortBanner.style.display = 'none';
         }, 100);
     }

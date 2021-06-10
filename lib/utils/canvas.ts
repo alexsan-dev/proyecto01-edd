@@ -55,17 +55,7 @@ const draw = (): void => {
 	}
 }
 
-// REINICIAR CANVAS
-const resetCanvas = () => {
-	if (canvasCtx) {
-		isDragging = false
-		initialPinchDistance = null
-		cameraOffset = { x: width / 2, y: height / 2 }
-		dragStart = { x: 0, y: 0 }
-		cameraZoom = 1
-		lastZoom = 1
-	}
-}
+
 
 // OBTENER POSICIÓN DE PUNTERO O TOQUE
 const getEventLocation = (event: ScreenEvent): CanvasCoords => {
