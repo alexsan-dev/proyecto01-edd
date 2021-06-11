@@ -13,7 +13,8 @@ let globalSortLength: number = globalSortData.length
 let sortBarWidth: number = (BAR_WIDTH / globalSortLength) * 100
 let maxSortDataValue: number = Math.max(...globalSortData)
 let sortBarHeight: number = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
-let fontSize: number = 20
+let fontSize: number = 25
+let fontY: number = 20
 
 // ELEMENTOS
 const codeDataArray = document.getElementById('code-data-array')
@@ -38,10 +39,22 @@ fileUploadCallback = (json: JSONInputFile) => {
 	sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 
 	// TAMAÑOS DE FUENTE
-	if (globalSortLength > 0 && globalSortLength <= 10) fontSize = 25
-	else if (globalSortLength > 15 && globalSortLength <= 30) fontSize = 17
-	else if (globalSortLength > 30 && globalSortLength <= 50) fontSize = 13
-	else fontSize = 10
+	if (globalSortLength > 0 && globalSortLength <= 10) {
+		fontSize = 25
+		fontY = 20
+	} else if (globalSortLength > 10 && globalSortLength <= 15) {
+		fontSize = 25
+		fontY = 20
+	} else if (globalSortLength > 15 && globalSortLength <= 30) {
+		fontSize = 17
+		fontY = 30
+	} else if (globalSortLength > 30 && globalSortLength <= 50) {
+		fontSize = 13
+		fontY = 35
+	} else {
+		fontSize = 11
+		fontY = 38
+	}
 
 	// CAMBIAR MUESTRA DE CÓDIGO
 	if (sortLengthText) sortLengthText.textContent = globalSortLength.toString()
@@ -81,17 +94,19 @@ drawInCanvas = () => {
 				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20
 			const rectY: number = -(sortBarHeight * numericValue) + 138
 			const rectH: number = sortBarHeight * numericValue
+			const fontHeight: number =
+				fontSize - globalSortData[barIndex].toString().length * 2
+
 			canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH)
 
 			// TEXTO
 			canvasCtx.fillStyle = '#fff'
-			canvasCtx.font = `bold ${fontSize}px Montserrat`
+			canvasCtx.font = `bold ${fontHeight}px Montserrat`
 			canvasCtx.textAlign = 'center'
-			canvasCtx.textBaseline = 'middle'
 			canvasCtx.fillText(
 				globalSortData[barIndex].toString(),
 				rectX + sortBarWidth / 2,
-				160,
+				185 - fontY,
 			)
 		}
 	}

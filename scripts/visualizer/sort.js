@@ -16,7 +16,8 @@ var globalSortLength = globalSortData.length;
 var sortBarWidth = (BAR_WIDTH / globalSortLength) * 100;
 var maxSortDataValue = Math.max.apply(Math, globalSortData);
 var sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
-var fontSize = 20;
+var fontSize = 25;
+var fontY = 20;
 var codeDataArray = document.getElementById('code-data-array');
 var sortStepText = document.getElementById('sort-step-text');
 var sortPerformance = document.getElementById('sort-performance');
@@ -29,14 +30,26 @@ fileUploadCallback = function (json) {
     sortBarWidth = (BAR_WIDTH / valores.length) * 100;
     maxSortDataValue = Math.max.apply(Math, valores);
     sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
-    if (globalSortLength > 0 && globalSortLength <= 10)
+    if (globalSortLength > 0 && globalSortLength <= 10) {
         fontSize = 25;
-    else if (globalSortLength > 15 && globalSortLength <= 30)
+        fontY = 20;
+    }
+    else if (globalSortLength > 10 && globalSortLength <= 15) {
+        fontSize = 25;
+        fontY = 20;
+    }
+    else if (globalSortLength > 15 && globalSortLength <= 30) {
         fontSize = 17;
-    else if (globalSortLength > 30 && globalSortLength <= 50)
+        fontY = 30;
+    }
+    else if (globalSortLength > 30 && globalSortLength <= 50) {
         fontSize = 13;
-    else
-        fontSize = 10;
+        fontY = 35;
+    }
+    else {
+        fontSize = 11;
+        fontY = 38;
+    }
     if (sortLengthText)
         sortLengthText.textContent = globalSortLength.toString();
     if (codeDataArray)
@@ -64,12 +77,12 @@ drawInCanvas = function () {
             var rectX = sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20;
             var rectY = -(sortBarHeight * numericValue) + 138;
             var rectH = sortBarHeight * numericValue;
+            var fontHeight = fontSize - globalSortData[barIndex].toString().length * 2;
             canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH);
             canvasCtx.fillStyle = '#fff';
-            canvasCtx.font = "bold " + fontSize + "px Montserrat";
+            canvasCtx.font = "bold " + fontHeight + "px Montserrat";
             canvasCtx.textAlign = 'center';
-            canvasCtx.textBaseline = 'middle';
-            canvasCtx.fillText(globalSortData[barIndex].toString(), rectX + sortBarWidth / 2, 160);
+            canvasCtx.fillText(globalSortData[barIndex].toString(), rectX + sortBarWidth / 2, 185 - fontY);
         }
     }
 };

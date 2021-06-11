@@ -137,14 +137,13 @@ drawInCanvas = () => {
 			canvasCtx.closePath()
 
 			// TEXTO
+			const nodeValue = linearStructure
+				? linearStructure.obtener(nodeIndex).valor.toString()
+				: ''
 			if (linearStructure) {
-				canvasCtx.font = 'bold 20px Montserrat'
+				canvasCtx.font = `bold ${20 - nodeValue.length * 0.5}px Montserrat`
 				canvasCtx.textAlign = 'center'
-				canvasCtx.fillText(
-					linearStructure.obtener(nodeIndex).valor.toString(),
-					nodeX,
-					-50,
-				)
+				canvasCtx.fillText(nodeValue, nodeX, -50)
 			}
 
 			// FLECHA NODO SIGUIENTE
