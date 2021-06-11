@@ -2,7 +2,7 @@
 const BAR_MARGIN: number = 10
 const BAR_WIDTH: number = 5
 const BAR_HEIGHT: number = 300
-canvasBannerDif = 25
+canvasBannerDif = 60
 
 // GLOBALES
 let globalSortData: number[] = [
@@ -73,11 +73,14 @@ drawInCanvas = () => {
 				]
 
 			// BARRA
+			const numericValue: number =
+				typeof globalSortData[barIndex] === 'string'
+					? barIndex
+					: globalSortData[barIndex]
 			const rectX: number =
 				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20
-			const rectY: number = -(sortBarHeight * globalSortData[barIndex]) + 138
-			const rectH: number = sortBarHeight * globalSortData[barIndex]
-
+			const rectY: number = -(sortBarHeight * numericValue) + 138
+			const rectH: number = sortBarHeight * numericValue
 			canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH)
 
 			// TEXTO

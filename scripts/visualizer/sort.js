@@ -7,7 +7,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 var BAR_MARGIN = 10;
 var BAR_WIDTH = 5;
 var BAR_HEIGHT = 300;
-canvasBannerDif = 25;
+canvasBannerDif = 60;
 var globalSortData = [
     4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7,
 ];
@@ -58,9 +58,12 @@ drawInCanvas = function () {
                         canvasObjectColors.length *
                             Math.floor(barIndex / canvasObjectColors.length)
                     : barIndex];
+            var numericValue = typeof globalSortData[barIndex] === 'string'
+                ? barIndex
+                : globalSortData[barIndex];
             var rectX = sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20;
-            var rectY = -(sortBarHeight * globalSortData[barIndex]) + 138;
-            var rectH = sortBarHeight * globalSortData[barIndex];
+            var rectY = -(sortBarHeight * numericValue) + 138;
+            var rectH = sortBarHeight * numericValue;
             canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH);
             canvasCtx.fillStyle = '#fff';
             canvasCtx.font = "bold " + fontSize + "px Montserrat";

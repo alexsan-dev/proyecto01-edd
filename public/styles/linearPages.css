@@ -4,8 +4,9 @@
 
 .sort-banner {
 	width: 530px;
-	bottom: -50px;
-	right: 25px;
+	bottom: -140px;
+	right: -50px;
+	transform: scaleX(1);
 }
 
 nav > div > ul > li > .range-container,

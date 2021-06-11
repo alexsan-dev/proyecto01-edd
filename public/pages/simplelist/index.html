@@ -185,7 +185,7 @@
 									<li>
 										<label class="btn" type="button" aria-label="Agregar">
 											<i class="icon-repeat"></i>Repetición<input
-											checked="true"
+												checked="true"
 												onchange="changeRepeatValues(event)"
 												type="checkbox"
 												id="repeat-elements-switch"
@@ -210,31 +210,55 @@
 								</ul>
 							</div>
 						</li>
-					</ul>
-				</div>
-			</nav>
-
-			<div class="editor">
-				<pre><code><strong style="color:var(--ice)">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style="color:var(--ice)">ListaSimple</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--ice)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()
+						<li class="test-code-btn">
+							<input
+								type="checkbox"
+								style="display: none"
+								checked='true'
+								id="show-code-menu"
+							/>
+							<label class="btn" for="show-code-menu" type="button">
+								<i class="icon-code"></i>Muestra de código
+								<i class="icon-chevron-down"></i>
+							</label>
+							<div class="editor">
+								<pre><code><strong style="color:var(--ice)">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style="color:var(--ice)">ListaSimple</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--ice)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()
 
 data.<strong style="color: var(--green)">insertar</strong>(<strong style="color: var(--lightPurple)">1</strong>)
 data.<strong style="color: var(--green)">insertar</strong>(<strong style="color: var(--lightPurple)">2</strong>)
 data.<strong style="color: var(--green)">insertar</strong>(<strong style="color: var(--lightPurple)">3</strong>)
 data.<strong style="color: var(--green)">insertar</strong>(<strong style="color: var(--lightPurple)">4</strong>)
 data.<strong style="color: var(--green)">insertar</strong>(<strong style="color: var(--lightPurple)">5</strong>)</code></pre>
-				<ul>
-					<li>
-						<button class="reset" onclick="resetCanvas()" type="button">
-							<i class="icon-repeat"></i>
-						</button>
-					</li>
-					<li>
-						<button id="start-btn" type="button" onclick="startSorting()">
-							<i class="icon-play"></i>Iniciar
-						</button>
-					</li>
-				</ul>
-			</div>
+								<ul>
+									<li>
+										<button class="reset" onclick="resetCanvas()" type="button">
+											<i class="icon-repeat"></i>
+										</button>
+									</li>
+									<li>
+										<label
+										class="btn"
+										for='show-code-menu'
+											id="start-btn"
+											type="button"
+											onclick="startSorting()"
+										>
+											<i class="icon-play"></i>Iniciar
+										</label>
+									</li>
+								</ul>
+							</div>
+							<div class="sort-banner">
+								<img
+									id="sort-banner"
+									src="../../images/pages/list.png"
+									alt="Bot"
+								/>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
 
 			<div class="grid">
 				<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -270,10 +294,6 @@ data.<strong style="color: var(--green)">insertar</strong>(<strong style="color:
 
 					<rect width="100%" height="100%" fill="url(#grid)" />
 				</svg>
-			</div>
-
-			<div class="sort-banner">
-				<img id="sort-banner" src="../../images/pages/list.png" alt="Bot" />
 			</div>
 
 			<canvas id="canvas"></canvas>

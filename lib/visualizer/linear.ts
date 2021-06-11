@@ -11,7 +11,7 @@ let insertMode: InsertMode = 'start'
 let repeatValues: boolean = true
 let newNodeValue: string = ''
 let oldNodeValue: string = ''
-canvasBannerDif = 135
+canvasBannerDif = 110
 
 // ELEMENTOS
 const editor = document.querySelector('.editor > pre > code')
@@ -151,7 +151,20 @@ drawInCanvas = () => {
 			if (nodeIndex < linearStructureLength - 1) {
 				canvasCtx.beginPath()
 				canvasCtx.fillStyle = 'white'
-				canvasCtx.arrow(nodeX + 5 + (simple ? 25 : 0), -1, simple ? 120 : 95, 4)
+
+				if (simple) {
+					canvasCtx.save()
+					canvasCtx.scale(2, 2)
+					canvasCtx.translate(225, 0)
+				}
+				canvasCtx.arrow(
+					(simple ? nodeX / 2 : nodeX) + 5 + (simple ? -215 : 0),
+					-1,
+					simple ? 60 : 95,
+					4,
+				)
+				if (simple) canvasCtx.restore()
+				canvasCtx.closePath()
 			}
 
 			// FLECHA NODO ANTERIOR

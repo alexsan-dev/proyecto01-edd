@@ -31,18 +31,22 @@ nav {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	z-index: 3;
+	z-index: 4;
 }
 
 nav > div {
-	display: flex;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	justify-content: flex-start;
 	align-items: center;
+	width: 100%;
 }
 
 nav > div > h1 {
 	display: flex;
 	align-items: center;
 	font-size: 1em;
+	width: auto;
 	color: var(--moonOceanOpal);
 }
 
@@ -71,6 +75,13 @@ nav > div > ul {
 
 nav > div > ul {
 	margin-left: 20px;
+	position: relative;
+	width: 100%;
+}
+
+nav > div > ul > li.test-code-btn {
+	position: absolute;
+	right: 15px;
 }
 
 nav > ul > li > button,
@@ -114,15 +125,21 @@ nav > div > ul > li > .range-container > input {
 nav > div > ul > li > #show-velocity:checked ~ .range-container,
 nav > div > ul > li > #show-files-menu:checked ~ .files-menu-container,
 nav > div > ul > li > #show-nodes-menu:checked ~ .nodes-menu-container,
-nav > div > ul > li > #show-settings-menu:checked ~ .settings-menu-container {
+nav > div > ul > li > #show-settings-menu:checked ~ .settings-menu-container,
+nav > div > ul > li > #show-code-menu:checked ~ .editor {
 	opacity: 1;
 	pointer-events: all;
+}
+
+nav > div > ul > li > #show-code-menu:checked ~ .sort-banner {
+	opacity: 1;
 }
 
 nav > div > ul > li > #show-velocity ~ label > i:last-child,
 nav > div > ul > li > #show-nodes-menu ~ label > i:last-child,
 nav > div > ul > li > #show-files-menu ~ label > i:last-child,
-nav > div > ul > li > #show-settings-menu ~ label > i:last-child {
+nav > div > ul > li > #show-settings-menu ~ label > i:last-child,
+nav > div > ul > li > #show-code-menu ~ label > i:last-child {
 	transform: rotate(0deg);
 	transition: transform 0.2s ease-in-out;
 }
@@ -130,7 +147,8 @@ nav > div > ul > li > #show-settings-menu ~ label > i:last-child {
 nav > div > ul > li > #show-velocity:checked ~ label > i:last-child,
 nav > div > ul > li > #show-files-menu:checked ~ label > i:last-child,
 nav > div > ul > li > #show-nodes-menu:checked ~ label > i:last-child,
-nav > div > ul > li > #show-settings-menu:checked ~ label > i:last-child {
+nav > div > ul > li > #show-settings-menu:checked ~ label > i:last-child,
+nav > div > ul > li > #show-code-menu:checked ~ label > i:last-child {
 	transform: rotate(180deg);
 }
 
@@ -227,25 +245,34 @@ canvas {
 .editor {
 	display: block;
 	position: absolute;
-	top: 25px;
-	right: 30px;
+	top: 53px;
+	right: 5px;
 	width: 475px;
-	max-height: calc(100vh - 110px);
+	max-height: calc(100vh - 195px);
 	z-index: 3;
 	background: var(--holeNight);
 	padding: 30px;
 	border-radius: var(--radius);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease-in-out;
 }
 
 .editor > pre {
 	width: 100%;
-	height: 100%;
-	overflow-x: auto;
-	overflow-y: auto;
+	max-height: calc(100vh - 255px);
+	overflow-x: hidden;
 	white-space: pre-wrap;
 	word-wrap: break-word;
+	overflow-y: auto;
 	user-select: none;
 	color: #fff;
+	scrollbar-width: none;
+}
+
+.editor > pre::-webkit-scrollbar {
+	display: none;
+	width: 0;
 }
 
 .editor > ul {
@@ -255,7 +282,8 @@ canvas {
 	right: 0;
 }
 
-.editor > ul:last-child > li:first-child > button {
+.editor > ul:last-child > li:first-child > button,
+.editor > ul:last-child > li:first-child > .btn {
 	position: relative;
 	top: 10px;
 	left: 15px;
@@ -267,11 +295,13 @@ canvas {
 	z-index: 2;
 }
 
-.editor > ul:last-child > li:first-child > button > i {
+.editor > ul:last-child > li:first-child > button > i,
+.editor > ul:last-child > li:first-child > .btn > i {
 	margin: 0;
 }
 
-.editor > ul:last-child > li:last-child > button {
+.editor > ul:last-child > li:last-child > button,
+.editor > ul:last-child > li:last-child > .btn {
 	position: relative;
 	top: 23px;
 	margin-right: 8px;
@@ -288,15 +318,18 @@ canvas {
 .sort-banner {
 	position: absolute;
 	width: 450px;
-	bottom: -20px;
-	right: -100px;
-	z-index: 4;
+	height: 100%;
+	bottom: -135px;
+	right: 5px;
+	z-index: 3;
 	pointer-events: none;
+	transform: scaleX(-1);
+	transition: opacity 0.2s ease-in-out;
+	opacity: 0;
 }
 
 .sort-banner > img {
-	height: 100%;
-	width: 100%;
+	width: 450px;
 }
 
 footer {

@@ -6,7 +6,7 @@ var insertMode = 'start';
 var repeatValues = true;
 var newNodeValue = '';
 var oldNodeValue = '';
-canvasBannerDif = 135;
+canvasBannerDif = 110;
 var editor = document.querySelector('.editor > pre > code');
 var navBtns = document.querySelectorAll('.nav-btn');
 var setLinearStructure = function (newLinearStructure, newSimple) {
@@ -96,7 +96,15 @@ drawInCanvas = function () {
             if (nodeIndex < linearStructureLength - 1) {
                 canvasCtx.beginPath();
                 canvasCtx.fillStyle = 'white';
-                canvasCtx.arrow(nodeX + 5 + (simple ? 25 : 0), -1, simple ? 120 : 95, 4);
+                if (simple) {
+                    canvasCtx.save();
+                    canvasCtx.scale(2, 2);
+                    canvasCtx.translate(225, 0);
+                }
+                canvasCtx.arrow((simple ? nodeX / 2 : nodeX) + 5 + (simple ? -215 : 0), -1, simple ? 60 : 95, 4);
+                if (simple)
+                    canvasCtx.restore();
+                canvasCtx.closePath();
             }
             if (nodeIndex > 0 && !simple) {
                 canvasCtx.beginPath();
