@@ -3,7 +3,8 @@ let linearStructure: LinearStructure | null = null
 let linearStructureLength: number = 0
 let isCircular: boolean = false
 let isSimple: boolean = true
-let className:string = 'ListaSimple'
+let isLikeStack: boolean = false
+let className: string = 'ListaSimple'
 
 // TIPOS
 type InsertMode = 'start' | 'end' | 'order'
@@ -23,13 +24,15 @@ const navBtns = document.querySelectorAll('.nav-btn')
 const setLinearStructure = (
 	newLinearStructure: LinearStructure | null,
 	linearClassName: string,
-	isSimpleLinear: boolean,
-	isCircularLinear: boolean = false,
+	simple: boolean,
+	circular: boolean = false,
+	likeStack: boolean = false,
 ) => {
 	linearStructure = newLinearStructure
-	isSimple = isSimpleLinear
-	className =linearClassName
-	isCircular = isCircularLinear
+	isSimple = simple
+	className = linearClassName
+	isCircular = circular
+	isLikeStack = likeStack
 
 	if (linearStructure) {
 		linearStructure.insertar(1)
@@ -121,8 +124,8 @@ fileUploadCallback = (json: JSONInputFile) => {
 	// TEXTOS
 	linearStructureLength = 0
 	if (editor)
-	// @ts-ignore
-		editor.innerHTML = `<strong style="color:var(--ice)">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style="color:var(--ice)">${className}</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--ice)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()\n`
+		// @ts-ignore
+		editor.innerHTML = `<strong style="color:var(--monoConstIce)">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style="color:var(--monoClassIce)">${className}</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--monoNumberIce)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()\n`
 
 	// ITERAR
 	valores.forEach((valor: string | number) => {
@@ -149,7 +152,7 @@ drawInCanvas = () => {
 				// COLOR
 				canvasCtx.save()
 				canvasCtx.globalAlpha = 0.5
-				canvasCtx.fillStyle = '#aaa'
+				canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
 				canvasCtx.strokeStyle =
 					canvasObjectColors[
 						linearStructureLength + 2 > canvasObjectColors.length - 1
@@ -169,6 +172,7 @@ drawInCanvas = () => {
 					? linearStructure.obtener(linearStructureLength - 1).valor.toString()
 					: ''
 				if (linearStructure) {
+					canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 					canvasCtx.font = `bold ${20 - nodeEndValue.length * 0.5}px Montserrat`
 					canvasCtx.textAlign = 'center'
 					canvasCtx.fillText(nodeEndValue, nodeEndX, -50)
@@ -178,10 +182,10 @@ drawInCanvas = () => {
 
 			// CIRCULO
 			canvasCtx.beginPath()
-			canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI)
+			if (!isLikeStack) canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI)
 
 			// COLOR
-			canvasCtx.fillStyle = '#aaa'
+			canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
 			canvasCtx.strokeStyle =
 				canvasObjectColors[
 					nodeIndex > canvasObjectColors.length - 1
@@ -191,8 +195,15 @@ drawInCanvas = () => {
 						: nodeIndex
 				]
 			canvasCtx.lineWidth = 7
-			canvasCtx.stroke()
-			canvasCtx.fill()
+
+			if (!isLikeStack) {
+				canvasCtx.stroke()
+				canvasCtx.fill()
+			} else {
+				canvasCtx.strokeRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80)
+				canvasCtx.fillRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80)
+			}
+
 			canvasCtx.closePath()
 
 			// TEXTO
@@ -200,15 +211,21 @@ drawInCanvas = () => {
 				? linearStructure.obtener(nodeIndex).valor.toString()
 				: ''
 			if (linearStructure) {
+				canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 				canvasCtx.font = `bold ${20 - nodeValue.length * 0.5}px Montserrat`
 				canvasCtx.textAlign = 'center'
-				canvasCtx.fillText(nodeValue, nodeX, -50)
+				canvasCtx.fillText(
+					nodeValue,
+					isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX,
+					isLikeStack ? -55 : -50,
+				)
 			}
 
 			// FLECHA NODO SIGUIENTE
 			if (
-				nodeIndex < linearStructureLength - 1 ||
-				(isCircular && nodeIndex === linearStructureLength - 1)
+				(nodeIndex < linearStructureLength - 1 ||
+					(isCircular && nodeIndex === linearStructureLength - 1)) &&
+				!isLikeStack
 			) {
 				const isCircularEnd =
 					isCircular && nodeIndex === linearStructureLength - 1
@@ -225,7 +242,7 @@ drawInCanvas = () => {
 					if (isCircularEnd) canvasCtx.globalAlpha = 0.5
 				}
 
-				canvasCtx.fillStyle = 'white'
+				canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb'
 				canvasCtx.arrow(
 					(isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0),
 					-1,
@@ -247,7 +264,7 @@ drawInCanvas = () => {
 				// COLOR
 				canvasCtx.save()
 				canvasCtx.globalAlpha = 0.5
-				canvasCtx.fillStyle = '#aaa'
+				canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
 				canvasCtx.strokeStyle =
 					canvasObjectColors[
 						nodeIndex + 1 > canvasObjectColors.length - 1
@@ -267,6 +284,7 @@ drawInCanvas = () => {
 					? linearStructure.obtener(0).valor.toString()
 					: ''
 				if (linearStructure) {
+					canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 					canvasCtx.font = `bold ${
 						20 - nodeRootValue.length * 0.5
 					}px Montserrat`
@@ -296,7 +314,7 @@ drawInCanvas = () => {
 				}
 
 				canvasCtx.beginPath()
-				canvasCtx.fillStyle = 'white'
+				canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb'
 				canvasCtx.arrow(nodeX + 5 - 105, -1, 95, 4, true, true)
 				canvasCtx.closePath()
 
@@ -334,7 +352,7 @@ const addTestCode = (method: string, value: string) => {
 	if (editor)
 		editor.innerHTML =
 			editor.innerHTML +
-			`\ndata.<strong style="color: var(--green)">${method}</strong>(<strong style="color: var(--lightPurple)">${value}</strong>)`
+			`\ndata.<strong style="color: var(--monoFuncGreen)">${method}</strong>(<strong style="color: var(--lightPurple)">${value}</strong>)`
 }
 
 // AGREGAR NODO

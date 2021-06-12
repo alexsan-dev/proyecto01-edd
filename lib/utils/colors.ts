@@ -15,6 +15,13 @@ interface IColor {
 
 // COLORES PRIMARIOS
 const primaryColors: IPColor[] = [
+	{ name: '--monoLight', value: '#fafafa' },
+	{ name: '--monoConst', value: '#299cbf' },
+	{ name: '--monoText', value: '#65645c' },
+	{ name: '--keyword', value: '#f9055d' },
+	{ name: '--monoClass', value: '#7f68a9' },
+	{ name: '--monoNumber', value: '#cf7102' },
+	{ name: '--monoFunc', value: '#0089b3' },
 	{ name: '--paper', value: '#f2f2f2' },
 	{ name: '--pale', value: '#e5e5e5' },
 	{ name: '--lightPale', value: '#f2f2f2' },
@@ -53,6 +60,7 @@ const primaryColors: IPColor[] = [
 
 // COLORES INMUTABLES
 const localDarkValue: string | null = window.localStorage.getItem('darkmode')
+const isDarkMode:boolean = localDarkValue === '1'
 const baseColors: IColor[] = []
 
 // PERMUTACIÓN DE COLORES

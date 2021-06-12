@@ -62,7 +62,6 @@ fileUploadCallback = (json: JSONInputFile) => {
 	allStrings = valores.every((valor) => typeof valor === 'string')
 	if (allStrings) {
 		// @ts-ignore
-		// @ts-ignore
 		let sortedStrings: string[] = [...valores].sort((a, b) =>
 			// @ts-ignore
 			a.localeCompare(b),
@@ -73,7 +72,6 @@ fileUploadCallback = (json: JSONInputFile) => {
 			// @ts-ignore
 			(valor: string) => sortedStrings.indexOf(valor) + 1,
 		)
-		console.log(sortedStrings, unSortedStrings)
 
 		// ASIGNACIÓN
 		globalCopySortData = globalSortData = unSortedStrings
@@ -133,7 +131,7 @@ drawInCanvas = () => {
 				canvasCtx.rotate(-Math.PI / 2)
 			}
 
-			canvasCtx.fillStyle = '#fff'
+			canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 			canvasCtx.font = `bold ${fontHeight}px Montserrat`
 			canvasCtx.textAlign = allStrings ? 'right' : 'center'
 			canvasCtx.fillText(barValue, rectX + sortBarWidth / 2, 185 - fontY)
@@ -162,7 +160,7 @@ const startSorting = () => {
 	})
 }
 
-// TIEMPO DE EJECUCION
+// TIEMPO DE EJECUCIÓN
 const setSortRuntime = () => {
 	// CALCULAR TIEMPO
 	const t0 = performance.now()

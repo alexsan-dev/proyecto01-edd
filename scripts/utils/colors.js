@@ -3,6 +3,13 @@ var toCamelCase = function (text) {
     return text.replace(text.charAt(0), text.charAt(0).toUpperCase());
 };
 var primaryColors = [
+    { name: '--monoLight', value: '#fafafa' },
+    { name: '--monoConst', value: '#299cbf' },
+    { name: '--monoText', value: '#65645c' },
+    { name: '--keyword', value: '#f9055d' },
+    { name: '--monoClass', value: '#7f68a9' },
+    { name: '--monoNumber', value: '#cf7102' },
+    { name: '--monoFunc', value: '#0089b3' },
     { name: '--paper', value: '#f2f2f2' },
     { name: '--pale', value: '#e5e5e5' },
     { name: '--lightPale', value: '#f2f2f2' },
@@ -39,6 +46,7 @@ var primaryColors = [
     { name: '--brightSoda', value: '#ffe6e8' },
 ];
 var localDarkValue = window.localStorage.getItem('darkmode');
+var isDarkMode = localDarkValue === '1';
 var baseColors = [];
 var colorPer = [];
 primaryColors.forEach(function (pColor) {

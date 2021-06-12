@@ -3,6 +3,7 @@ var linearStructure = null;
 var linearStructureLength = 0;
 var isCircular = false;
 var isSimple = true;
+var isLikeStack = false;
 var className = 'ListaSimple';
 var insertMode = 'start';
 var repeatValues = true;
@@ -11,12 +12,14 @@ var oldNodeValue = '';
 canvasBannerDif = 110;
 var editor = document.querySelector('.editor > pre > code');
 var navBtns = document.querySelectorAll('.nav-btn');
-var setLinearStructure = function (newLinearStructure, linearClassName, isSimpleLinear, isCircularLinear) {
-    if (isCircularLinear === void 0) { isCircularLinear = false; }
+var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack) {
+    if (circular === void 0) { circular = false; }
+    if (likeStack === void 0) { likeStack = false; }
     linearStructure = newLinearStructure;
-    isSimple = isSimpleLinear;
+    isSimple = simple;
     className = linearClassName;
-    isCircular = isCircularLinear;
+    isCircular = circular;
+    isLikeStack = likeStack;
     if (linearStructure) {
         linearStructure.insertar(1);
         linearStructure.insertar(2);
@@ -75,7 +78,7 @@ fileUploadCallback = function (json) {
             linearStructure.pop();
     linearStructureLength = 0;
     if (editor)
-        editor.innerHTML = "<strong style=\"color:var(--ice)\">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style=\"color:var(--ice)\">" + className + "</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--ice)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
+        editor.innerHTML = "<strong style=\"color:var(--monoConstIce)\">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style=\"color:var(--monoClassIce)\">" + className + "</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--monoNumberIce)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
     valores.forEach(function (valor) {
         newNodeValue = valor.toString();
         addNode();
@@ -92,7 +95,7 @@ drawInCanvas = function () {
                 canvasCtx.arc(nodeEndX, 0, 30, 0, 2 * Math.PI);
                 canvasCtx.save();
                 canvasCtx.globalAlpha = 0.5;
-                canvasCtx.fillStyle = '#aaa';
+                canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
                 canvasCtx.strokeStyle =
                     canvasObjectColors[linearStructureLength + 2 > canvasObjectColors.length - 1
                         ? linearStructureLength +
@@ -108,6 +111,7 @@ drawInCanvas = function () {
                     ? linearStructure.obtener(linearStructureLength - 1).valor.toString()
                     : '';
                 if (linearStructure) {
+                    canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
                     canvasCtx.font = "bold " + (20 - nodeEndValue.length * 0.5) + "px Montserrat";
                     canvasCtx.textAlign = 'center';
                     canvasCtx.fillText(nodeEndValue, nodeEndX, -50);
@@ -115,8 +119,9 @@ drawInCanvas = function () {
                 canvasCtx.restore();
             }
             canvasCtx.beginPath();
-            canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI);
-            canvasCtx.fillStyle = '#aaa';
+            if (!isLikeStack)
+                canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI);
+            canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
             canvasCtx.strokeStyle =
                 canvasObjectColors[nodeIndex > canvasObjectColors.length - 1
                     ? nodeIndex -
@@ -124,19 +129,27 @@ drawInCanvas = function () {
                             Math.floor(nodeIndex / canvasObjectColors.length)
                     : nodeIndex];
             canvasCtx.lineWidth = 7;
-            canvasCtx.stroke();
-            canvasCtx.fill();
+            if (!isLikeStack) {
+                canvasCtx.stroke();
+                canvasCtx.fill();
+            }
+            else {
+                canvasCtx.strokeRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80);
+                canvasCtx.fillRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80);
+            }
             canvasCtx.closePath();
             var nodeValue = linearStructure
                 ? linearStructure.obtener(nodeIndex).valor.toString()
                 : '';
             if (linearStructure) {
+                canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
                 canvasCtx.font = "bold " + (20 - nodeValue.length * 0.5) + "px Montserrat";
                 canvasCtx.textAlign = 'center';
-                canvasCtx.fillText(nodeValue, nodeX, -50);
+                canvasCtx.fillText(nodeValue, isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX, isLikeStack ? -55 : -50);
             }
-            if (nodeIndex < linearStructureLength - 1 ||
-                (isCircular && nodeIndex === linearStructureLength - 1)) {
+            if ((nodeIndex < linearStructureLength - 1 ||
+                (isCircular && nodeIndex === linearStructureLength - 1)) &&
+                !isLikeStack) {
                 var isCircularEnd = isCircular && nodeIndex === linearStructureLength - 1;
                 canvasCtx.beginPath();
                 if (isSimple || isCircular) {
@@ -148,7 +161,7 @@ drawInCanvas = function () {
                     if (isCircularEnd)
                         canvasCtx.globalAlpha = 0.5;
                 }
-                canvasCtx.fillStyle = 'white';
+                canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb';
                 canvasCtx.arrow((isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0), -1, isSimple ? (isCircularEnd ? 36 : 60) : 95, 4);
                 canvasCtx.closePath();
                 if (isSimple || isCircular)
@@ -160,7 +173,7 @@ drawInCanvas = function () {
                 canvasCtx.arc(nodeRootX, 0, 30, 0, 2 * Math.PI);
                 canvasCtx.save();
                 canvasCtx.globalAlpha = 0.5;
-                canvasCtx.fillStyle = '#aaa';
+                canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
                 canvasCtx.strokeStyle =
                     canvasObjectColors[nodeIndex + 1 > canvasObjectColors.length - 1
                         ? nodeIndex +
@@ -176,6 +189,7 @@ drawInCanvas = function () {
                     ? linearStructure.obtener(0).valor.toString()
                     : '';
                 if (linearStructure) {
+                    canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
                     canvasCtx.font = "bold " + (20 - nodeRootValue.length * 0.5) + "px Montserrat";
                     canvasCtx.textAlign = 'center';
                     canvasCtx.fillText(nodeRootValue, nodeRootX, -50);
@@ -195,7 +209,7 @@ drawInCanvas = function () {
                     }
                 }
                 canvasCtx.beginPath();
-                canvasCtx.fillStyle = 'white';
+                canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb';
                 canvasCtx.arrow(nodeX + 5 - 105, -1, 95, 4, true, true);
                 canvasCtx.closePath();
                 if (!isSimple || isCircular)
@@ -224,7 +238,7 @@ var addTestCode = function (method, value) {
     if (editor)
         editor.innerHTML =
             editor.innerHTML +
-                ("\ndata.<strong style=\"color: var(--green)\">" + method + "</strong>(<strong style=\"color: var(--lightPurple)\">" + value + "</strong>)");
+                ("\ndata.<strong style=\"color: var(--monoFuncGreen)\">" + method + "</strong>(<strong style=\"color: var(--lightPurple)\">" + value + "</strong>)");
 };
 var addNode = function () {
     if (linearStructure && newNodeValue.length > 0) {

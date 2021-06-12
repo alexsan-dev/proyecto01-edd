@@ -59,7 +59,6 @@ fileUploadCallback = function (json) {
         });
         globalCopyStringData = sortedStrings_1;
         var unSortedStrings = valores.map(function (valor) { return sortedStrings_1.indexOf(valor) + 1; });
-        console.log(sortedStrings_1, unSortedStrings);
         globalCopySortData = globalSortData = unSortedStrings;
         globalSortLength = unSortedStrings.length;
         sortBarWidth = (BAR_WIDTH / unSortedStrings.length) * 100;
@@ -100,7 +99,7 @@ drawInCanvas = function () {
                 canvasCtx.translate(rectX * 2 - rectX - 142, 180 + rectX - fontY + 7);
                 canvasCtx.rotate(-Math.PI / 2);
             }
-            canvasCtx.fillStyle = '#fff';
+            canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
             canvasCtx.font = "bold " + fontHeight + "px Montserrat";
             canvasCtx.textAlign = allStrings ? 'right' : 'center';
             canvasCtx.fillText(barValue, rectX + sortBarWidth / 2, 185 - fontY);
