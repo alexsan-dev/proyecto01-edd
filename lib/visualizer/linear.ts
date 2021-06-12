@@ -1,7 +1,8 @@
 // GLOBAL
 let linearStructure: LinearStructure | null = null
-let simple: boolean = true
 let linearStructureLength: number = 0
+let isCircular: boolean = false
+let isSimple: boolean = true
 
 // TIPOS
 type InsertMode = 'start' | 'end' | 'order'
@@ -20,10 +21,12 @@ const navBtns = document.querySelectorAll('.nav-btn')
 // DATOS INICIALES
 const setLinearStructure = (
 	newLinearStructure: LinearStructure | null,
-	newSimple: boolean,
+	isSimpleLinear: boolean,
+	isCircularLinear: boolean = false,
 ) => {
 	linearStructure = newLinearStructure
-	simple = newSimple
+	isSimple = isSimpleLinear
+	isCircular = isCircularLinear
 
 	if (linearStructure) {
 		linearStructure.insertar(1)
@@ -102,6 +105,21 @@ CanvasRenderingContext2D.prototype.arrow = function (
 // LEER ARCHIVO
 fileUploadCallback = (json: JSONInputFile) => {
 	const { valores } = json
+
+	// BORRAR
+	if (linearStructure)
+		for (
+			let linearIndex: number = 0;
+			linearIndex < linearStructureLength;
+			linearIndex++
+		)
+			linearStructure.pop()
+
+	// TEXTOS
+	linearStructureLength = 0
+	if (editor)
+		editor.innerHTML = `<strong style="color:var(--ice)">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style="color:var(--ice)">ListaSimple</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--ice)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()\n`
+
 	// ITERAR
 	valores.forEach((valor: string | number) => {
 		newNodeValue = valor.toString()
@@ -116,6 +134,43 @@ drawInCanvas = () => {
 		for (let nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
 			// POSICIONES
 			const nodeX: number = -579 + 150 * nodeIndex
+
+			// NODO FINAL LISTA CIRCULAR
+			if (isCircular && nodeIndex === 0 && !isSimple) {
+				const nodeEndX = -530 + 150 * -1
+
+				canvasCtx.beginPath()
+				canvasCtx.arc(nodeEndX, 0, 30, 0, 2 * Math.PI)
+
+				// COLOR
+				canvasCtx.save()
+				canvasCtx.globalAlpha = 0.5
+				canvasCtx.fillStyle = '#aaa'
+				canvasCtx.strokeStyle =
+					canvasObjectColors[
+						linearStructureLength + 2 > canvasObjectColors.length - 1
+							? linearStructureLength +
+							  2 -
+							  canvasObjectColors.length *
+									Math.floor(linearStructureLength / canvasObjectColors.length)
+							: linearStructureLength + 2
+					]
+				canvasCtx.lineWidth = 7
+				canvasCtx.stroke()
+				canvasCtx.fill()
+				canvasCtx.closePath()
+
+				// TEXTO
+				const nodeEndValue = linearStructure
+					? linearStructure.obtener(linearStructureLength - 1).valor.toString()
+					: ''
+				if (linearStructure) {
+					canvasCtx.font = `bold ${20 - nodeEndValue.length * 0.5}px Montserrat`
+					canvasCtx.textAlign = 'center'
+					canvasCtx.fillText(nodeEndValue, nodeEndX, -50)
+				}
+				canvasCtx.restore()
+			}
 
 			// CIRCULO
 			canvasCtx.beginPath()
@@ -147,31 +202,101 @@ drawInCanvas = () => {
 			}
 
 			// FLECHA NODO SIGUIENTE
-			if (nodeIndex < linearStructureLength - 1) {
+			if (
+				nodeIndex < linearStructureLength - 1 ||
+				(isCircular && nodeIndex === linearStructureLength - 1)
+			) {
+				const isCircularEnd =
+					isCircular && nodeIndex === linearStructureLength - 1
 				canvasCtx.beginPath()
-				canvasCtx.fillStyle = 'white'
 
-				if (simple) {
+				if (isSimple || isCircular) {
 					canvasCtx.save()
-					canvasCtx.scale(2, 2)
-					canvasCtx.translate(225, 0)
+
+					if (isSimple) {
+						canvasCtx.scale(2, 2)
+						canvasCtx.translate(225, 0)
+					}
+
+					if (isCircularEnd) canvasCtx.globalAlpha = 0.5
 				}
+
+				canvasCtx.fillStyle = 'white'
 				canvasCtx.arrow(
-					(simple ? nodeX / 2 : nodeX) + 5 + (simple ? -215 : 0),
+					(isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0),
 					-1,
-					simple ? 60 : 95,
+					isSimple ? (isCircularEnd ? 36 : 60) : 95,
 					4,
 				)
-				if (simple) canvasCtx.restore()
+
 				canvasCtx.closePath()
+				if (isSimple || isCircular) canvasCtx.restore()
+			}
+
+			// NODO FINAL LISTA CIRCULAR
+			if (isCircular && nodeIndex === linearStructureLength - 1) {
+				// CIRCULO
+				const nodeRootX = -625 + 150 * (nodeIndex + 1)
+				canvasCtx.beginPath()
+				canvasCtx.arc(nodeRootX, 0, 30, 0, 2 * Math.PI)
+
+				// COLOR
+				canvasCtx.save()
+				canvasCtx.globalAlpha = 0.5
+				canvasCtx.fillStyle = '#aaa'
+				canvasCtx.strokeStyle =
+					canvasObjectColors[
+						nodeIndex + 1 > canvasObjectColors.length - 1
+							? nodeIndex +
+							  1 -
+							  canvasObjectColors.length *
+									Math.floor(nodeIndex / canvasObjectColors.length)
+							: nodeIndex + 1
+					]
+				canvasCtx.lineWidth = 7
+				canvasCtx.stroke()
+				canvasCtx.fill()
+				canvasCtx.closePath()
+
+				// TEXTO
+				const nodeRootValue = linearStructure
+					? linearStructure.obtener(0).valor.toString()
+					: ''
+				if (linearStructure) {
+					canvasCtx.font = `bold ${
+						20 - nodeRootValue.length * 0.5
+					}px Montserrat`
+					canvasCtx.textAlign = 'center'
+					canvasCtx.fillText(nodeRootValue, nodeRootX, -50)
+				}
+
+				canvasCtx.restore()
 			}
 
 			// FLECHA NODO ANTERIOR
-			if (nodeIndex > 0 && !simple) {
+			if (
+				(nodeIndex > 0 && !isSimple) ||
+				(isCircular && nodeIndex === 0 && !isSimple)
+			) {
+				if (!isSimple || isCircular) {
+					canvasCtx.save()
+
+					if (isCircular && nodeIndex === 0) {
+						canvasCtx.globalAlpha = 0.5
+
+						if (!isSimple) {
+							canvasCtx.scale(0.8, 0.8)
+							canvasCtx.translate(-170, 0)
+						}
+					}
+				}
+
 				canvasCtx.beginPath()
 				canvasCtx.fillStyle = 'white'
 				canvasCtx.arrow(nodeX + 5 - 105, -1, 95, 4, true, true)
 				canvasCtx.closePath()
+
+				if (!isSimple || isCircular) canvasCtx.restore()
 			}
 		}
 	}

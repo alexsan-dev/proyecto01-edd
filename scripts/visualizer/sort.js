@@ -11,6 +11,8 @@ canvasBannerDif = 60;
 var globalSortData = [
     4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7,
 ];
+var allStrings = false;
+var globalCopyStringData = [];
 var globalCopySortData = __spreadArray([], globalSortData);
 var globalSortLength = globalSortData.length;
 var sortBarWidth = (BAR_WIDTH / globalSortLength) * 100;
@@ -40,15 +42,29 @@ fileUploadCallback = function (json) {
     }
     else if (globalSortLength > 15 && globalSortLength <= 30) {
         fontSize = 17;
-        fontY = 30;
+        fontY = 27;
     }
     else if (globalSortLength > 30 && globalSortLength <= 50) {
         fontSize = 13;
         fontY = 35;
     }
     else {
-        fontSize = 11;
-        fontY = 38;
+        fontSize = 13;
+        fontY = 35.5;
+    }
+    allStrings = valores.every(function (valor) { return typeof valor === 'string'; });
+    if (allStrings) {
+        var sortedStrings_1 = __spreadArray([], valores).sort(function (a, b) {
+            return a.localeCompare(b);
+        });
+        globalCopyStringData = sortedStrings_1;
+        var unSortedStrings = valores.map(function (valor) { return sortedStrings_1.indexOf(valor) + 1; });
+        console.log(sortedStrings_1, unSortedStrings);
+        globalCopySortData = globalSortData = unSortedStrings;
+        globalSortLength = unSortedStrings.length;
+        sortBarWidth = (BAR_WIDTH / unSortedStrings.length) * 100;
+        maxSortDataValue = Math.max.apply(Math, unSortedStrings);
+        sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
     }
     if (sortLengthText)
         sortLengthText.textContent = globalSortLength.toString();
@@ -71,18 +87,24 @@ drawInCanvas = function () {
                         canvasObjectColors.length *
                             Math.floor(barIndex / canvasObjectColors.length)
                     : barIndex];
-            var numericValue = typeof globalSortData[barIndex] === 'string'
-                ? barIndex
-                : globalSortData[barIndex];
             var rectX = sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20;
-            var rectY = -(sortBarHeight * numericValue) + 138;
-            var rectH = sortBarHeight * numericValue;
+            var rectY = -(sortBarHeight * globalSortData[barIndex]) + 138;
+            var rectH = sortBarHeight * globalSortData[barIndex];
             var fontHeight = fontSize - globalSortData[barIndex].toString().length * 2;
             canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH);
+            var barValue = allStrings
+                ? globalCopyStringData[globalSortData[barIndex] - 1]
+                : globalSortData[barIndex].toString();
+            canvasCtx.save();
+            if (allStrings) {
+                canvasCtx.translate(rectX * 2 - rectX - 142, 180 + rectX - fontY + 7);
+                canvasCtx.rotate(-Math.PI / 2);
+            }
             canvasCtx.fillStyle = '#fff';
             canvasCtx.font = "bold " + fontHeight + "px Montserrat";
-            canvasCtx.textAlign = 'center';
-            canvasCtx.fillText(globalSortData[barIndex].toString(), rectX + sortBarWidth / 2, 185 - fontY);
+            canvasCtx.textAlign = allStrings ? 'right' : 'center';
+            canvasCtx.fillText(barValue, rectX + sortBarWidth / 2, 185 - fontY);
+            canvasCtx.restore();
         }
     }
 };

@@ -1,7 +1,8 @@
 "use strict";
 var linearStructure = null;
-var simple = true;
 var linearStructureLength = 0;
+var isCircular = false;
+var isSimple = true;
 var insertMode = 'start';
 var repeatValues = true;
 var newNodeValue = '';
@@ -9,9 +10,11 @@ var oldNodeValue = '';
 canvasBannerDif = 110;
 var editor = document.querySelector('.editor > pre > code');
 var navBtns = document.querySelectorAll('.nav-btn');
-var setLinearStructure = function (newLinearStructure, newSimple) {
+var setLinearStructure = function (newLinearStructure, isSimpleLinear, isCircularLinear) {
+    if (isCircularLinear === void 0) { isCircularLinear = false; }
     linearStructure = newLinearStructure;
-    simple = newSimple;
+    isSimple = isSimpleLinear;
+    isCircular = isCircularLinear;
     if (linearStructure) {
         linearStructure.insertar(1);
         linearStructure.insertar(2);
@@ -65,6 +68,12 @@ CanvasRenderingContext2D.prototype.arrow = function (x, y, distance, width, down
 };
 fileUploadCallback = function (json) {
     var valores = json.valores;
+    if (linearStructure)
+        for (var linearIndex = 0; linearIndex < linearStructureLength; linearIndex++)
+            linearStructure.pop();
+    linearStructureLength = 0;
+    if (editor)
+        editor.innerHTML = "<strong style=\"color:var(--ice)\">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style=\"color:var(--ice)\">ListaSimple</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--ice)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
     valores.forEach(function (valor) {
         newNodeValue = valor.toString();
         addNode();
@@ -75,6 +84,34 @@ drawInCanvas = function () {
         canvasCtx.globalCompositeOperation = 'destination-over';
         for (var nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
             var nodeX = -579 + 150 * nodeIndex;
+            if (isCircular && nodeIndex === 0 && !isSimple) {
+                var nodeEndX = -530 + 150 * -1;
+                canvasCtx.beginPath();
+                canvasCtx.arc(nodeEndX, 0, 30, 0, 2 * Math.PI);
+                canvasCtx.save();
+                canvasCtx.globalAlpha = 0.5;
+                canvasCtx.fillStyle = '#aaa';
+                canvasCtx.strokeStyle =
+                    canvasObjectColors[linearStructureLength + 2 > canvasObjectColors.length - 1
+                        ? linearStructureLength +
+                            2 -
+                            canvasObjectColors.length *
+                                Math.floor(linearStructureLength / canvasObjectColors.length)
+                        : linearStructureLength + 2];
+                canvasCtx.lineWidth = 7;
+                canvasCtx.stroke();
+                canvasCtx.fill();
+                canvasCtx.closePath();
+                var nodeEndValue = linearStructure
+                    ? linearStructure.obtener(linearStructureLength - 1).valor.toString()
+                    : '';
+                if (linearStructure) {
+                    canvasCtx.font = "bold " + (20 - nodeEndValue.length * 0.5) + "px Montserrat";
+                    canvasCtx.textAlign = 'center';
+                    canvasCtx.fillText(nodeEndValue, nodeEndX, -50);
+                }
+                canvasCtx.restore();
+            }
             canvasCtx.beginPath();
             canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI);
             canvasCtx.fillStyle = '#aaa';
@@ -96,24 +133,71 @@ drawInCanvas = function () {
                 canvasCtx.textAlign = 'center';
                 canvasCtx.fillText(nodeValue, nodeX, -50);
             }
-            if (nodeIndex < linearStructureLength - 1) {
+            if (nodeIndex < linearStructureLength - 1 ||
+                (isCircular && nodeIndex === linearStructureLength - 1)) {
+                var isCircularEnd = isCircular && nodeIndex === linearStructureLength - 1;
                 canvasCtx.beginPath();
-                canvasCtx.fillStyle = 'white';
-                if (simple) {
+                if (isSimple || isCircular) {
                     canvasCtx.save();
-                    canvasCtx.scale(2, 2);
-                    canvasCtx.translate(225, 0);
+                    if (isSimple) {
+                        canvasCtx.scale(2, 2);
+                        canvasCtx.translate(225, 0);
+                    }
+                    if (isCircularEnd)
+                        canvasCtx.globalAlpha = 0.5;
                 }
-                canvasCtx.arrow((simple ? nodeX / 2 : nodeX) + 5 + (simple ? -215 : 0), -1, simple ? 60 : 95, 4);
-                if (simple)
-                    canvasCtx.restore();
+                canvasCtx.fillStyle = 'white';
+                canvasCtx.arrow((isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0), -1, isSimple ? (isCircularEnd ? 36 : 60) : 95, 4);
                 canvasCtx.closePath();
+                if (isSimple || isCircular)
+                    canvasCtx.restore();
             }
-            if (nodeIndex > 0 && !simple) {
+            if (isCircular && nodeIndex === linearStructureLength - 1) {
+                var nodeRootX = -625 + 150 * (nodeIndex + 1);
+                canvasCtx.beginPath();
+                canvasCtx.arc(nodeRootX, 0, 30, 0, 2 * Math.PI);
+                canvasCtx.save();
+                canvasCtx.globalAlpha = 0.5;
+                canvasCtx.fillStyle = '#aaa';
+                canvasCtx.strokeStyle =
+                    canvasObjectColors[nodeIndex + 1 > canvasObjectColors.length - 1
+                        ? nodeIndex +
+                            1 -
+                            canvasObjectColors.length *
+                                Math.floor(nodeIndex / canvasObjectColors.length)
+                        : nodeIndex + 1];
+                canvasCtx.lineWidth = 7;
+                canvasCtx.stroke();
+                canvasCtx.fill();
+                canvasCtx.closePath();
+                var nodeRootValue = linearStructure
+                    ? linearStructure.obtener(0).valor.toString()
+                    : '';
+                if (linearStructure) {
+                    canvasCtx.font = "bold " + (20 - nodeRootValue.length * 0.5) + "px Montserrat";
+                    canvasCtx.textAlign = 'center';
+                    canvasCtx.fillText(nodeRootValue, nodeRootX, -50);
+                }
+                canvasCtx.restore();
+            }
+            if ((nodeIndex > 0 && !isSimple) ||
+                (isCircular && nodeIndex === 0 && !isSimple)) {
+                if (!isSimple || isCircular) {
+                    canvasCtx.save();
+                    if (isCircular && nodeIndex === 0) {
+                        canvasCtx.globalAlpha = 0.5;
+                        if (!isSimple) {
+                            canvasCtx.scale(0.8, 0.8);
+                            canvasCtx.translate(-170, 0);
+                        }
+                    }
+                }
                 canvasCtx.beginPath();
                 canvasCtx.fillStyle = 'white';
                 canvasCtx.arrow(nodeX + 5 - 105, -1, 95, 4, true, true);
                 canvasCtx.closePath();
+                if (!isSimple || isCircular)
+                    canvasCtx.restore();
             }
         }
     }

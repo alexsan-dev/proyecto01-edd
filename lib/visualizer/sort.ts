@@ -8,6 +8,8 @@ canvasBannerDif = 60
 let globalSortData: number[] = [
 	4, 1, 13, 2, 15, 3, 8, 9, 5, 11, 14, 6, 18, 12, 7,
 ]
+let allStrings: boolean = false
+let globalCopyStringData: string[] = []
 let globalCopySortData: number[] = [...globalSortData]
 let globalSortLength: number = globalSortData.length
 let sortBarWidth: number = (BAR_WIDTH / globalSortLength) * 100
@@ -47,13 +49,38 @@ fileUploadCallback = (json: JSONInputFile) => {
 		fontY = 20
 	} else if (globalSortLength > 15 && globalSortLength <= 30) {
 		fontSize = 17
-		fontY = 30
+		fontY = 27
 	} else if (globalSortLength > 30 && globalSortLength <= 50) {
 		fontSize = 13
 		fontY = 35
 	} else {
-		fontSize = 11
-		fontY = 38
+		fontSize = 13
+		fontY = 35.5
+	}
+
+	// DATOS COMO STRINGS
+	allStrings = valores.every((valor) => typeof valor === 'string')
+	if (allStrings) {
+		// @ts-ignore
+		// @ts-ignore
+		let sortedStrings: string[] = [...valores].sort((a, b) =>
+			// @ts-ignore
+			a.localeCompare(b),
+		)
+		globalCopyStringData = sortedStrings
+		// @ts-ignore
+		let unSortedStrings: number[] = valores.map(
+			// @ts-ignore
+			(valor: string) => sortedStrings.indexOf(valor) + 1,
+		)
+		console.log(sortedStrings, unSortedStrings)
+
+		// ASIGNACIÓN
+		globalCopySortData = globalSortData = unSortedStrings
+		globalSortLength = unSortedStrings.length
+		sortBarWidth = (BAR_WIDTH / unSortedStrings.length) * 100
+		maxSortDataValue = Math.max(...unSortedStrings)
+		sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue)
 	}
 
 	// CAMBIAR MUESTRA DE CÓDIGO
@@ -86,28 +113,31 @@ drawInCanvas = () => {
 				]
 
 			// BARRA
-			const numericValue: number =
-				typeof globalSortData[barIndex] === 'string'
-					? barIndex
-					: globalSortData[barIndex]
 			const rectX: number =
 				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20
-			const rectY: number = -(sortBarHeight * numericValue) + 138
-			const rectH: number = sortBarHeight * numericValue
+			const rectY: number = -(sortBarHeight * globalSortData[barIndex]) + 138
+			const rectH: number = sortBarHeight * globalSortData[barIndex]
 			const fontHeight: number =
 				fontSize - globalSortData[barIndex].toString().length * 2
 
 			canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH)
 
 			// TEXTO
+
+			const barValue = allStrings
+				? globalCopyStringData[globalSortData[barIndex] - 1]
+				: globalSortData[barIndex].toString()
+			canvasCtx.save()
+			if (allStrings) {
+				canvasCtx.translate(rectX * 2 - rectX - 142, 180 + rectX - fontY + 7)
+				canvasCtx.rotate(-Math.PI / 2)
+			}
+
 			canvasCtx.fillStyle = '#fff'
 			canvasCtx.font = `bold ${fontHeight}px Montserrat`
-			canvasCtx.textAlign = 'center'
-			canvasCtx.fillText(
-				globalSortData[barIndex].toString(),
-				rectX + sortBarWidth / 2,
-				185 - fontY,
-			)
+			canvasCtx.textAlign = allStrings ? 'right' : 'center'
+			canvasCtx.fillText(barValue, rectX + sortBarWidth / 2, 185 - fontY)
+			canvasCtx.restore()
 		}
 	}
 }
