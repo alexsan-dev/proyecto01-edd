@@ -55,4 +55,12 @@ var removeBanner = function () {
         }, 100);
     }
 };
+var setRuntimeText = function (ms) {
+    if (sortRuntime)
+        sortRuntime.textContent = ms.toFixed(3) + "ms";
+};
+var setElementsLength = function (length) {
+    if (sortLengthText)
+        sortLengthText.textContent = length.toString();
+};
 removeBanner();

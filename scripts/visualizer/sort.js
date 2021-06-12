@@ -65,8 +65,6 @@ fileUploadCallback = function (json) {
         maxSortDataValue = Math.max.apply(Math, unSortedStrings);
         sortBarHeight = BAR_HEIGHT / Math.max(0.5, maxSortDataValue);
     }
-    if (sortLengthText)
-        sortLengthText.textContent = globalSortLength.toString();
     if (codeDataArray)
         codeDataArray.textContent = valores.join(', ');
     if (sortStepText)
@@ -75,6 +73,7 @@ fileUploadCallback = function (json) {
         sortPerformance.textContent = '0%';
     removeBanner();
     setSortRuntime();
+    setElementsLength(globalSortLength);
 };
 drawInCanvas = function () {
     if (canvasCtx) {
@@ -124,8 +123,7 @@ var setSortRuntime = function () {
     var t0 = performance.now();
     sortMethod(globalSortData);
     var tf = performance.now();
-    if (sortRuntime)
-        sortRuntime.textContent = (tf - t0).toFixed(3) + "ms";
+    setRuntimeText(tf - t0);
 };
 var restartSortedData = function () {
     resetCanvas();

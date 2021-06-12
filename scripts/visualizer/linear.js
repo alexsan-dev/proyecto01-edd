@@ -43,6 +43,7 @@ fileUploadCallback = function (json) {
         newNodeValue = valor.toString();
         addNode();
     });
+    setElementsLength(linearStructure ? linearStructure.getTamaño() : 0);
 };
 drawInCanvas = function () {
     if (canvasCtx) {
@@ -212,6 +213,7 @@ var addNode = function () {
             else if (insertMode === 'end')
                 linearStructure.insertar(newNodeValue);
             linearStructureLength = linearStructure.getTamaño();
+            setElementsLength(linearStructureLength);
             addTestCode(insertMode === 'start'
                 ? 'push'
                 : insertMode === 'end'
@@ -228,6 +230,7 @@ var removeNode = function () {
         if (nodeOnStructure !== null) {
             linearStructure.eliminar(oldNodeValue);
             linearStructureLength = linearStructure.getTamaño();
+            setElementsLength(linearStructureLength);
             addTestCode('eliminar', oldNodeValue);
             hideNavMenu(1);
             removeBanner();
@@ -240,6 +243,7 @@ var findNode = function () {
         if (nodeOnStructure !== null) {
             linearStructure.buscar(oldNodeValue);
             linearStructureLength = linearStructure.getTamaño();
+            setElementsLength(linearStructureLength);
             addTestCode('buscar', oldNodeValue);
             hideNavMenu(1);
             removeBanner();
@@ -254,6 +258,7 @@ var updateNode = function () {
             (repeatValues || (newNodeOnStructure === null && !repeatValues))) {
             linearStructure.actualizar(oldNodeValue, newNodeValue);
             linearStructureLength = linearStructure.getTamaño();
+            setElementsLength(linearStructureLength);
             addTestCode('actualizar', oldNodeValue + "," + newNodeValue);
             hideNavMenu(1);
             removeBanner();

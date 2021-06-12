@@ -82,7 +82,6 @@ fileUploadCallback = (json: JSONInputFile) => {
 	}
 
 	// CAMBIAR MUESTRA DE CÓDIGO
-	if (sortLengthText) sortLengthText.textContent = globalSortLength.toString()
 	if (codeDataArray) codeDataArray.textContent = valores.join(', ')
 	if (sortStepText) sortStepText.textContent = '0'
 	if (sortPerformance) sortPerformance.textContent = '0%'
@@ -90,6 +89,7 @@ fileUploadCallback = (json: JSONInputFile) => {
 	// ESTILOS Y TEXTOS
 	removeBanner()
 	setSortRuntime()
+	setElementsLength(globalSortLength)
 }
 
 // CALLBACK PARA DIBUJAR
@@ -168,7 +168,7 @@ const setSortRuntime = () => {
 	const tf = performance.now()
 
 	// MOSTRAR
-	if (sortRuntime) sortRuntime.textContent = `${(tf - t0).toFixed(3)}ms`
+	setRuntimeText(tf - t0)
 }
 
 // REINICIAR DATOS

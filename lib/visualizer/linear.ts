@@ -74,6 +74,9 @@ fileUploadCallback = (json: JSONInputFile) => {
 		newNodeValue = valor.toString()
 		addNode()
 	})
+
+	// ELEMENTOS
+	setElementsLength(linearStructure ? linearStructure.getTamaño() : 0)
 }
 
 // DIBUJAR
@@ -343,6 +346,7 @@ const addNode = () => {
 
 			// RE DIMENSION
 			linearStructureLength = linearStructure.getTamaño()
+			setElementsLength(linearStructureLength)
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode(
@@ -374,6 +378,7 @@ const removeNode = () => {
 
 			// RE DIMENSION
 			linearStructureLength = linearStructure.getTamaño()
+			setElementsLength(linearStructureLength)
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode('eliminar', oldNodeValue)
@@ -398,6 +403,7 @@ const findNode = () => {
 
 			// RE DIMENSION
 			linearStructureLength = linearStructure.getTamaño()
+			setElementsLength(linearStructureLength)
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode('buscar', oldNodeValue)
@@ -427,6 +433,7 @@ const updateNode = () => {
 
 			// RE DIMENSION
 			linearStructureLength = linearStructure.getTamaño()
+			setElementsLength(linearStructureLength)
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode('actualizar', `${oldNodeValue},${newNodeValue}`)

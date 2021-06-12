@@ -75,5 +75,16 @@ const removeBanner = () => {
 	}
 }
 
+// CAMBIAR TIEMPO DE EJECUCIÓN
+const setRuntimeText = (ms: number) => {
+	// MOSTRAR
+	if (sortRuntime) sortRuntime.textContent = `${ms.toFixed(3)}ms`
+}
+
+// CAMBIAR TEXTO DE ELEMENTOS
+const setElementsLength = (length: number) => {
+	if (sortLengthText) sortLengthText.textContent = length.toString()
+}
+
 // INICIAR A ORDENAR
 removeBanner()
