@@ -1,1 +1,1 @@
-setLinearStructure(new ListaSimple(), true, false)
+setLinearStructure(new ListaSimple(), 'ListaSimple', true, false)

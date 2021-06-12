@@ -3,6 +3,7 @@ let linearStructure: LinearStructure | null = null
 let linearStructureLength: number = 0
 let isCircular: boolean = false
 let isSimple: boolean = true
+let className:string = 'ListaSimple'
 
 // TIPOS
 type InsertMode = 'start' | 'end' | 'order'
@@ -21,11 +22,13 @@ const navBtns = document.querySelectorAll('.nav-btn')
 // DATOS INICIALES
 const setLinearStructure = (
 	newLinearStructure: LinearStructure | null,
+	linearClassName: string,
 	isSimpleLinear: boolean,
 	isCircularLinear: boolean = false,
 ) => {
 	linearStructure = newLinearStructure
 	isSimple = isSimpleLinear
+	className =linearClassName
 	isCircular = isCircularLinear
 
 	if (linearStructure) {
@@ -118,7 +121,8 @@ fileUploadCallback = (json: JSONInputFile) => {
 	// TEXTOS
 	linearStructureLength = 0
 	if (editor)
-		editor.innerHTML = `<strong style="color:var(--ice)">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style="color:var(--ice)">ListaSimple</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--ice)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()\n`
+	// @ts-ignore
+		editor.innerHTML = `<strong style="color:var(--ice)">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style="color:var(--ice)">${className}</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--ice)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()\n`
 
 	// ITERAR
 	valores.forEach((valor: string | number) => {

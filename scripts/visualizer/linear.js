@@ -3,6 +3,7 @@ var linearStructure = null;
 var linearStructureLength = 0;
 var isCircular = false;
 var isSimple = true;
+var className = 'ListaSimple';
 var insertMode = 'start';
 var repeatValues = true;
 var newNodeValue = '';
@@ -10,10 +11,11 @@ var oldNodeValue = '';
 canvasBannerDif = 110;
 var editor = document.querySelector('.editor > pre > code');
 var navBtns = document.querySelectorAll('.nav-btn');
-var setLinearStructure = function (newLinearStructure, isSimpleLinear, isCircularLinear) {
+var setLinearStructure = function (newLinearStructure, linearClassName, isSimpleLinear, isCircularLinear) {
     if (isCircularLinear === void 0) { isCircularLinear = false; }
     linearStructure = newLinearStructure;
     isSimple = isSimpleLinear;
+    className = linearClassName;
     isCircular = isCircularLinear;
     if (linearStructure) {
         linearStructure.insertar(1);
@@ -73,7 +75,7 @@ fileUploadCallback = function (json) {
             linearStructure.pop();
     linearStructureLength = 0;
     if (editor)
-        editor.innerHTML = "<strong style=\"color:var(--ice)\">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style=\"color:var(--ice)\">ListaSimple</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--ice)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
+        editor.innerHTML = "<strong style=\"color:var(--ice)\">const</strong> data <i style='color:var(--soda)'>=</i> <strong style='color:var(--soda)'>new</strong> <strong style=\"color:var(--ice)\">" + className + "</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--ice)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
     valores.forEach(function (valor) {
         newNodeValue = valor.toString();
         addNode();
