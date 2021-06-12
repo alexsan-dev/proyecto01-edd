@@ -1,2 +1,1 @@
-setLinearStructure(new ListaSimple(), 'Cola', true, false, true)
-insertMode = 'end'
+setLinearStructure(new ListaSimple(), 'Cola', true, false, true, 'start')

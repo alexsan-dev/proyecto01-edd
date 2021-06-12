@@ -55,8 +55,6 @@ const draw = (): void => {
 	}
 }
 
-
-
 // OBTENER POSICIÓN DE PUNTERO O TOQUE
 const getEventLocation = (event: ScreenEvent): CanvasCoords => {
 	if (event.touches && event.touches.length == 1) {
@@ -161,3 +159,112 @@ canvas.addEventListener('wheel', (event: WheelEvent) =>
 
 // INICIAR
 draw()
+
+CanvasRenderingContext2D.prototype.arrow = function (
+	x: number,
+	y: number,
+	distance: number,
+	width?: number,
+	down?: boolean,
+	left?: boolean,
+	double?: boolean,
+) {
+	// FLECHA
+	const lineWidth = width || 4
+	this.lineWidth = lineWidth
+
+	// CURVA
+	this.moveTo(x, y)
+	this.quadraticCurveTo(
+		x + distance / 2,
+		y + (distance / 2) * (down ? 1 : -1),
+		x + distance,
+		y,
+	)
+	this.strokeStyle = this.fillStyle
+	this.stroke()
+
+	// TRIANGULO
+	if (!left || double) {
+		this.beginPath()
+		this.lineWidth = 1
+
+		if (!down) {
+			this.moveTo(x + distance - 5, y + 5)
+			this.lineTo(x + distance + 5, y - 5)
+			this.lineTo(x + distance + 5, y + 5)
+		} else {
+			this.moveTo(x + distance + 5, y + 5)
+			this.lineTo(x + distance - 5, y - 5)
+			this.lineTo(x + distance + 5, y - 5)
+		}
+
+		this.stroke()
+		this.fill()
+		this.closePath()
+	}
+
+	if (left || double) {
+		this.beginPath()
+		this.lineWidth = 1
+		if (!down) {
+			this.moveTo(x - 5, y - 5)
+			this.lineTo(x + 5, y + 5)
+			this.lineTo(x - 5, y + 5)
+		} else {
+			this.moveTo(x - 5, y + 5)
+			this.lineTo(x + 5, y - 5)
+			this.lineTo(x - 5, y - 5)
+		}
+
+		this.stroke()
+		this.fill()
+		this.closePath()
+	}
+}
+
+interface RoundRectRadius {
+	[index: string]: number
+	tl: number
+	tr: number
+	br: number
+	bl: number
+}
+CanvasRenderingContext2D.prototype.roundRect = function (
+	x,
+	y,
+	width,
+	height,
+	radius = 5,
+) {
+	let localRadius: RoundRectRadius = {
+		tl: 5,
+		tr: 5,
+		br: 5,
+		bl: 5,
+	}
+
+	if (typeof radius === 'number') {
+		localRadius = { tl: radius, tr: radius, br: radius, bl: radius }
+	} else {
+		let defaultRadius: RoundRectRadius = { tl: 0, tr: 0, br: 0, bl: 0 }
+
+		for (let side in defaultRadius)
+			localRadius[side] = localRadius[side] || defaultRadius[side]
+	}
+
+	this.moveTo(x + localRadius.tl, y)
+	this.lineTo(x + width - localRadius.tr, y)
+	this.quadraticCurveTo(x + width, y, x + width, y + localRadius.tr)
+	this.lineTo(x + width, y + height - localRadius.br)
+	this.quadraticCurveTo(
+		x + width,
+		y + height,
+		x + width - localRadius.br,
+		y + height,
+	)
+	this.lineTo(x + localRadius.bl, y + height)
+	this.quadraticCurveTo(x, y + height, x, y + height - localRadius.bl)
+	this.lineTo(x, y + localRadius.tl)
+	this.quadraticCurveTo(x, y, x + localRadius.tl, y)
+}

@@ -1,25 +1,27 @@
 "use strict";
 var linearStructure = null;
 var linearStructureLength = 0;
+var className = 'ListaSimple';
+var isLikeStack = false;
 var isCircular = false;
 var isSimple = true;
-var isLikeStack = false;
-var className = 'ListaSimple';
-var insertMode = 'start';
+var insertMode = 'end';
 var repeatValues = true;
 var newNodeValue = '';
 var oldNodeValue = '';
 canvasBannerDif = 110;
 var editor = document.querySelector('.editor > pre > code');
 var navBtns = document.querySelectorAll('.nav-btn');
-var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack) {
+var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType) {
     if (circular === void 0) { circular = false; }
     if (likeStack === void 0) { likeStack = false; }
+    if (insertModeType === void 0) { insertModeType = 'end'; }
     linearStructure = newLinearStructure;
-    isSimple = simple;
     className = linearClassName;
-    isCircular = circular;
+    insertMode = insertModeType;
     isLikeStack = likeStack;
+    isCircular = circular;
+    isSimple = simple;
     if (linearStructure) {
         linearStructure.insertar(1);
         linearStructure.insertar(2);
@@ -28,48 +30,6 @@ var setLinearStructure = function (newLinearStructure, linearClassName, simple, 
         linearStructure.insertar(5);
     }
     linearStructureLength = (linearStructure === null || linearStructure === void 0 ? void 0 : linearStructure.getTamaño()) || 5;
-};
-CanvasRenderingContext2D.prototype.arrow = function (x, y, distance, width, down, left, double) {
-    var lineWidth = width || 4;
-    this.lineWidth = lineWidth;
-    this.moveTo(x, y);
-    this.quadraticCurveTo(x + distance / 2, y + (distance / 2) * (down ? 1 : -1), x + distance, y);
-    this.strokeStyle = this.fillStyle;
-    this.stroke();
-    if (!left || double) {
-        this.beginPath();
-        this.lineWidth = 1;
-        if (!down) {
-            this.moveTo(x + distance - 5, y + 5);
-            this.lineTo(x + distance + 5, y - 5);
-            this.lineTo(x + distance + 5, y + 5);
-        }
-        else {
-            this.moveTo(x + distance + 5, y + 5);
-            this.lineTo(x + distance - 5, y - 5);
-            this.lineTo(x + distance + 5, y - 5);
-        }
-        this.stroke();
-        this.fill();
-        this.closePath();
-    }
-    if (left || double) {
-        this.beginPath();
-        this.lineWidth = 1;
-        if (!down) {
-            this.moveTo(x - 5, y - 5);
-            this.lineTo(x + 5, y + 5);
-            this.lineTo(x - 5, y + 5);
-        }
-        else {
-            this.moveTo(x - 5, y + 5);
-            this.lineTo(x + 5, y - 5);
-            this.lineTo(x - 5, y - 5);
-        }
-        this.stroke();
-        this.fill();
-        this.closePath();
-    }
 };
 fileUploadCallback = function (json) {
     var valores = json.valores;
@@ -134,7 +94,10 @@ drawInCanvas = function () {
                 canvasCtx.fill();
             }
             else {
-                canvasCtx.strokeRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80);
+                canvasCtx.beginPath();
+                canvasCtx.roundRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80, 10);
+                canvasCtx.stroke();
+                canvasCtx.closePath();
                 canvasCtx.fillRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80);
             }
             canvasCtx.closePath();

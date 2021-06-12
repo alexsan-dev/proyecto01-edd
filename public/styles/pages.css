@@ -308,7 +308,7 @@ canvas {
 	margin-right: 8px;
 	font-weight: 600;
 	padding: 10px 20px;
-	color: var(--pale);
+	color: var(--whitePale);
 	background: linear-gradient(to right, #5e81f4, hsl(226, 87%, 60%));
 }
 

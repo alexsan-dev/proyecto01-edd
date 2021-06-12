@@ -17,4 +17,11 @@ interface CanvasRenderingContext2D {
 		left?: boolean,
 		double?: boolean,
 	) => void
+	roundRect: (
+		x: number,
+		y: number,
+		width: number,
+		height: number,
+		radius: number,
+	) => void
 }

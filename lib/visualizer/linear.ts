@@ -1,16 +1,16 @@
 // GLOBAL
 let linearStructure: LinearStructure | null = null
 let linearStructureLength: number = 0
+let className: string = 'ListaSimple'
+let isLikeStack: boolean = false
 let isCircular: boolean = false
 let isSimple: boolean = true
-let isLikeStack: boolean = false
-let className: string = 'ListaSimple'
 
 // TIPOS
 type InsertMode = 'start' | 'end' | 'order'
 
 // CONFIGURACIÓN GLOBAL
-let insertMode: InsertMode = 'start'
+let insertMode: InsertMode = 'end'
 let repeatValues: boolean = true
 let newNodeValue: string = ''
 let oldNodeValue: string = ''
@@ -27,13 +27,17 @@ const setLinearStructure = (
 	simple: boolean,
 	circular: boolean = false,
 	likeStack: boolean = false,
+	insertModeType: InsertMode = 'end',
 ) => {
+	// CONFIGURAR GLOBALES
 	linearStructure = newLinearStructure
-	isSimple = simple
 	className = linearClassName
-	isCircular = circular
+	insertMode = insertModeType
 	isLikeStack = likeStack
+	isCircular = circular
+	isSimple = simple
 
+	// ELEMENTOS INICIALES
 	if (linearStructure) {
 		linearStructure.insertar(1)
 		linearStructure.insertar(2)
@@ -41,71 +45,9 @@ const setLinearStructure = (
 		linearStructure.insertar(4)
 		linearStructure.insertar(5)
 	}
+
+	// ACTUALIZAR TAMAÑO
 	linearStructureLength = linearStructure?.getTamaño() || 5
-}
-
-// DIBUJAR
-CanvasRenderingContext2D.prototype.arrow = function (
-	x: number,
-	y: number,
-	distance: number,
-	width?: number,
-	down?: boolean,
-	left?: boolean,
-	double?: boolean,
-) {
-	// FLECHA
-	const lineWidth = width || 4
-	this.lineWidth = lineWidth
-
-	// CURVA
-	this.moveTo(x, y)
-	this.quadraticCurveTo(
-		x + distance / 2,
-		y + (distance / 2) * (down ? 1 : -1),
-		x + distance,
-		y,
-	)
-	this.strokeStyle = this.fillStyle
-	this.stroke()
-
-	// TRIANGULO
-	if (!left || double) {
-		this.beginPath()
-		this.lineWidth = 1
-
-		if (!down) {
-			this.moveTo(x + distance - 5, y + 5)
-			this.lineTo(x + distance + 5, y - 5)
-			this.lineTo(x + distance + 5, y + 5)
-		} else {
-			this.moveTo(x + distance + 5, y + 5)
-			this.lineTo(x + distance - 5, y - 5)
-			this.lineTo(x + distance + 5, y - 5)
-		}
-
-		this.stroke()
-		this.fill()
-		this.closePath()
-	}
-
-	if (left || double) {
-		this.beginPath()
-		this.lineWidth = 1
-		if (!down) {
-			this.moveTo(x - 5, y - 5)
-			this.lineTo(x + 5, y + 5)
-			this.lineTo(x - 5, y + 5)
-		} else {
-			this.moveTo(x - 5, y + 5)
-			this.lineTo(x + 5, y - 5)
-			this.lineTo(x - 5, y - 5)
-		}
-
-		this.stroke()
-		this.fill()
-		this.closePath()
-	}
 }
 
 // LEER ARCHIVO
@@ -139,13 +81,14 @@ drawInCanvas = () => {
 	if (canvasCtx) {
 		canvasCtx.globalCompositeOperation = 'destination-over'
 		for (let nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
-			// POSICIONES
+			// POSICIONES EN X
 			const nodeX: number = -579 + 150 * nodeIndex
 
 			// NODO FINAL LISTA CIRCULAR
 			if (isCircular && nodeIndex === 0 && !isSimple) {
 				const nodeEndX = -530 + 150 * -1
 
+				// CIRCULO
 				canvasCtx.beginPath()
 				canvasCtx.arc(nodeEndX, 0, 30, 0, 2 * Math.PI)
 
@@ -163,20 +106,26 @@ drawInCanvas = () => {
 							: linearStructureLength + 2
 					]
 				canvasCtx.lineWidth = 7
+
+				// DIBUJAR BORDE DE COLOR Y CIRCULO
 				canvasCtx.stroke()
 				canvasCtx.fill()
 				canvasCtx.closePath()
 
-				// TEXTO
+				// VALOR DE NODO
 				const nodeEndValue = linearStructure
 					? linearStructure.obtener(linearStructureLength - 1).valor.toString()
 					: ''
+
+				// TEXTO
 				if (linearStructure) {
 					canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 					canvasCtx.font = `bold ${20 - nodeEndValue.length * 0.5}px Montserrat`
 					canvasCtx.textAlign = 'center'
 					canvasCtx.fillText(nodeEndValue, nodeEndX, -50)
 				}
+
+				// REINICIAR
 				canvasCtx.restore()
 			}
 
@@ -196,20 +145,30 @@ drawInCanvas = () => {
 				]
 			canvasCtx.lineWidth = 7
 
+			// DIBUJAR BORDE Y CIRCULO
 			if (!isLikeStack) {
 				canvasCtx.stroke()
 				canvasCtx.fill()
-			} else {
-				canvasCtx.strokeRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80)
+			}
+
+			// DIBUJAR UN CUADRADO CON BORDES REDONDOS
+			else {
+				canvasCtx.beginPath()
+				canvasCtx.roundRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80, 10)
+				canvasCtx.stroke()
+				canvasCtx.closePath()
 				canvasCtx.fillRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80)
 			}
 
+			// CERRAR
 			canvasCtx.closePath()
 
-			// TEXTO
+			// VALOR DE NODO
 			const nodeValue = linearStructure
 				? linearStructure.obtener(nodeIndex).valor.toString()
 				: ''
+
+			// TEXTO
 			if (linearStructure) {
 				canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 				canvasCtx.font = `bold ${20 - nodeValue.length * 0.5}px Montserrat`
@@ -227,21 +186,26 @@ drawInCanvas = () => {
 					(isCircular && nodeIndex === linearStructureLength - 1)) &&
 				!isLikeStack
 			) {
+				// ES LA FLECHA CIRCULAR AL FINAL
 				const isCircularEnd =
 					isCircular && nodeIndex === linearStructureLength - 1
-				canvasCtx.beginPath()
 
+				// INICIAR
+				canvasCtx.beginPath()
 				if (isSimple || isCircular) {
 					canvasCtx.save()
 
+					// AUMENTAR TAMAÑO
 					if (isSimple) {
 						canvasCtx.scale(2, 2)
 						canvasCtx.translate(225, 0)
 					}
 
+					// CAMBIAR OPACIDAD
 					if (isCircularEnd) canvasCtx.globalAlpha = 0.5
 				}
 
+				// FLECHA
 				canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb'
 				canvasCtx.arrow(
 					(isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0),
@@ -250,6 +214,7 @@ drawInCanvas = () => {
 					4,
 				)
 
+				// CERRAR Y REINICIAR
 				canvasCtx.closePath()
 				if (isSimple || isCircular) canvasCtx.restore()
 			}
@@ -275,14 +240,18 @@ drawInCanvas = () => {
 							: nodeIndex + 1
 					]
 				canvasCtx.lineWidth = 7
+
+				// BORDE Y CIRCULO
 				canvasCtx.stroke()
 				canvasCtx.fill()
 				canvasCtx.closePath()
 
-				// TEXTO
+				// VALOR DE NODO
 				const nodeRootValue = linearStructure
 					? linearStructure.obtener(0).valor.toString()
 					: ''
+
+				// TEXTO
 				if (linearStructure) {
 					canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 					canvasCtx.font = `bold ${
@@ -292,6 +261,7 @@ drawInCanvas = () => {
 					canvasCtx.fillText(nodeRootValue, nodeRootX, -50)
 				}
 
+				// REINICIAR
 				canvasCtx.restore()
 			}
 
@@ -303,9 +273,11 @@ drawInCanvas = () => {
 				if (!isSimple || isCircular) {
 					canvasCtx.save()
 
+					// CAMBIAR OPACIDAD PARA CIRCULARES
 					if (isCircular && nodeIndex === 0) {
 						canvasCtx.globalAlpha = 0.5
 
+						// CAMBIAR TAMAÑO
 						if (!isSimple) {
 							canvasCtx.scale(0.8, 0.8)
 							canvasCtx.translate(-170, 0)
@@ -313,11 +285,13 @@ drawInCanvas = () => {
 					}
 				}
 
+				// FLECHA
 				canvasCtx.beginPath()
 				canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb'
 				canvasCtx.arrow(nodeX + 5 - 105, -1, 95, 4, true, true)
 				canvasCtx.closePath()
 
+				// REINICIAR
 				if (!isSimple || isCircular) canvasCtx.restore()
 			}
 		}
@@ -366,6 +340,7 @@ const addNode = () => {
 		if (repeatValues || (!repeatValues && nodeOnStructure === null)) {
 			if (insertMode === 'start') linearStructure.push(newNodeValue)
 			else if (insertMode === 'end') linearStructure.insertar(newNodeValue)
+
 			// RE DIMENSION
 			linearStructureLength = linearStructure.getTamaño()
 

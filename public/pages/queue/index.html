@@ -153,6 +153,7 @@
 													onchange="changeInsertMode(event)"
 													type="radio"
 													id="addAtStart"
+													checked="true"
 													name="addAt"
 													value="start"
 												/>
@@ -224,11 +225,11 @@
 							<div class="editor">
 								<pre><code><strong style="color:var(--monoConstIce)">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style="color:var(--monoClassIce)">Cola</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--monoNumberIce)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()
 
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">1</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">2</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">3</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">4</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">5</strong>)</code></pre>
+data.<strong style="color: var(--monoFuncGreen)">push</strong>(<strong style="color: var(--lightPurple)">5</strong>)
+data.<strong style="color: var(--monoFuncGreen)">push</strong>(<strong style="color: var(--lightPurple)">4</strong>)
+data.<strong style="color: var(--monoFuncGreen)">push</strong>(<strong style="color: var(--lightPurple)">3</strong>)
+data.<strong style="color: var(--monoFuncGreen)">push</strong>(<strong style="color: var(--lightPurple)">2</strong>)
+data.<strong style="color: var(--monoFuncGreen)">push</strong>(<strong style="color: var(--lightPurple)">1</strong>)</code></pre>
 								<ul>
 									<li>
 										<button class="reset" onclick="resetCanvas()" type="button">
@@ -314,6 +315,6 @@ data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style
 		<script src="../../../scripts/structures/simplelist/index.js"></script>
 		<script src="../../../scripts/visualizer/index.js"></script>
 		<script src="../../../scripts/visualizer/linear.js"></script>
-		<script src="../../../scripts/pages/stack/index.js"></script>
+		<script src="../../../scripts/pages/queue/index.js"></script>
 	</body>
 </html>
