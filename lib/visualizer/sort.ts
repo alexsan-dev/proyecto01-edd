@@ -110,7 +110,7 @@ drawInCanvas = () => {
 						: barIndex
 				]
 
-			// BARRA
+			// PROPIEDADES DE BARRA
 			const rectX: number =
 				sortBarWidth * barIndex + BAR_MARGIN * (barIndex + 1) - width / 2 + 20
 			const rectY: number = -(sortBarHeight * globalSortData[barIndex]) + 138
@@ -118,14 +118,16 @@ drawInCanvas = () => {
 			const fontHeight: number =
 				fontSize - globalSortData[barIndex].toString().length * 2
 
+			// BARRA
 			canvasCtx.fillRect(rectX, rectY, sortBarWidth, rectH)
 
 			// TEXTO
-
 			const barValue = allStrings
 				? globalCopyStringData[globalSortData[barIndex] - 1]
 				: globalSortData[barIndex].toString()
 			canvasCtx.save()
+
+			// ROTAR 90DEG
 			if (allStrings) {
 				canvasCtx.translate(rectX * 2 - rectX - 142, 180 + rectX - fontY + 7)
 				canvasCtx.rotate(-Math.PI / 2)
@@ -135,6 +137,8 @@ drawInCanvas = () => {
 			canvasCtx.font = `bold ${fontHeight}px Montserrat`
 			canvasCtx.textAlign = allStrings ? 'right' : 'center'
 			canvasCtx.fillText(barValue, rectX + sortBarWidth / 2, 185 - fontY)
+
+			// REINICIAR
 			canvasCtx.restore()
 		}
 	}
