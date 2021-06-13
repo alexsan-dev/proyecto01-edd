@@ -2,11 +2,13 @@ class NodoBinario{
     public valor:any
     public izquierdo:any
     public derecho:any
+    public altura:number
 
     constructor(valor:any){
         this.valor = valor
         this.izquierdo = null
         this.derecho = null
+        this.altura = 0
     }
 }
 
@@ -15,6 +17,20 @@ class ArbolBinario{
     
     constructor(){
         this.raiz = null
+    }
+
+    altura(raiz:NodoBinario){
+        if(raiz==null){
+            return 0
+        }
+        return raiz.altura
+    }
+
+    alturaMax(izq:NodoBinario, der:NodoBinario){
+        if(this.altura(izq)>this.altura(der)){
+            return this.altura(izq)
+        }
+        return this.altura(der)
     }
 
     //Insertar un valor--------------------------------------------------------------->
@@ -32,6 +48,7 @@ class ArbolBinario{
                 raiz.derecho = this.insertarNodo(valor, raiz.derecho)
             }
         }
+        raiz.altura = this.alturaMax(raiz.izquierdo, raiz.derecho)+1
         return raiz
     }
 
@@ -69,6 +86,9 @@ class ArbolBinario{
                 raiz.valor = v
             }
 
+        }
+        if(raiz != null){
+            raiz.altura = this.alturaMax(raiz.izquierdo, raiz.derecho)+1
         }
         return raiz
     }
