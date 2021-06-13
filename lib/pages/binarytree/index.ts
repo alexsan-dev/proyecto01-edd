@@ -1,0 +1,1 @@
+setTreeStructure(new ArbolBinario())

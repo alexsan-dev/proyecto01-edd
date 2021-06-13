@@ -25,3 +25,23 @@ interface CanvasRenderingContext2D {
 		radius: number,
 	) => void
 }
+
+interface Lista {
+	raiz: NodoSimple
+	tamaño: number
+	nodoActual?: NodoSimple
+
+	setActualRaiz?: () => void
+	pasarSiguiente?: () => void
+	getNodoActual?: () => NodoSimple
+
+	insertar: (valor: string | number) => void
+	eliminar: (valor: string | number) => void
+	buscar: (valor: string | number) => NodoSimple | null
+	obtener: (indice: number) => NodoSimple | null
+	actualizar: (valor: string | number, nuevo: string | number) => void
+	getTamaño: () => number
+	push: (valor: string | number) => void
+	pop: () => NodoSimple | null
+	descolar: () => NodoSimple | null
+}

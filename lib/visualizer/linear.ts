@@ -18,7 +18,6 @@ canvasBannerDif = 110
 
 // ELEMENTOS
 const editor = document.querySelector('.editor > pre > code')
-const navBtns = document.querySelectorAll('.nav-btn')
 
 // DATOS INICIALES
 const setLinearStructure = (
@@ -443,33 +442,4 @@ const updateNode = () => {
 			removeBanner()
 		}
 	}
-}
-
-// EVENTOS DE ELEMENTOS
-const inputsMenuSwitcher = Array.prototype.slice
-	.call(navBtns)
-	.map(
-		(element: Element) =>
-			element.previousElementSibling as HTMLInputElement | null,
-	)
-	.filter(Boolean) as HTMLInputElement[]
-
-// OCULTAR TODOS
-navBtns.forEach((navElement: Element, navIndex: number) =>
-	navElement.addEventListener('click', () =>
-		inputsMenuSwitcher.forEach(
-			(inputElement: HTMLInputElement, inpIndex: number) => {
-				if (navIndex !== inpIndex) inputElement.checked = false
-			},
-		),
-	),
-)
-
-// OCULTAR MANUALMENTE
-const hideNavMenu = (index: number) => {
-	inputsMenuSwitcher.forEach(
-		(inputElement: HTMLInputElement, inpIndex: number) => {
-			if (index === inpIndex) inputElement.checked = false
-		},
-	)
 }

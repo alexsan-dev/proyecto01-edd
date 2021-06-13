@@ -11,7 +11,6 @@ var newNodeValue = '';
 var oldNodeValue = '';
 canvasBannerDif = 110;
 var editor = document.querySelector('.editor > pre > code');
-var navBtns = document.querySelectorAll('.nav-btn');
 var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType) {
     if (circular === void 0) { circular = false; }
     if (likeStack === void 0) { likeStack = false; }
@@ -264,24 +263,4 @@ var updateNode = function () {
             removeBanner();
         }
     }
-};
-var inputsMenuSwitcher = Array.prototype.slice
-    .call(navBtns)
-    .map(function (element) {
-    return element.previousElementSibling;
-})
-    .filter(Boolean);
-navBtns.forEach(function (navElement, navIndex) {
-    return navElement.addEventListener('click', function () {
-        return inputsMenuSwitcher.forEach(function (inputElement, inpIndex) {
-            if (navIndex !== inpIndex)
-                inputElement.checked = false;
-        });
-    });
-});
-var hideNavMenu = function (index) {
-    inputsMenuSwitcher.forEach(function (inputElement, inpIndex) {
-        if (index === inpIndex)
-            inputElement.checked = false;
-    });
 };

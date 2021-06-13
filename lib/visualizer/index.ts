@@ -3,6 +3,7 @@ const sortRuntime = document.getElementById('sort-runtime')
 const sortLengthText = document.getElementById('sort-length')
 const startButton = document.getElementById('start-btn')
 const sortBanner = document.getElementById('sort-banner')
+const navBtns = document.querySelectorAll('.nav-btn')
 
 let canvasBannerDif: number = 20
 let VELOCITY: number = 200
@@ -84,6 +85,35 @@ const setRuntimeText = (ms: number) => {
 // CAMBIAR TEXTO DE ELEMENTOS
 const setElementsLength = (length: number) => {
 	if (sortLengthText) sortLengthText.textContent = length.toString()
+}
+
+// EVENTOS DE ELEMENTOS
+const inputsMenuSwitcher = Array.prototype.slice
+	.call(navBtns)
+	.map(
+		(element: Element) =>
+			element.previousElementSibling as HTMLInputElement | null,
+	)
+	.filter(Boolean) as HTMLInputElement[]
+
+// OCULTAR TODOS
+navBtns.forEach((navElement: Element, navIndex: number) =>
+	navElement.addEventListener('click', () =>
+		inputsMenuSwitcher.forEach(
+			(inputElement: HTMLInputElement, inpIndex: number) => {
+				if (navIndex !== inpIndex) inputElement.checked = false
+			},
+		),
+	),
+)
+
+// OCULTAR MANUALMENTE
+const hideNavMenu = (index: number) => {
+	inputsMenuSwitcher.forEach(
+		(inputElement: HTMLInputElement, inpIndex: number) => {
+			if (index === inpIndex) inputElement.checked = false
+		},
+	)
 }
 
 // INICIAR A ORDENAR

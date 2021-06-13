@@ -1,76 +1,57 @@
-class NodoDob{
+class NodoDob {
+	public dato: any
 
-    public dato:any
+	public siguiente: any
 
-    public siguiente:any
+	public anterior: any
 
-    public anterior:any
+	constructor(dato: any) {
+		this.dato = dato
 
-    constructor(dato:any){
+		this.siguiente = null
 
-        this.dato = dato
-
-        this.siguiente = null
-
-        this.anterior = null
-
-    }
+		this.anterior = null
+	}
 }
 
+class listacirculardob {
+	public primero: any
 
-class listacirculardob{
+	public ultimo: any
 
-    public primero:any
+	public size: number
 
-    public ultimo:any
+	constructor() {
+		this.primero = null
 
-    public size:number
+		this.ultimo = null
 
-    constructor(){
+		this.size = 0
+	}
 
+	vacia() {
+		if (this.primero == null) {
+			return true
+		}
+	}
 
-        this.primero = null
+	addInicio(valor: any) {
+		let nuevo = new NodoDob(valor)
 
-        this.ultimo = null
+		if (this.vacia() == true) {
+			this.primero = this.ultimo = nuevo
 
-        this.size = 0
+			this.size++
+		} else {
+			let aux = new NodoDob(valor)
 
-    }
+			aux.siguiente = this.primero
 
-    vacia(){
+			this.primero.anterior = aux
 
-        if(this.primero == null){
-            
-            return true
-        }
-    }
+			this.primero = aux
 
-
-    addInicio(valor:any){
-
-        let nuevo = new NodoDob(valor)
-
-
-        if(this.vacia() == true){
-
-            this.primero = this.ultimo = nuevo
-
-            this.size++
-
-        }else{
-
-            let aux = new NodoDob(valor)
-
-            aux.siguiente = this.primero
-
-            this.primero.anterior = aux
-
-            this.primero = aux
-
-            this.size++
-
-        }
-
-    }
-
+			this.size++
+		}
+	}
 }

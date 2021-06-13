@@ -3,6 +3,7 @@ var sortRuntime = document.getElementById('sort-runtime');
 var sortLengthText = document.getElementById('sort-length');
 var startButton = document.getElementById('start-btn');
 var sortBanner = document.getElementById('sort-banner');
+var navBtns = document.querySelectorAll('.nav-btn');
 var canvasBannerDif = 20;
 var VELOCITY = 200;
 var canvasObjectColors = [
@@ -62,5 +63,25 @@ var setRuntimeText = function (ms) {
 var setElementsLength = function (length) {
     if (sortLengthText)
         sortLengthText.textContent = length.toString();
+};
+var inputsMenuSwitcher = Array.prototype.slice
+    .call(navBtns)
+    .map(function (element) {
+    return element.previousElementSibling;
+})
+    .filter(Boolean);
+navBtns.forEach(function (navElement, navIndex) {
+    return navElement.addEventListener('click', function () {
+        return inputsMenuSwitcher.forEach(function (inputElement, inpIndex) {
+            if (navIndex !== inpIndex)
+                inputElement.checked = false;
+        });
+    });
+});
+var hideNavMenu = function (index) {
+    inputsMenuSwitcher.forEach(function (inputElement, inpIndex) {
+        if (index === inpIndex)
+            inputElement.checked = false;
+    });
 };
 removeBanner();
