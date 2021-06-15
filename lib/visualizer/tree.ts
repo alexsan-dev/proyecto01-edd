@@ -62,7 +62,7 @@ drawInCanvas = () => {
 					canvasCtx.strokeStyle =
 						canvasObjectColors[maxTreeHeight - treeHeighIndex]
 
-					// POSICION
+					// POSICIÓN
 					canvasCtx.translate(Math.pow(2, treeHeighIndex) * 50, 0)
 
 					if (node) {
@@ -90,7 +90,7 @@ drawInCanvas = () => {
 						// CIRCULO
 						canvasCtx.beginPath()
 
-						canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
+						canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)'
 						canvasCtx.lineWidth = 7
 
 						canvasCtx.arc(
@@ -108,7 +108,7 @@ drawInCanvas = () => {
 						canvasCtx.beginPath()
 						canvasCtx.textAlign = 'center'
 						canvasCtx.textBaseline = 'middle'
-						canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
+						canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 						canvasCtx.font = `bold ${
 							20 - node.valor.toString().length * 2.5
 						}px Montserrat`

@@ -52,7 +52,7 @@ drawInCanvas = function () {
                 canvasCtx.arc(nodeEndX, 0, 30, 0, 2 * Math.PI);
                 canvasCtx.save();
                 canvasCtx.globalAlpha = 0.5;
-                canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
+                canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
                 canvasCtx.strokeStyle =
                     canvasObjectColors[linearStructureLength + 2 > canvasObjectColors.length - 1
                         ? linearStructureLength +
@@ -78,7 +78,7 @@ drawInCanvas = function () {
             canvasCtx.beginPath();
             if (!isLikeStack)
                 canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI);
-            canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
+            canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
             canvasCtx.strokeStyle =
                 canvasObjectColors[nodeIndex > canvasObjectColors.length - 1
                     ? nodeIndex -
@@ -133,7 +133,7 @@ drawInCanvas = function () {
                 canvasCtx.arc(nodeRootX, 0, 30, 0, 2 * Math.PI);
                 canvasCtx.save();
                 canvasCtx.globalAlpha = 0.5;
-                canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
+                canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
                 canvasCtx.strokeStyle =
                     canvasObjectColors[nodeIndex + 1 > canvasObjectColors.length - 1
                         ? nodeIndex +

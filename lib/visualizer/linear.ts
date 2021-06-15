@@ -14,7 +14,6 @@ let insertMode: InsertMode = 'end'
 let repeatValues: boolean = true
 canvasBannerDif = 110
 
-
 // DATOS INICIALES
 const setLinearStructure = (
 	newLinearStructure: LinearStructure | null,
@@ -93,7 +92,7 @@ drawInCanvas = () => {
 				// COLOR
 				canvasCtx.save()
 				canvasCtx.globalAlpha = 0.5
-				canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
+				canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)'
 				canvasCtx.strokeStyle =
 					canvasObjectColors[
 						linearStructureLength + 2 > canvasObjectColors.length - 1
@@ -132,7 +131,7 @@ drawInCanvas = () => {
 			if (!isLikeStack) canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI)
 
 			// COLOR
-			canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
+			canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)'
 			canvasCtx.strokeStyle =
 				canvasObjectColors[
 					nodeIndex > canvasObjectColors.length - 1
@@ -227,7 +226,7 @@ drawInCanvas = () => {
 				// COLOR
 				canvasCtx.save()
 				canvasCtx.globalAlpha = 0.5
-				canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
+				canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)'
 				canvasCtx.strokeStyle =
 					canvasObjectColors[
 						nodeIndex + 1 > canvasObjectColors.length - 1
@@ -307,7 +306,6 @@ const changeInsertMode = (ev: Event) => {
 	const target = ev.target as HTMLInputElement
 	insertMode = target.value as InsertMode
 }
-
 
 // AGREGAR NODO
 const addNode = () => {

@@ -50,7 +50,7 @@ drawInCanvas = function () {
                         canvasCtx.stroke();
                         canvasCtx.closePath();
                         canvasCtx.beginPath();
-                        canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
+                        canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
                         canvasCtx.lineWidth = 7;
                         canvasCtx.arc(0, (maxTreeHeight - treeHeighIndex) * 100, 25, 0, 2 * Math.PI);
                         canvasCtx.stroke();
@@ -59,7 +59,7 @@ drawInCanvas = function () {
                         canvasCtx.beginPath();
                         canvasCtx.textAlign = 'center';
                         canvasCtx.textBaseline = 'middle';
-                        canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee';
+                        canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
                         canvasCtx.font = "bold " + (20 - node.valor.toString().length * 2.5) + "px Montserrat";
                         canvasCtx.fillText(node.valor, treeHeighIndex > 1 ? 50 * (isRight ? 1 : -1) : 0, (maxTreeHeight - treeHeighIndex) * 100 +
                             (treeHeighIndex > 1 ? 0 : 50));
