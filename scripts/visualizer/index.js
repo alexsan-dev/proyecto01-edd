@@ -1,10 +1,13 @@
 "use strict";
 var sortRuntime = document.getElementById('sort-runtime');
 var sortLengthText = document.getElementById('sort-length');
+var editor = document.querySelector('.editor > pre > code');
 var startButton = document.getElementById('start-btn');
 var sortBanner = document.getElementById('sort-banner');
 var navBtns = document.querySelectorAll('.nav-btn');
 var canvasBannerDif = 20;
+var newNodeValue = '';
+var oldNodeValue = '';
 var VELOCITY = 200;
 var canvasObjectColors = [
     '#F44336',
@@ -64,6 +67,12 @@ var setElementsLength = function (length) {
     if (sortLengthText)
         sortLengthText.textContent = length.toString();
 };
+var addTestCode = function (method, value) {
+    if (editor)
+        editor.innerHTML =
+            editor.innerHTML +
+                ("\ndata.<strong style=\"color: var(--monoFuncGreen)\">" + method + "</strong>(<strong style=\"color: var(--lightPurple)\">" + value + "</strong>)");
+};
 var inputsMenuSwitcher = Array.prototype.slice
     .call(navBtns)
     .map(function (element) {
@@ -83,5 +92,13 @@ var hideNavMenu = function (index) {
         if (index === inpIndex)
             inputElement.checked = false;
     });
+};
+var saveNewNodeValue = function (ev) {
+    var target = ev.target;
+    newNodeValue = target.value;
+};
+var saveOldNodeValue = function (ev) {
+    var target = ev.target;
+    oldNodeValue = target.value;
 };
 removeBanner();

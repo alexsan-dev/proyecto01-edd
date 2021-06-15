@@ -1,11 +1,14 @@
 // ELEMENTOS
 const sortRuntime = document.getElementById('sort-runtime')
 const sortLengthText = document.getElementById('sort-length')
+const editor = document.querySelector('.editor > pre > code')
 const startButton = document.getElementById('start-btn')
 const sortBanner = document.getElementById('sort-banner')
 const navBtns = document.querySelectorAll('.nav-btn')
 
 let canvasBannerDif: number = 20
+let newNodeValue: string = ''
+let oldNodeValue: string = ''
 let VELOCITY: number = 200
 
 // COLORES
@@ -87,6 +90,14 @@ const setElementsLength = (length: number) => {
 	if (sortLengthText) sortLengthText.textContent = length.toString()
 }
 
+// AGREGAR CÓDIGO
+const addTestCode = (method: string, value: string) => {
+	if (editor)
+		editor.innerHTML =
+			editor.innerHTML +
+			`\ndata.<strong style="color: var(--monoFuncGreen)">${method}</strong>(<strong style="color: var(--lightPurple)">${value}</strong>)`
+}
+
 // EVENTOS DE ELEMENTOS
 const inputsMenuSwitcher = Array.prototype.slice
 	.call(navBtns)
@@ -114,6 +125,17 @@ const hideNavMenu = (index: number) => {
 			if (index === inpIndex) inputElement.checked = false
 		},
 	)
+}
+
+// GUARDAR VALORES DE NODOS
+const saveNewNodeValue = (ev: Event) => {
+	const target = ev.target as HTMLInputElement
+	newNodeValue = target.value
+}
+
+const saveOldNodeValue = (ev: Event) => {
+	const target = ev.target as HTMLInputElement
+	oldNodeValue = target.value
 }
 
 // INICIAR A ORDENAR

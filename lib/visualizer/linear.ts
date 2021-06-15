@@ -12,12 +12,8 @@ type InsertMode = 'start' | 'end' | 'order'
 // CONFIGURACIÓN GLOBAL
 let insertMode: InsertMode = 'end'
 let repeatValues: boolean = true
-let newNodeValue: string = ''
-let oldNodeValue: string = ''
 canvasBannerDif = 110
 
-// ELEMENTOS
-const editor = document.querySelector('.editor > pre > code')
 
 // DATOS INICIALES
 const setLinearStructure = (
@@ -300,17 +296,6 @@ drawInCanvas = () => {
 	}
 }
 
-// GUARDAR VALORES DE NODOS
-const saveNewNodeValue = (ev: Event) => {
-	const target = ev.target as HTMLInputElement
-	newNodeValue = target.value
-}
-
-const saveOldNodeValue = (ev: Event) => {
-	const target = ev.target as HTMLInputElement
-	oldNodeValue = target.value
-}
-
 // CAMBIAR OPCIÓN DE REPETIR VALORES
 const changeRepeatValues = (ev: Event) => {
 	const target = ev.target as HTMLInputElement
@@ -323,13 +308,6 @@ const changeInsertMode = (ev: Event) => {
 	insertMode = target.value as InsertMode
 }
 
-// AGREGAR CÓDIGO
-const addTestCode = (method: string, value: string) => {
-	if (editor)
-		editor.innerHTML =
-			editor.innerHTML +
-			`\ndata.<strong style="color: var(--monoFuncGreen)">${method}</strong>(<strong style="color: var(--lightPurple)">${value}</strong>)`
-}
 
 // AGREGAR NODO
 const addNode = () => {

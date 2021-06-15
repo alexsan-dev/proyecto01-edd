@@ -1,5 +1,6 @@
 // GLOBALES
 let treeStructure: ArbolBinario | null = null
+let treeElementsLength: number = 7
 let maxTreeHeight: number = 0
 
 // DATOS INICIALES
@@ -13,6 +14,7 @@ const setTreeStructure = (newTreeStructure: ArbolBinario | null) => {
 		treeStructure.insertar(2)
 		treeStructure.insertar(3)
 		treeStructure.insertar(4)
+
 		treeStructure.insertar(5)
 		treeStructure.insertar(6)
 		treeStructure.insertar(7)
@@ -24,7 +26,7 @@ const setTreeStructure = (newTreeStructure: ArbolBinario | null) => {
 // DIBUJAR
 drawInCanvas = () => {
 	if (canvasCtx) {
-		canvasCtx.translate(maxTreeHeight * -340, maxTreeHeight * -37.5)
+		canvasCtx.translate(maxTreeHeight * -340, maxTreeHeight * -41)
 
 		if (treeStructure) {
 			const queue: (NodoAvl | null)[] = [treeStructure.raiz]
@@ -46,7 +48,7 @@ drawInCanvas = () => {
 					queue.push(node?.derecho || null)
 
 					// IZQUIERDO O DERECHO
-					const isLeft: boolean = treeXIndex % 2 === 1
+					const isRight: boolean = treeXIndex % 2 === 1
 
 					// REINCIAR
 					if (treeHeighIndex !== levelCounter) {
@@ -56,32 +58,19 @@ drawInCanvas = () => {
 						levelCounter = treeHeighIndex
 					}
 
-					// IZQUIERDO
-
 					// COLOR
-					canvasCtx.font = 'bold 18px Montserrat'
-					canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
 					canvasCtx.strokeStyle =
 						canvasObjectColors[maxTreeHeight - treeHeighIndex]
 
 					// POSICION
 					canvasCtx.translate(Math.pow(2, treeHeighIndex) * 50, 0)
 
-					// TEXTO
-					if (node) {
-						canvasCtx.fillText(
-							node.valor,
-							-50,
-							(maxTreeHeight - treeHeighIndex) * 100,
-						)
-					}
-
 					if (node) {
 						// LINEA
 						canvasCtx.beginPath()
 						canvasCtx.lineWidth = 5
 
-						if (isLeft) {
+						if (isRight) {
 							canvasCtx.moveTo(0, (maxTreeHeight - treeHeighIndex) * 100)
 							canvasCtx.lineTo(
 								Math.pow(2, treeHeighIndex) * -25 + 10,
@@ -100,6 +89,8 @@ drawInCanvas = () => {
 
 						// CIRCULO
 						canvasCtx.beginPath()
+
+						canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
 						canvasCtx.lineWidth = 7
 
 						canvasCtx.arc(
@@ -113,9 +104,81 @@ drawInCanvas = () => {
 						canvasCtx.stroke()
 						canvasCtx.fill()
 						canvasCtx.closePath()
+
+						canvasCtx.beginPath()
+						canvasCtx.textAlign = 'center'
+						canvasCtx.textBaseline = 'middle'
+						canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#eee'
+						canvasCtx.font = `bold ${
+							20 - node.valor.toString().length * 2.5
+						}px Montserrat`
+
+						// TEXTO
+						canvasCtx.fillText(
+							node.valor,
+							treeHeighIndex > 1 ? 50 * (isRight ? 1 : -1) : 0,
+							(maxTreeHeight - treeHeighIndex) * 100 +
+								(treeHeighIndex > 1 ? 0 : 50),
+						)
+
+						canvasCtx.closePath()
 					}
 				}
 			}
 		}
+	}
+}
+
+// AGREGAR NODO
+const addNodeOnTree = () => {
+	if (treeStructure && newNodeValue.length > 0) {
+		// INSERTAR
+		treeStructure.insertar(newNodeValue)
+		maxTreeHeight = treeStructure.raiz.altura
+
+		// RE DIMENSION
+		setElementsLength(treeElementsLength + 1)
+
+		// AGREGAR MUESTRA DE CÓDIGO
+		addTestCode('insertar', newNodeValue)
+
+		// OCULTAR MENU
+		hideNavMenu(1)
+		removeBanner()
+	}
+}
+
+// ELIMINAR NODO
+const removeNodeOnTree = () => {
+	if (treeStructure && oldNodeValue.length > 0) {
+		// INSERTAR
+		treeStructure.eliminar(oldNodeValue)
+		maxTreeHeight = treeStructure.raiz.altura
+
+		// RE DIMENSION
+		setElementsLength(treeElementsLength - 1)
+
+		// AGREGAR MUESTRA DE CÓDIGO
+		addTestCode('eliminar', oldNodeValue)
+
+		// OCULTAR MENU
+		hideNavMenu(1)
+		removeBanner()
+	}
+}
+
+// ACTUALIZAR NODO
+const updateNodeOnTree = () => {
+	if (treeStructure && oldNodeValue.length > 0 && newNodeValue.length > 0) {
+		// INSERTAR
+		treeStructure.actualizar(oldNodeValue, newNodeValue)
+		maxTreeHeight = treeStructure.raiz.altura
+
+		// AGREGAR MUESTRA DE CÓDIGO
+		addTestCode('actualizar', `${oldNodeValue},${newNodeValue}`)
+
+		// OCULTAR MENU
+		hideNavMenu(1)
+		removeBanner()
 	}
 }

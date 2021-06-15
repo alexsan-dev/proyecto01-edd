@@ -7,10 +7,7 @@ var isCircular = false;
 var isSimple = true;
 var insertMode = 'end';
 var repeatValues = true;
-var newNodeValue = '';
-var oldNodeValue = '';
 canvasBannerDif = 110;
-var editor = document.querySelector('.editor > pre > code');
 var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType) {
     if (circular === void 0) { circular = false; }
     if (likeStack === void 0) { likeStack = false; }
@@ -181,14 +178,6 @@ drawInCanvas = function () {
         }
     }
 };
-var saveNewNodeValue = function (ev) {
-    var target = ev.target;
-    newNodeValue = target.value;
-};
-var saveOldNodeValue = function (ev) {
-    var target = ev.target;
-    oldNodeValue = target.value;
-};
 var changeRepeatValues = function (ev) {
     var target = ev.target;
     repeatValues = target.checked;
@@ -196,12 +185,6 @@ var changeRepeatValues = function (ev) {
 var changeInsertMode = function (ev) {
     var target = ev.target;
     insertMode = target.value;
-};
-var addTestCode = function (method, value) {
-    if (editor)
-        editor.innerHTML =
-            editor.innerHTML +
-                ("\ndata.<strong style=\"color: var(--monoFuncGreen)\">" + method + "</strong>(<strong style=\"color: var(--lightPurple)\">" + value + "</strong>)");
 };
 var addNode = function () {
     if (linearStructure && newNodeValue.length > 0) {
