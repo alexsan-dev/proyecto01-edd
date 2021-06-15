@@ -1,1 +1,2 @@
-setTreeStructure(new ArbolBinario())
+// @ts-ignore
+setTreeStructure(new ArbolAvl())

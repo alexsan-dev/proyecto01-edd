@@ -1,119 +1,117 @@
-class NodoBinario{
-    public valor:any
-    public izquierdo:any
-    public derecho:any
+class NodoBinario {
+	public valor: any
+	public izquierdo: any
+	public derecho: any
 
-    constructor(valor:any){
-        this.valor = valor
-        this.izquierdo = null
-        this.derecho = null
-    }
+	constructor(valor: any) {
+		this.valor = valor
+		this.izquierdo = null
+		this.derecho = null
+	}
 }
 
-class ArbolBinario{
-    private raiz: any
-    
-    constructor(){
-        this.raiz = null
-    }
+class ArbolBinario {
+	public raiz: any
 
-    //Insertar un valor--------------------------------------------------------------->
-    insertar(valor:any){
-        this.raiz = this.insertarNodo(valor, this.raiz)
-    }
+	constructor() {
+		this.raiz = null
+	}
 
-    private insertarNodo(valor:any, raiz:any){
-        if (raiz == null){//Insertar el nuevo nodo en la posicion actual
-            raiz = new NodoBinario(valor)
-        }else{
-            if(valor < raiz.valor){//Si el valor es menor ir a lado izquierdo
-                raiz.izquierdo = this.insertarNodo(valor, raiz.izquierdo)
-            }else if(valor > raiz.valor){//Si el valor es mayor ir a lado derecho
-                raiz.derecho = this.insertarNodo(valor, raiz.derecho)
-            }
-        }
-        return raiz
-    }
+	//Insertar un valor--------------------------------------------------------------->
+	insertar(valor: any) {
+		this.raiz = this.insertarNodo(valor, this.raiz)
+	}
 
-    //Eliminación de Nodos------------------------------------------------------------>
-    eliminar(valor:any){
-        if(this.raiz != null){
-            this.raiz = this.delete(valor, this.raiz)
-        }
-    }
+	private insertarNodo(valor: any, raiz: any) {
+		if (raiz == null) {
+			//Insertar el nuevo nodo en la posicion actual
+			raiz = new NodoBinario(valor)
+		} else {
+			if (valor < raiz.valor) {
+				//Si el valor es menor ir a lado izquierdo
+				raiz.izquierdo = this.insertarNodo(valor, raiz.izquierdo)
+			} else if (valor > raiz.valor) {
+				//Si el valor es mayor ir a lado derecho
+				raiz.derecho = this.insertarNodo(valor, raiz.derecho)
+			}
+		}
+		return raiz
+	}
 
-    private delete(valor:any, raiz:any){
-        if(valor < raiz.valor){
-            //Ir a nodo izquierdo
-            raiz.izquierdo = this.delete(valor, raiz.izquierdo)
+	//Eliminación de Nodos------------------------------------------------------------>
+	eliminar(valor: any) {
+		if (this.raiz != null) {
+			this.raiz = this.delete(valor, this.raiz)
+		}
+	}
 
-        }else if(valor > raiz.valor){
-            //Ir a nodo derecho
-            raiz.derecho = this.delete(valor, raiz.derecho)
+	private delete(valor: any, raiz: any) {
+		if (valor < raiz.valor) {
+			//Ir a nodo izquierdo
+			raiz.izquierdo = this.delete(valor, raiz.izquierdo)
+		} else if (valor > raiz.valor) {
+			//Ir a nodo derecho
+			raiz.derecho = this.delete(valor, raiz.derecho)
+		} else if (valor == raiz.valor) {
+			//Borrar Nodos
+			if (raiz.izquierdo == null && raiz.derecho == null) {
+				//Es Nodo Hoja
+				return null
+			} else if (raiz.izquierdo != null && raiz.derecho == null) {
+				//Solo tiene hijo izquierdo
+				raiz = raiz.izquierdo
+			} else if (raiz.derecho != null && raiz.izquierdo == null) {
+				//Solo tiene hijo derecho
+				raiz = raiz.derecho
+			} else {
+				//Tiene ambos hijos
+				let v = this.izqMayor(raiz.izquierdo)
+				raiz = this.delete(v, raiz)
+				raiz.valor = v
+			}
+		}
+		return raiz
+	}
 
-        }else if (valor == raiz.valor){
-            //Borrar Nodos
-            if(raiz.izquierdo == null && raiz.derecho == null){
-                //Es Nodo Hoja
-                return null
-            }else if(raiz.izquierdo != null && raiz.derecho == null){
-                //Solo tiene hijo izquierdo
-                raiz = raiz.izquierdo
-            }else if(raiz.derecho != null && raiz.izquierdo == null){
-                //Solo tiene hijo derecho
-                raiz = raiz.derecho
-            }else{
-                //Tiene ambos hijos
-                let v = this.izqMayor(raiz.izquierdo)
-                raiz = this.delete(v, raiz)
-                raiz.valor = v
-            }
+	private izqMayor(raiz: any) {
+		while (raiz.derecho != null) {
+			raiz = raiz.derecho
+		}
+		return raiz.valor
+	}
 
-        }
-        return raiz
-    }
+	//Actualización de Nodos-------------------------------------------------------->
+	actualizar(valor: any, nuevo: any) {
+		if (this.raiz != null) {
+			this.eliminar(valor)
+			this.insertar(nuevo)
+		}
+	}
 
-    private izqMayor(raiz:any){
-        while(raiz.derecho!= null){
-            raiz = raiz.derecho
-        }
-        return raiz.valor
-    }
+	//METODOS DE PRUEBAS ----------------------------------------------------------->
+	print() {
+		console.log('\nARBOL BINARIO')
+		if (this.raiz != null) {
+			this.printNodo(this.raiz)
+		}
+		console.log('------------------------')
+	}
 
-    //Actualización de Nodos-------------------------------------------------------->
-    actualizar(valor:any, nuevo:any){
-        if(this.raiz != null){
-            this.eliminar(valor)
-            this.insertar(nuevo)
-        }
-    }
+	printNodo(raiz: NodoBinario) {
+		console.log('Raiz: ' + raiz.valor)
+		if (raiz.izquierdo != null) {
+			console.log('Izquierdo: ' + raiz.izquierdo.valor)
+		}
+		if (raiz.derecho != null) {
+			console.log('Derecho: ' + raiz.derecho.valor)
+		}
+		console.log('\n')
 
-    //METODOS DE PRUEBAS ----------------------------------------------------------->
-    print(){
-        console.log('\nARBOL BINARIO')
-        if(this.raiz != null){
-            this.printNodo(this.raiz)
-        }
-        console.log('------------------------')
-    }
-
-    printNodo(raiz:NodoBinario){
-        console.log('Raiz: '+raiz.valor)
-        if(raiz.izquierdo != null){
-            console.log('Izquierdo: '+ raiz.izquierdo.valor)
-        }
-        if(raiz.derecho != null){
-            console.log('Derecho: '+ raiz.derecho.valor)
-        }
-        console.log('\n')
-        
-        if(raiz.izquierdo != null){
-            this.printNodo(raiz.izquierdo)
-        }
-        if(raiz.derecho != null){
-            this.printNodo(raiz.derecho)
-        }
-    }
-
-    
+		if (raiz.izquierdo != null) {
+			this.printNodo(raiz.izquierdo)
+		}
+		if (raiz.derecho != null) {
+			this.printNodo(raiz.derecho)
+		}
+	}
 }
