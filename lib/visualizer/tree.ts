@@ -5,7 +5,7 @@ let maxTreeHeight: number = 0
 let treeClassName: string = ''
 
 // CONFIGURACIONES
-canvasBannerDif = 90
+canvasBannerDif = 140
 
 // DATOS INICIALES
 const setTreeStructure = (
