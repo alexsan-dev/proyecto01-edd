@@ -23,7 +23,7 @@ const codeDataArray = document.getElementById('code-data-array')
 const sortStepText = document.getElementById('sort-step-text')
 const sortPerformance = document.getElementById('sort-performance')
 
-// METODO DE SORT
+// MÉTODO DE SORT
 let sortMethod: (
 	data: number[],
 	stepCallback?: (newSortData: number[], step: number) => unknown,

@@ -6,7 +6,6 @@ var isLikeStack = false;
 var isCircular = false;
 var isSimple = true;
 var insertMode = 'end';
-var repeatValues = true;
 canvasBannerDif = 110;
 var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType) {
     if (circular === void 0) { circular = false; }
@@ -177,10 +176,6 @@ drawInCanvas = function () {
             }
         }
     }
-};
-var changeRepeatValues = function (ev) {
-    var target = ev.target;
-    repeatValues = target.checked;
 };
 var changeInsertMode = function (ev) {
     var target = ev.target;

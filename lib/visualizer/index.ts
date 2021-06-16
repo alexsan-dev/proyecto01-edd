@@ -7,6 +7,7 @@ const sortBanner = document.getElementById('sort-banner')
 const navBtns = document.querySelectorAll('.nav-btn')
 
 let canvasBannerDif: number = 20
+let repeatValues: boolean = true
 let newNodeValue: string = ''
 let oldNodeValue: string = ''
 let VELOCITY: number = 200
@@ -136,6 +137,12 @@ const saveNewNodeValue = (ev: Event) => {
 const saveOldNodeValue = (ev: Event) => {
 	const target = ev.target as HTMLInputElement
 	oldNodeValue = target.value
+}
+
+// CAMBIAR OPCIÓN DE REPETIR VALORES
+const changeRepeatValues = (ev: Event) => {
+	const target = ev.target as HTMLInputElement
+	repeatValues = target.checked
 }
 
 // INICIAR A ORDENAR

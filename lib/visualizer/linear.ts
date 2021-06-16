@@ -11,7 +11,6 @@ type InsertMode = 'start' | 'end' | 'order'
 
 // CONFIGURACIÓN GLOBAL
 let insertMode: InsertMode = 'end'
-let repeatValues: boolean = true
 canvasBannerDif = 110
 
 // DATOS INICIALES
@@ -293,12 +292,6 @@ drawInCanvas = () => {
 			}
 		}
 	}
-}
-
-// CAMBIAR OPCIÓN DE REPETIR VALORES
-const changeRepeatValues = (ev: Event) => {
-	const target = ev.target as HTMLInputElement
-	repeatValues = target.checked
 }
 
 // CAMBIAR MODO PARA INSERTAR

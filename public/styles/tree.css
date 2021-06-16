@@ -1,0 +1,14 @@
+.sort-banner {
+	width: 400px;
+	bottom: -200px;
+	right: 30px;
+	transform: scaleX(1);
+}
+
+.sort-banner > img {
+	width: 100%;
+}
+
+.editor {
+	width: 440px;
+}

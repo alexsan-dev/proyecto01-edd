@@ -2,8 +2,11 @@
 var treeStructure = null;
 var treeElementsLength = 7;
 var maxTreeHeight = 0;
-var setTreeStructure = function (newTreeStructure) {
+var treeClassName = '';
+canvasBannerDif = 90;
+var setTreeStructure = function (newTreeStructure, instanceClassName) {
     treeStructure = newTreeStructure;
+    treeClassName = instanceClassName;
     if (treeStructure) {
         treeStructure.insertar(1);
         treeStructure.insertar(2);
@@ -14,6 +17,19 @@ var setTreeStructure = function (newTreeStructure) {
         treeStructure.insertar(7);
         maxTreeHeight = treeStructure.raiz.altura;
     }
+};
+fileUploadCallback = function (json) {
+    var valores = json.valores;
+    if (treeStructure)
+        treeStructure.raiz = null;
+    treeElementsLength = 0;
+    if (editor)
+        editor.innerHTML = "<strong style=\"color:var(--monoConstIce)\">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style=\"color:var(--monoClassIce)\">" + treeClassName + "</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--monoNumberIce)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
+    valores.forEach(function (valor) {
+        newNodeValue = valor.toString();
+        addNodeOnTree();
+    });
+    setElementsLength(valores.length);
 };
 drawInCanvas = function () {
     if (canvasCtx) {

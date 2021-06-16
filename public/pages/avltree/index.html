@@ -7,7 +7,7 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<link href="../../styles/pages.css" rel="stylesheet" />
 		<link href="../../styles/global.css" rel="stylesheet" />
-		<link href="../../styles/linearPages.css" rel="stylesheet" />
+		<link href="../../styles/tree.css" rel="stylesheet" />
 		<link href="../../icons/style.css" rel="stylesheet" />
 		<link href="../../styles/normalize.css" rel="stylesheet" />
 	</head>
@@ -141,48 +141,16 @@
 								<i class="icon-chevron-down"></i>
 							</label>
 							<div class="settings-menu-container">
+								<div class="input">
+									<label for="index-input"><i class="icon-arrow-up-circle"></i></label>
+									<input
+										type="text"
+										id="index-input"
+										oninput="saveOldNodeValue(event)"
+										placeholder="Grado"
+									/>
+								</div>
 								<ul>
-									<li>
-										<button>
-											<i class="icon-plus-circle"></i> Agregar en:
-										</button>
-										<ul>
-											<li>
-												<label for="addAtStart">Inicio</label>
-												<input
-													onchange="changeInsertMode(event)"
-													type="radio"
-													id="addAtStart"
-													name="addAt"
-													value="start"
-												/>
-											</li>
-
-											<li>
-												<label for="addAtEnd">Final</label>
-												<input
-													type="radio"
-													checked="true"
-													id="addAtEnd"
-													onchange="changeInsertMode(event)"
-													name="addAt"
-													value="end"
-												/>
-											</li>
-
-											<li>
-												<label for="addAtOrder">Orden</label>
-												<input
-													type="radio"
-													id="addAtOrder"
-													onchange="changeInsertMode(event)"
-													name="addAt"
-													value="order"
-												/>
-											</li>
-										</ul>
-									</li>
-
 									<li>
 										<label class="btn" type="button" aria-label="Agregar">
 											<i class="icon-repeat"></i>Repetición<input
@@ -215,7 +183,7 @@
 							<input
 								type="checkbox"
 								style="display: none"
-								checked='true'
+								checked="true"
 								id="show-code-menu"
 							/>
 							<label class="btn" for="show-code-menu" type="button">
@@ -240,8 +208,8 @@ data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style
 									</li>
 									<li>
 										<label
-										class="btn"
-										for='show-code-menu'
+											class="btn"
+											for="show-code-menu"
 											id="start-btn"
 											type="button"
 											onclick="startSorting()"
@@ -254,7 +222,7 @@ data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style
 							<div class="sort-banner">
 								<img
 									id="sort-banner"
-									src="../../images/pages/list.png"
+									src="../../images/pages/tree.png"
 									alt="Bot"
 								/>
 							</div>
@@ -314,7 +282,6 @@ data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style
 		</main>
 		<script src="../../../scripts/utils/colors.js"></script>
 		<script src="../../../scripts/utils/canvas.js"></script>
-		<script src="../../../scripts/structures/binarytree/index.js"></script>
 		<script src="../../../scripts/structures/avltree/index.js"></script>
 		<script src="../../../scripts/visualizer/index.js"></script>
 		<script src="../../../scripts/visualizer/tree.js"></script>

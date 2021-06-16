@@ -6,6 +6,7 @@ var startButton = document.getElementById('start-btn');
 var sortBanner = document.getElementById('sort-banner');
 var navBtns = document.querySelectorAll('.nav-btn');
 var canvasBannerDif = 20;
+var repeatValues = true;
 var newNodeValue = '';
 var oldNodeValue = '';
 var VELOCITY = 200;
@@ -100,5 +101,9 @@ var saveNewNodeValue = function (ev) {
 var saveOldNodeValue = function (ev) {
     var target = ev.target;
     oldNodeValue = target.value;
+};
+var changeRepeatValues = function (ev) {
+    var target = ev.target;
+    repeatValues = target.checked;
 };
 removeBanner();

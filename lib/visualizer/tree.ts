@@ -2,11 +2,19 @@
 let treeStructure: ArbolBinario | null = null
 let treeElementsLength: number = 7
 let maxTreeHeight: number = 0
+let treeClassName: string = ''
+
+// CONFIGURACIONES
+canvasBannerDif = 90
 
 // DATOS INICIALES
-const setTreeStructure = (newTreeStructure: ArbolBinario | null) => {
+const setTreeStructure = (
+	newTreeStructure: ArbolBinario | null,
+	instanceClassName: string,
+) => {
 	// CONFIGURAR GLOBALES
 	treeStructure = newTreeStructure
+	treeClassName = instanceClassName
 
 	// ELEMENTOS INICIALES
 	if (treeStructure) {
@@ -21,6 +29,29 @@ const setTreeStructure = (newTreeStructure: ArbolBinario | null) => {
 
 		maxTreeHeight = treeStructure.raiz.altura
 	}
+}
+
+// LEER ARCHIVO
+fileUploadCallback = (json: JSONInputFile) => {
+	const { valores } = json
+
+	// BORRAR
+	if (treeStructure) treeStructure.raiz = null
+
+	// TEXTOS
+	treeElementsLength = 0
+	if (editor)
+		// @ts-ignore
+		editor.innerHTML = `<strong style="color:var(--monoConstIce)">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style="color:var(--monoClassIce)">${treeClassName}</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--monoNumberIce)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()\n`
+
+	// ITERAR
+	valores.forEach((valor: string | number) => {
+		newNodeValue = valor.toString()
+		addNodeOnTree()
+	})
+
+	// ELEMENTOS
+	setElementsLength(valores.length)
 }
 
 // DIBUJAR
