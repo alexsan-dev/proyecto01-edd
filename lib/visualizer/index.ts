@@ -10,7 +10,6 @@ let canvasBannerDif: number = 20
 let repeatValues: boolean = true
 let newNodeValue: string = ''
 let oldNodeValue: string = ''
-let VELOCITY: number = 200
 
 // COLORES
 const canvasObjectColors: string[] = [
@@ -30,6 +29,9 @@ const canvasObjectColors: string[] = [
 // REINICIAR CANVAS
 const resetCanvas = () => {
 	if (canvasCtx) {
+		xTranslateCounter = 0
+		yTranslateCounter = 0
+		scaleCounter = 0
 		isDragging = false
 		initialPinchDistance = null
 		cameraOffset = { x: width / 2, y: height / 2 }
@@ -64,7 +66,7 @@ const onChangeUploadInput = (ev: Event): void => {
 // CAMBIAR VELOCIDAD
 const onChangeSortVelocity = (ev: Event) => {
 	const target = ev.target as HTMLInputElement
-	VELOCITY = 850 - +target.value
+	ANIMATION_VELOCITY = +target.value
 }
 
 // ELIMINAR IMAGEN DE BANNER

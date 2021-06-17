@@ -76,6 +76,18 @@ var ListaSimple = (function () {
         }
         return nodo;
     };
+    ListaSimple.prototype.obtenerIndice = function (valor) {
+        var nodo = this.raiz;
+        var indice = 0;
+        for (var i = 0; i < this.tamaño; i++) {
+            if (nodo.valor.toString() === valor.toString()) {
+                indice = i;
+                break;
+            }
+            nodo = nodo.siguiente;
+        }
+        return indice;
+    };
     ListaSimple.prototype.actualizar = function (valor, nuevo) {
         if (this.raiz != null) {
             if (this.raiz.valor == valor) {

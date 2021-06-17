@@ -7,6 +7,9 @@ var isCircular = false;
 var isSimple = true;
 var insertMode = 'end';
 canvasBannerDif = 110;
+var opacityCounter = 0;
+var deleteIndex = -1;
+var opacityEndCallback = function () { };
 var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType) {
     if (circular === void 0) { circular = false; }
     if (likeStack === void 0) { likeStack = false; }
@@ -23,6 +26,8 @@ var setLinearStructure = function (newLinearStructure, linearClassName, simple, 
         linearStructure.insertar(3);
         linearStructure.insertar(4);
         linearStructure.insertar(5);
+        if (isLikeStack)
+            linearStructure.insertar(6);
     }
     linearStructureLength = (linearStructure === null || linearStructure === void 0 ? void 0 : linearStructure.getTamaño()) || 5;
 };
@@ -45,6 +50,11 @@ drawInCanvas = function () {
         canvasCtx.globalCompositeOperation = 'destination-over';
         for (var nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
             var nodeX = -579 + 150 * nodeIndex;
+            if (isCircular && !isSimple) {
+                canvasCtx.restore();
+                canvasCtx.save();
+                canvasCtx.translate(90, 0);
+            }
             if (isCircular && nodeIndex === 0 && !isSimple) {
                 var nodeEndX = -530 + 150 * -1;
                 canvasCtx.beginPath();
@@ -85,6 +95,17 @@ drawInCanvas = function () {
                             Math.floor(nodeIndex / canvasObjectColors.length)
                     : nodeIndex];
             canvasCtx.lineWidth = 7;
+            if (nodeIndex === deleteIndex) {
+                if (opacityCounter < 1) {
+                    canvasCtx.save();
+                    opacityCounter += ANIMATION_VELOCITY / 150;
+                    canvasCtx.globalAlpha = 1 - opacityCounter;
+                }
+                else {
+                    opacityEndCallback();
+                    opacityEndCallback = function () { };
+                }
+            }
             if (!isLikeStack) {
                 canvasCtx.stroke();
                 canvasCtx.fill();
@@ -106,6 +127,7 @@ drawInCanvas = function () {
                 canvasCtx.textAlign = 'center';
                 canvasCtx.fillText(nodeValue, isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX, isLikeStack ? -55 : -50);
             }
+            canvasCtx.restore();
             if ((nodeIndex < linearStructureLength - 1 ||
                 (isCircular && nodeIndex === linearStructureLength - 1)) &&
                 !isLikeStack) {
@@ -185,12 +207,16 @@ var addNode = function () {
     if (linearStructure && newNodeValue.length > 0) {
         var nodeOnStructure = linearStructure.buscar(newNodeValue);
         if (repeatValues || (!repeatValues && nodeOnStructure === null)) {
-            if (insertMode === 'start')
-                linearStructure.push(newNodeValue);
-            else if (insertMode === 'end')
-                linearStructure.insertar(newNodeValue);
-            linearStructureLength = linearStructure.getTamaño();
-            setElementsLength(linearStructureLength);
+            findNodeAnimation(linearStructureLength - 1, function () {
+                if (linearStructure) {
+                    if (insertMode === 'start')
+                        linearStructure.push(newNodeValue);
+                    else if (insertMode === 'end')
+                        linearStructure.insertar(newNodeValue);
+                    linearStructureLength = linearStructure.getTamaño();
+                    setElementsLength(linearStructureLength);
+                }
+            });
             addTestCode(insertMode === 'start'
                 ? 'push'
                 : insertMode === 'end'
@@ -205,22 +231,47 @@ var removeNode = function () {
     if (linearStructure && oldNodeValue.length > 0) {
         var nodeOnStructure = linearStructure.buscar(oldNodeValue);
         if (nodeOnStructure !== null) {
-            linearStructure.eliminar(oldNodeValue);
-            linearStructureLength = linearStructure.getTamaño();
-            setElementsLength(linearStructureLength);
+            var nodeIndex_1 = linearStructure.obtenerIndice(oldNodeValue);
+            findNodeAnimation(nodeIndex_1, function () {
+                opacityEndCallback = function () {
+                    if (linearStructure) {
+                        linearStructure.eliminar(oldNodeValue);
+                        linearStructureLength = linearStructure.getTamaño();
+                        setElementsLength(linearStructureLength);
+                    }
+                };
+                deleteIndex = nodeIndex_1;
+                opacityCounter = 0;
+            });
             addTestCode('eliminar', oldNodeValue);
             hideNavMenu(1);
             removeBanner();
         }
     }
 };
+var findNodeAnimation = function (selectedIndex, callback) {
+    if (linearStructure) {
+        var index = selectedIndex || linearStructure.obtenerIndice(oldNodeValue);
+        var fase = isLikeStack ? 1.72 : 2.4;
+        var middle = isLikeStack ? 2 : 4;
+        resetCanvas();
+        translateCanvasTo(((index <= middle ? middle + 1 : index * 2) - index) *
+            (index <= middle ? -50 : 50) *
+            fase +
+            (index <= middle
+                ? isLikeStack
+                    ? -150
+                    : 136
+                : isLikeStack
+                    ? -440
+                    : -465), 0, callback);
+    }
+};
 var findNode = function () {
     if (linearStructure && oldNodeValue.length > 0) {
         var nodeOnStructure = linearStructure.buscar(oldNodeValue);
         if (nodeOnStructure !== null) {
-            linearStructure.buscar(oldNodeValue);
-            linearStructureLength = linearStructure.getTamaño();
-            setElementsLength(linearStructureLength);
+            findNodeAnimation(undefined, function () { });
             addTestCode('buscar', oldNodeValue);
             hideNavMenu(1);
             removeBanner();

@@ -13,6 +13,13 @@ type InsertMode = 'start' | 'end' | 'order'
 let insertMode: InsertMode = 'end'
 canvasBannerDif = 110
 
+// ANIMACIÓN
+let opacityCounter: number = 0
+let deleteIndex: number = -1
+
+// CALLBACK DE ANIMACIÓN
+let opacityEndCallback = () => {}
+
 // DATOS INICIALES
 const setLinearStructure = (
 	newLinearStructure: LinearStructure | null,
@@ -37,6 +44,8 @@ const setLinearStructure = (
 		linearStructure.insertar(3)
 		linearStructure.insertar(4)
 		linearStructure.insertar(5)
+
+		if (isLikeStack) linearStructure.insertar(6)
 	}
 
 	// ACTUALIZAR TAMAÑO
@@ -79,6 +88,12 @@ drawInCanvas = () => {
 		for (let nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
 			// POSICIONES EN X
 			const nodeX: number = -579 + 150 * nodeIndex
+
+			if (isCircular && !isSimple) {
+				canvasCtx.restore()
+				canvasCtx.save()
+				canvasCtx.translate(90, 0)
+			}
 
 			// NODO FINAL LISTA CIRCULAR
 			if (isCircular && nodeIndex === 0 && !isSimple) {
@@ -141,6 +156,18 @@ drawInCanvas = () => {
 				]
 			canvasCtx.lineWidth = 7
 
+			// ANIMACIÓN DE ELIMINAR
+			if (nodeIndex === deleteIndex) {
+				if (opacityCounter < 1) {
+					canvasCtx.save()
+					opacityCounter += ANIMATION_VELOCITY / 150
+					canvasCtx.globalAlpha = 1 - opacityCounter
+				} else {
+					opacityEndCallback()
+					opacityEndCallback = () => {}
+				}
+			}
+
 			// DIBUJAR BORDE Y CIRCULO
 			if (!isLikeStack) {
 				canvasCtx.stroke()
@@ -175,6 +202,8 @@ drawInCanvas = () => {
 					isLikeStack ? -55 : -50,
 				)
 			}
+
+			canvasCtx.restore()
 
 			// FLECHA NODO SIGUIENTE
 			if (
@@ -309,12 +338,18 @@ const addNode = () => {
 
 		// INSERTAR
 		if (repeatValues || (!repeatValues && nodeOnStructure === null)) {
-			if (insertMode === 'start') linearStructure.push(newNodeValue)
-			else if (insertMode === 'end') linearStructure.insertar(newNodeValue)
+			// ANIMAR
 
-			// RE DIMENSION
-			linearStructureLength = linearStructure.getTamaño()
-			setElementsLength(linearStructureLength)
+			findNodeAnimation(linearStructureLength - 1, () => {
+				if (linearStructure) {
+					if (insertMode === 'start') linearStructure.push(newNodeValue)
+					else if (insertMode === 'end') linearStructure.insertar(newNodeValue)
+
+					// RE DIMENSION
+					linearStructureLength = linearStructure.getTamaño()
+					setElementsLength(linearStructureLength)
+				}
+			})
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode(
@@ -341,12 +376,23 @@ const removeNode = () => {
 			linearStructure.buscar(oldNodeValue)
 
 		if (nodeOnStructure !== null) {
-			// ELIMINAR
-			linearStructure.eliminar(oldNodeValue)
+			// 	INDICE
+			const nodeIndex = linearStructure.obtenerIndice(oldNodeValue)
 
-			// RE DIMENSION
-			linearStructureLength = linearStructure.getTamaño()
-			setElementsLength(linearStructureLength)
+			findNodeAnimation(nodeIndex, () => {
+				opacityEndCallback = () => {
+					if (linearStructure) {
+						// ELIMINAR
+						linearStructure.eliminar(oldNodeValue)
+
+						// RE DIMENSION
+						linearStructureLength = linearStructure.getTamaño()
+						setElementsLength(linearStructureLength)
+					}
+				}
+				deleteIndex = nodeIndex
+				opacityCounter = 0
+			})
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode('eliminar', oldNodeValue)
@@ -359,6 +405,33 @@ const removeNode = () => {
 }
 
 // ELIMINAR NODO
+const findNodeAnimation = (
+	selectedIndex?: number,
+	callback?: () => unknown,
+) => {
+	if (linearStructure) {
+		const index = selectedIndex || linearStructure.obtenerIndice(oldNodeValue)
+		const fase = isLikeStack ? 1.72 : 2.4
+		const middle = isLikeStack ? 2 : 4
+
+		// ANIMACIÓN
+		resetCanvas()
+		translateCanvasTo(
+			((index <= middle ? middle + 1 : index * 2) - index) *
+				(index <= middle ? -50 : 50) *
+				fase +
+				(index <= middle
+					? isLikeStack
+						? -150
+						: 136
+					: isLikeStack
+					? -440
+					: -465),
+			0,
+			callback,
+		)
+	}
+}
 const findNode = () => {
 	if (linearStructure && oldNodeValue.length > 0) {
 		// BUSCAR NODO
@@ -366,12 +439,7 @@ const findNode = () => {
 			linearStructure.buscar(oldNodeValue)
 
 		if (nodeOnStructure !== null) {
-			// ELIMINAR
-			linearStructure.buscar(oldNodeValue)
-
-			// RE DIMENSION
-			linearStructureLength = linearStructure.getTamaño()
-			setElementsLength(linearStructureLength)
+			findNodeAnimation(undefined, () => {})
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode('buscar', oldNodeValue)

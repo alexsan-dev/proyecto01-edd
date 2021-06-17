@@ -22,6 +22,7 @@ let cameraZoom: number = 1
 let MAX_ZOOM: number = 5
 let MIN_ZOOM: number = 0.1
 let SCROLL_SENSITIVITY: number = 0.003
+let ANIMATION_VELOCITY: number = 5
 
 // RUNTIME
 let isDragging: boolean = false
@@ -29,8 +30,24 @@ let dragStart: CanvasCoords = { x: 0, y: 0 }
 let initialPinchDistance: number | null = null
 let lastZoom: number = cameraZoom
 
-// METODOS
+// MÉTODOS
 let drawInCanvas: () => unknown = () => {}
+
+// ANIMACIÓN DE POSICIÓN
+let enableTranslate: boolean = false
+let xTranslateCounter: number = 0
+let yTranslateCounter: number = 0
+let xTranslate: number = 0
+let yTranslate: number = 0
+
+// ANIMACIÓN DE ZOOM
+let enableZoom: boolean = false
+let scaleCounter: number = 0
+let animScale: number = 0
+
+// CALLBACKS DE TRANSLATES
+let canvasTranslateEndCallback = () => {}
+let canvasZoomEndCallback = () => {}
 
 // DIBUJAR
 const draw = (): void => {
@@ -39,9 +56,49 @@ const draw = (): void => {
 	canvas.height = height
 
 	if (canvasCtx) {
-		// CENTRAR ANTES DE HACER ZOOM
+		// ANIMAR TRANSLATE
+		if (enableTranslate) {
+			if (xTranslate !== 0) {
+				if (xTranslateCounter < Math.abs(xTranslate))
+					xTranslateCounter += ANIMATION_VELOCITY
+				else {
+					canvasTranslateEndCallback()
+					enableTranslate = false
+				}
+			}
+			if (yTranslate !== 0) {
+				if (yTranslateCounter < Math.abs(yTranslate))
+					yTranslateCounter += ANIMATION_VELOCITY
+				else {
+					canvasTranslateEndCallback()
+					enableTranslate = false
+				}
+			}
+		}
+
+		// ANIMAR ZOOM
+		if (enableZoom) {
+			if (scaleCounter < animScale) scaleCounter += 0.05
+			else {
+				canvasZoomEndCallback()
+				enableZoom = false
+			}
+		}
+
+		// ANIMACIÓN DE TRANSLATE
+		canvasCtx.translate(
+			xTranslateCounter * -1.25 * (xTranslate < 0 ? -1 : 1),
+			yTranslateCounter * -1.25 * (yTranslate < 0 ? -1 : 1),
+		)
+
+		// CENTRAR
 		canvasCtx.translate(width / 2, height / 2)
-		canvasCtx.scale(cameraZoom, cameraZoom)
+
+		// MOVER
+		canvasCtx.scale(
+			cameraZoom + scaleCounter * 1.25,
+			cameraZoom + scaleCounter * 1.25,
+		)
 		canvasCtx.translate(
 			-width / 2 + cameraOffset.x,
 			-height / 2 + cameraOffset.y,
@@ -267,4 +324,17 @@ CanvasRenderingContext2D.prototype.roundRect = function (
 	this.quadraticCurveTo(x, y + height, x, y + height - localRadius.bl)
 	this.lineTo(x, y + localRadius.tl)
 	this.quadraticCurveTo(x, y, x + localRadius.tl, y)
+}
+
+const translateCanvasTo = (x: number, y: number, callback?: () => unknown) => {
+	if (callback) canvasTranslateEndCallback = callback
+	enableTranslate = true
+	xTranslate = x
+	yTranslate = y
+}
+
+const zoomCanvasTo = (scale: number, callback?: () => unknown) => {
+	if (callback) canvasZoomEndCallback = callback
+	enableZoom = true
+	animScale = scale
 }

@@ -9,7 +9,6 @@ var canvasBannerDif = 20;
 var repeatValues = true;
 var newNodeValue = '';
 var oldNodeValue = '';
-var VELOCITY = 200;
 var canvasObjectColors = [
     '#F44336',
     '#E91E63',
@@ -25,6 +24,9 @@ var canvasObjectColors = [
 ];
 var resetCanvas = function () {
     if (canvasCtx) {
+        xTranslateCounter = 0;
+        yTranslateCounter = 0;
+        scaleCounter = 0;
         isDragging = false;
         initialPinchDistance = null;
         cameraOffset = { x: width / 2, y: height / 2 };
@@ -48,7 +50,7 @@ var onChangeUploadInput = function (ev) {
 };
 var onChangeSortVelocity = function (ev) {
     var target = ev.target;
-    VELOCITY = 850 - +target.value;
+    ANIMATION_VELOCITY = +target.value;
 };
 var removeBanner = function () {
     if (startButton && sortBanner) {

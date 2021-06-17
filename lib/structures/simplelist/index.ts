@@ -97,6 +97,21 @@ class ListaSimple {
 
 		return nodo
 	}
+	// BUSCAR UN VALOR EN LA LISTA POR SU INDICE
+	obtenerIndice(valor: any) {
+		let nodo = this.raiz
+		let indice = 0
+
+		for (let i = 0; i < this.tamaño; i++) {
+			if (nodo.valor.toString() === valor.toString()) {
+				indice = i
+				break
+			}
+			nodo = nodo.siguiente
+		}
+
+		return indice
+	}
 
 	//Actualiza el valor de un nodo
 	actualizar(valor: any, nuevo: any) {
