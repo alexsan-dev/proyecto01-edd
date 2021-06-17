@@ -4,6 +4,7 @@ var NodoBinario = (function () {
         this.valor = valor;
         this.izquierdo = null;
         this.derecho = null;
+        this.altura = 0;
     }
     return NodoBinario;
 }());
@@ -11,6 +12,18 @@ var ArbolBinario = (function () {
     function ArbolBinario() {
         this.raiz = null;
     }
+    ArbolBinario.prototype.altura = function (raiz) {
+        if (raiz == null) {
+            return 0;
+        }
+        return raiz.altura;
+    };
+    ArbolBinario.prototype.alturaMax = function (izq, der) {
+        if (this.altura(izq) > this.altura(der)) {
+            return this.altura(izq);
+        }
+        return this.altura(der);
+    };
     ArbolBinario.prototype.insertar = function (valor) {
         this.raiz = this.insertarNodo(valor, this.raiz);
     };
@@ -26,6 +39,7 @@ var ArbolBinario = (function () {
                 raiz.derecho = this.insertarNodo(valor, raiz.derecho);
             }
         }
+        raiz.altura = this.alturaMax(raiz.izquierdo, raiz.derecho) + 1;
         return raiz;
     };
     ArbolBinario.prototype.eliminar = function (valor) {
@@ -55,6 +69,9 @@ var ArbolBinario = (function () {
                 raiz = this.delete(v, raiz);
                 raiz.valor = v;
             }
+        }
+        if (raiz != null) {
+            raiz.altura = this.alturaMax(raiz.izquierdo, raiz.derecho) + 1;
         }
         return raiz;
     };

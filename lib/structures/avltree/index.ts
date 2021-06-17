@@ -28,7 +28,7 @@ class ArbolAvl{
     }
 
     //Devuelve la altura maxima del Nodo
-    alturaMax(izq:NodoAvl,der:NodoAvl){
+    alturaMax(izq:NodoAvl, der:NodoAvl){
         if(this.altura(izq)>this.altura(der)){
             return this.altura(izq)
         }
