@@ -160,7 +160,7 @@ const startSorting = () => {
 					(globalSortLength / step) *
 					100
 				).toFixed(2)}%`
-		}, step * VELOCITY)
+		}, step * (30 - ANIMATION_VELOCITY))
 	})
 }
 
