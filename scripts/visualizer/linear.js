@@ -7,6 +7,8 @@ var isCircular = false;
 var isSimple = true;
 var insertMode = 'end';
 canvasBannerDif = 110;
+var nodeScaleIndex = -1;
+var nodeScaleCounter = 0;
 var opacityCounter = 0;
 var deleteIndex = -1;
 var opacityEndCallback = function () { };
@@ -50,15 +52,14 @@ drawInCanvas = function () {
         canvasCtx.globalCompositeOperation = 'destination-over';
         for (var nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
             var nodeX = -579 + 150 * nodeIndex;
-            if (isCircular && !isSimple) {
-                canvasCtx.restore();
-                canvasCtx.save();
-                canvasCtx.translate(90, 0);
-            }
+            var addedX = 0;
+            if (isCircular && !isSimple)
+                addedX = 90;
+            var scaleAdded = nodeScaleIndex === nodeIndex ? nodeScaleCounter : 0;
             if (isCircular && nodeIndex === 0 && !isSimple) {
                 var nodeEndX = -530 + 150 * -1;
                 canvasCtx.beginPath();
-                canvasCtx.arc(nodeEndX, 0, 30, 0, 2 * Math.PI);
+                canvasCtx.arc(nodeEndX + addedX, 0, 30, 0, 2 * Math.PI);
                 canvasCtx.save();
                 canvasCtx.globalAlpha = 0.5;
                 canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
@@ -80,13 +81,15 @@ drawInCanvas = function () {
                     canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
                     canvasCtx.font = "bold " + (20 - nodeEndValue.length * 0.5) + "px Montserrat";
                     canvasCtx.textAlign = 'center';
-                    canvasCtx.fillText(nodeEndValue, nodeEndX, -50);
+                    canvasCtx.fillText(nodeEndValue, nodeEndX + addedX, -50);
                 }
                 canvasCtx.restore();
             }
             canvasCtx.beginPath();
+            if (nodeScaleIndex === nodeIndex && nodeScaleCounter < 10)
+                nodeScaleCounter += ANIMATION_VELOCITY * 0.1;
             if (!isLikeStack)
-                canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI);
+                canvasCtx.arc(nodeX + addedX, 0, 40 + scaleAdded, 0, 2 * Math.PI);
             canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
             canvasCtx.strokeStyle =
                 canvasObjectColors[nodeIndex > canvasObjectColors.length - 1
@@ -112,10 +115,10 @@ drawInCanvas = function () {
             }
             else {
                 canvasCtx.beginPath();
-                canvasCtx.roundRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80, 10);
+                canvasCtx.roundRect(nodeX - nodeX / 3.5 - 200 + addedX - scaleAdded / 2, -40 - scaleAdded / 2, 80 + scaleAdded, 80 + scaleAdded, 10);
                 canvasCtx.stroke();
                 canvasCtx.closePath();
-                canvasCtx.fillRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80);
+                canvasCtx.fillRect(nodeX - nodeX / 3.5 - 200 + addedX - scaleAdded / 2, -40 - scaleAdded / 2, 80 + scaleAdded, 80 + scaleAdded);
             }
             canvasCtx.closePath();
             var nodeValue = linearStructure
@@ -125,7 +128,8 @@ drawInCanvas = function () {
                 canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
                 canvasCtx.font = "bold " + (20 - nodeValue.length * 0.5) + "px Montserrat";
                 canvasCtx.textAlign = 'center';
-                canvasCtx.fillText(nodeValue, isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX, isLikeStack ? -55 : -50);
+                canvasCtx.fillText(nodeValue, (isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX) + addedX, (isLikeStack ? -55 : -50) -
+                    (nodeScaleIndex === nodeIndex ? nodeScaleCounter : 0));
             }
             canvasCtx.restore();
             if ((nodeIndex < linearStructureLength - 1 ||
@@ -143,7 +147,7 @@ drawInCanvas = function () {
                         canvasCtx.globalAlpha = 0.5;
                 }
                 canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb';
-                canvasCtx.arrow((isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0), -1, isSimple ? (isCircularEnd ? 36 : 60) : 95, 4);
+                canvasCtx.arrow((isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0) + addedX, -1, isSimple ? (isCircularEnd ? 36 : 60) : 95, 4);
                 canvasCtx.closePath();
                 if (isSimple || isCircular)
                     canvasCtx.restore();
@@ -151,7 +155,7 @@ drawInCanvas = function () {
             if (isCircular && nodeIndex === linearStructureLength - 1) {
                 var nodeRootX = -625 + 150 * (nodeIndex + 1);
                 canvasCtx.beginPath();
-                canvasCtx.arc(nodeRootX, 0, 30, 0, 2 * Math.PI);
+                canvasCtx.arc(nodeRootX + addedX, 0, 30, 0, 2 * Math.PI);
                 canvasCtx.save();
                 canvasCtx.globalAlpha = 0.5;
                 canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
@@ -173,7 +177,7 @@ drawInCanvas = function () {
                     canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
                     canvasCtx.font = "bold " + (20 - nodeRootValue.length * 0.5) + "px Montserrat";
                     canvasCtx.textAlign = 'center';
-                    canvasCtx.fillText(nodeRootValue, nodeRootX, -50);
+                    canvasCtx.fillText(nodeRootValue, nodeRootX + addedX, -50);
                 }
                 canvasCtx.restore();
             }
@@ -184,14 +188,13 @@ drawInCanvas = function () {
                     if (isCircular && nodeIndex === 0) {
                         canvasCtx.globalAlpha = 0.5;
                         if (!isSimple) {
-                            canvasCtx.scale(0.8, 0.8);
-                            canvasCtx.translate(-170, 0);
+                            canvasCtx.translate(0, 0);
                         }
                     }
                 }
                 canvasCtx.beginPath();
                 canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb';
-                canvasCtx.arrow(nodeX + 5 - 105, -1, 95, 4, true, true);
+                canvasCtx.arrow(nodeX + 5 - 105 + addedX, -1, 95, 4, true, true);
                 canvasCtx.closePath();
                 if (!isSimple || isCircular)
                     canvasCtx.restore();
@@ -207,6 +210,8 @@ var addNode = function () {
     if (linearStructure && newNodeValue.length > 0) {
         var nodeOnStructure = linearStructure.buscar(newNodeValue);
         if (repeatValues || (!repeatValues && nodeOnStructure === null)) {
+            scaleCounter = 0;
+            nodeScaleIndex = -1;
             findNodeAnimation(linearStructureLength - 1, function () {
                 if (linearStructure) {
                     if (insertMode === 'start')
@@ -216,7 +221,7 @@ var addNode = function () {
                     linearStructureLength = linearStructure.getTamaño();
                     setElementsLength(linearStructureLength);
                 }
-            });
+            }, false);
             addTestCode(insertMode === 'start'
                 ? 'push'
                 : insertMode === 'end'
@@ -249,22 +254,30 @@ var removeNode = function () {
         }
     }
 };
-var findNodeAnimation = function (selectedIndex, callback) {
+var findNodeAnimation = function (selectedIndex, callback, withScale) {
+    if (withScale === void 0) { withScale = true; }
     if (linearStructure) {
-        var index = selectedIndex || linearStructure.obtenerIndice(oldNodeValue);
+        var index_1 = selectedIndex || linearStructure.obtenerIndice(oldNodeValue);
         var fase = isLikeStack ? 1.72 : 2.4;
         var middle = isLikeStack ? 2 : 4;
         resetCanvas();
-        translateCanvasTo(((index <= middle ? middle + 1 : index * 2) - index) *
-            (index <= middle ? -50 : 50) *
+        translateCanvasTo(((index_1 <= middle ? middle + 1 : index_1 * 2) - index_1) *
+            (index_1 <= middle ? -50 : 50) *
             fase +
-            (index <= middle
+            (index_1 <= middle
                 ? isLikeStack
                     ? -150
                     : 136
                 : isLikeStack
                     ? -440
-                    : -465), 0, callback);
+                    : -465), 0, function () {
+            if (withScale) {
+                nodeScaleCounter = 0;
+                nodeScaleIndex = index_1;
+            }
+            if (callback)
+                callback();
+        });
     }
 };
 var findNode = function () {
@@ -284,9 +297,11 @@ var updateNode = function () {
         var newNodeOnStructure = linearStructure.buscar(newNodeValue);
         if (nodeOnStructure !== null &&
             (repeatValues || (newNodeOnStructure === null && !repeatValues))) {
-            linearStructure.actualizar(oldNodeValue, newNodeValue);
-            linearStructureLength = linearStructure.getTamaño();
-            setElementsLength(linearStructureLength);
+            var nodeIndex = linearStructure.obtenerIndice(oldNodeValue);
+            findNodeAnimation(nodeIndex, function () {
+                if (linearStructure)
+                    linearStructure.actualizar(oldNodeValue, newNodeValue);
+            });
             addTestCode('actualizar', oldNodeValue + "," + newNodeValue);
             hideNavMenu(1);
             removeBanner();

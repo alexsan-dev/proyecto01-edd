@@ -14,6 +14,8 @@ let insertMode: InsertMode = 'end'
 canvasBannerDif = 110
 
 // ANIMACIÓN
+let nodeScaleIndex: number = -1
+let nodeScaleCounter: number = 0
 let opacityCounter: number = 0
 let deleteIndex: number = -1
 
@@ -88,12 +90,10 @@ drawInCanvas = () => {
 		for (let nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
 			// POSICIONES EN X
 			const nodeX: number = -579 + 150 * nodeIndex
+			let addedX: number = 0
 
-			if (isCircular && !isSimple) {
-				canvasCtx.restore()
-				canvasCtx.save()
-				canvasCtx.translate(90, 0)
-			}
+			if (isCircular && !isSimple) addedX = 90
+			const scaleAdded = nodeScaleIndex === nodeIndex ? nodeScaleCounter : 0
 
 			// NODO FINAL LISTA CIRCULAR
 			if (isCircular && nodeIndex === 0 && !isSimple) {
@@ -101,7 +101,7 @@ drawInCanvas = () => {
 
 				// CIRCULO
 				canvasCtx.beginPath()
-				canvasCtx.arc(nodeEndX, 0, 30, 0, 2 * Math.PI)
+				canvasCtx.arc(nodeEndX + addedX, 0, 30, 0, 2 * Math.PI)
 
 				// COLOR
 				canvasCtx.save()
@@ -133,7 +133,7 @@ drawInCanvas = () => {
 					canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 					canvasCtx.font = `bold ${20 - nodeEndValue.length * 0.5}px Montserrat`
 					canvasCtx.textAlign = 'center'
-					canvasCtx.fillText(nodeEndValue, nodeEndX, -50)
+					canvasCtx.fillText(nodeEndValue, nodeEndX + addedX, -50)
 				}
 
 				// REINICIAR
@@ -142,7 +142,12 @@ drawInCanvas = () => {
 
 			// CIRCULO
 			canvasCtx.beginPath()
-			if (!isLikeStack) canvasCtx.arc(nodeX, 0, 40, 0, 2 * Math.PI)
+
+			// ANIMACIÓN DE ESCALA
+			if (nodeScaleIndex === nodeIndex && nodeScaleCounter < 10)
+				nodeScaleCounter += ANIMATION_VELOCITY * 0.1
+			if (!isLikeStack)
+				canvasCtx.arc(nodeX + addedX, 0, 40 + scaleAdded, 0, 2 * Math.PI)
 
 			// COLOR
 			canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)'
@@ -177,10 +182,21 @@ drawInCanvas = () => {
 			// DIBUJAR UN CUADRADO CON BORDES REDONDOS
 			else {
 				canvasCtx.beginPath()
-				canvasCtx.roundRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80, 10)
+				canvasCtx.roundRect(
+					nodeX - nodeX / 3.5 - 200 + addedX - scaleAdded / 2,
+					-40 - scaleAdded / 2,
+					80 + scaleAdded,
+					80 + scaleAdded,
+					10,
+				)
 				canvasCtx.stroke()
 				canvasCtx.closePath()
-				canvasCtx.fillRect(nodeX - nodeX / 3.5 - 200, -40, 80, 80)
+				canvasCtx.fillRect(
+					nodeX - nodeX / 3.5 - 200 + addedX - scaleAdded / 2,
+					-40 - scaleAdded / 2,
+					80 + scaleAdded,
+					80 + scaleAdded,
+				)
 			}
 
 			// CERRAR
@@ -198,8 +214,9 @@ drawInCanvas = () => {
 				canvasCtx.textAlign = 'center'
 				canvasCtx.fillText(
 					nodeValue,
-					isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX,
-					isLikeStack ? -55 : -50,
+					(isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX) + addedX,
+					(isLikeStack ? -55 : -50) -
+						(nodeScaleIndex === nodeIndex ? nodeScaleCounter : 0),
 				)
 			}
 
@@ -233,7 +250,7 @@ drawInCanvas = () => {
 				// FLECHA
 				canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb'
 				canvasCtx.arrow(
-					(isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0),
+					(isSimple ? nodeX / 2 : nodeX) + 5 + (isSimple ? -215 : 0) + addedX,
 					-1,
 					isSimple ? (isCircularEnd ? 36 : 60) : 95,
 					4,
@@ -249,7 +266,7 @@ drawInCanvas = () => {
 				// CIRCULO
 				const nodeRootX = -625 + 150 * (nodeIndex + 1)
 				canvasCtx.beginPath()
-				canvasCtx.arc(nodeRootX, 0, 30, 0, 2 * Math.PI)
+				canvasCtx.arc(nodeRootX + addedX, 0, 30, 0, 2 * Math.PI)
 
 				// COLOR
 				canvasCtx.save()
@@ -283,7 +300,7 @@ drawInCanvas = () => {
 						20 - nodeRootValue.length * 0.5
 					}px Montserrat`
 					canvasCtx.textAlign = 'center'
-					canvasCtx.fillText(nodeRootValue, nodeRootX, -50)
+					canvasCtx.fillText(nodeRootValue, nodeRootX + addedX, -50)
 				}
 
 				// REINICIAR
@@ -304,8 +321,7 @@ drawInCanvas = () => {
 
 						// CAMBIAR TAMAÑO
 						if (!isSimple) {
-							canvasCtx.scale(0.8, 0.8)
-							canvasCtx.translate(-170, 0)
+							canvasCtx.translate(0, 0)
 						}
 					}
 				}
@@ -313,7 +329,7 @@ drawInCanvas = () => {
 				// FLECHA
 				canvasCtx.beginPath()
 				canvasCtx.fillStyle = isDarkMode ? 'white' : '#bbb'
-				canvasCtx.arrow(nodeX + 5 - 105, -1, 95, 4, true, true)
+				canvasCtx.arrow(nodeX + 5 - 105 + addedX, -1, 95, 4, true, true)
 				canvasCtx.closePath()
 
 				// REINICIAR
@@ -339,17 +355,24 @@ const addNode = () => {
 		// INSERTAR
 		if (repeatValues || (!repeatValues && nodeOnStructure === null)) {
 			// ANIMAR
+			scaleCounter = 0
+			nodeScaleIndex = -1
 
-			findNodeAnimation(linearStructureLength - 1, () => {
-				if (linearStructure) {
-					if (insertMode === 'start') linearStructure.push(newNodeValue)
-					else if (insertMode === 'end') linearStructure.insertar(newNodeValue)
+			findNodeAnimation(
+				linearStructureLength - 1,
+				() => {
+					if (linearStructure) {
+						if (insertMode === 'start') linearStructure.push(newNodeValue)
+						else if (insertMode === 'end')
+							linearStructure.insertar(newNodeValue)
 
-					// RE DIMENSION
-					linearStructureLength = linearStructure.getTamaño()
-					setElementsLength(linearStructureLength)
-				}
-			})
+						// RE DIMENSION
+						linearStructureLength = linearStructure.getTamaño()
+						setElementsLength(linearStructureLength)
+					}
+				},
+				false,
+			)
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode(
@@ -408,6 +431,7 @@ const removeNode = () => {
 const findNodeAnimation = (
 	selectedIndex?: number,
 	callback?: () => unknown,
+	withScale: boolean = true,
 ) => {
 	if (linearStructure) {
 		const index = selectedIndex || linearStructure.obtenerIndice(oldNodeValue)
@@ -428,7 +452,13 @@ const findNodeAnimation = (
 					? -440
 					: -465),
 			0,
-			callback,
+			() => {
+				if (withScale) {
+					nodeScaleCounter = 0
+					nodeScaleIndex = index
+				}
+				if (callback) callback()
+			},
 		)
 	}
 }
@@ -464,12 +494,13 @@ const updateNode = () => {
 			nodeOnStructure !== null &&
 			(repeatValues || (newNodeOnStructure === null && !repeatValues))
 		) {
-			// ELIMINAR
-			linearStructure.actualizar(oldNodeValue, newNodeValue)
-
-			// RE DIMENSION
-			linearStructureLength = linearStructure.getTamaño()
-			setElementsLength(linearStructureLength)
+			// 	INDICE
+			const nodeIndex = linearStructure.obtenerIndice(oldNodeValue)
+			findNodeAnimation(nodeIndex, () => {
+				if (linearStructure)
+					// ACTUALIZAR
+					linearStructure.actualizar(oldNodeValue, newNodeValue)
+			})
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode('actualizar', `${oldNodeValue},${newNodeValue}`)
