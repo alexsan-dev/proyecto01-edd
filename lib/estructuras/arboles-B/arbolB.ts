@@ -201,16 +201,16 @@ class ArbolB{
             this.raiz = this.delete(valor, this.raiz, -1)
         }
         if(this.raiz.valores.length == 0){
-            this.raiz = this.raiz.hijos[0]
             this.raiz.padre = null
+            this.raiz = this.raiz.hijos[0]
         }
     }
 
     private delete(valor:any, raiz:any, pos:number){
         if(raiz.contiene(valor)){
-            if(raiz.esHoja && pos != -1){
+            if(raiz.esHoja){
                 raiz = this.deleteEnHoja(valor, raiz, pos)
-            }else if(!raiz.esHoja && pos != -1){
+            }else if(!raiz.esHoja){
                 raiz = this.deleteEnRama(valor, raiz)
             }
         }else{
@@ -248,7 +248,7 @@ class ArbolB{
 
     deleteEnHoja(valor:any, raiz:any, pos:number){
         raiz.eliminarValor(valor)
-        if(!raiz.minValores()){
+        if(!raiz.minValores() && pos != -1){
             raiz = this.prestarHoja(raiz, pos)
         }
         return raiz
