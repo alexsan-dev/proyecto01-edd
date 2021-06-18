@@ -88,7 +88,7 @@ class NodoB{
 
     //Si el nodo contiene el minimo de valores permitidos
     minValores(){
-        if(this.valores.length >= Math.round(5-1)/2){
+        if(this.valores.length >= Math.round(this.grado-1)/2){
             return true
         }
         return false
@@ -150,7 +150,7 @@ class ArbolB{
 
     //REAJUSTE DE ARBOL --------------------------------------------------------------------------->
     private separar(raiz:any){
-        //Crear padre
+        //Crear Hermano
         let nodo = new NodoB(this.grado, false)
         if(raiz.esHoja){
             nodo.esHoja = true
@@ -228,7 +228,7 @@ class ArbolB{
         return raiz
     }
 
-    deleteEnRama(valor:any, raiz:any){
+    private deleteEnRama(valor:any, raiz:any){
         //Elimina el valor en la rama
         raiz.eliminarValor(valor)
         //Obtiene el valor del mayor valor del lado izquierdo
@@ -239,14 +239,14 @@ class ArbolB{
         return raiz
     }
 
-    prestarRama(raiz:any): any{
+    private prestarRama(raiz:any): any{
         if(raiz.esHoja){
             return raiz.valores[raiz.valores.length-1]
         }
         return this.prestarRama(raiz.hijos[raiz.valores.length])
     }
 
-    deleteEnHoja(valor:any, raiz:any, pos:number){
+    private deleteEnHoja(valor:any, raiz:any, pos:number){
         raiz.eliminarValor(valor)
         if(!raiz.minValores() && pos != -1){
             raiz = this.prestarHoja(raiz, pos)
@@ -254,7 +254,7 @@ class ArbolB{
         return raiz
     }
 
-    prestarHoja(raiz:any, pos:number){
+    private prestarHoja(raiz:any, pos:number){
         if(pos != -1){
             let lado = this.getLadoPrestamo(raiz, pos-1,pos+1)
             if(lado != -1){
