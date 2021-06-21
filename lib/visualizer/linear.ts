@@ -1,4 +1,4 @@
-// GLOBAL
+// DATOS GLOBALES
 let linearStructure: LinearStructure | null = null
 let linearStructureLength: number = 0
 let className: string = 'ListaSimple'
@@ -14,8 +14,8 @@ let insertMode: InsertMode = 'end'
 canvasBannerDif = 110
 
 // ANIMACIÓN
-let nodeScaleIndex: number = -1
 let nodeScaleCounter: number = 0
+let nodeScaleIndex: number = -1
 let opacityCounter: number = 0
 let deleteIndex: number = -1
 
@@ -47,6 +47,7 @@ const setLinearStructure = (
 		linearStructure.insertar(4)
 		linearStructure.insertar(5)
 
+		// AGREGAR UNO EXTRA PARA PILAS Y COLAS
 		if (isLikeStack) linearStructure.insertar(6)
 	}
 
@@ -93,11 +94,12 @@ drawInCanvas = () => {
 			let addedX: number = 0
 
 			if (isCircular && !isSimple) addedX = 90
-			const scaleAdded = nodeScaleIndex === nodeIndex ? nodeScaleCounter : 0
+			const scaleAdded: number =
+				nodeScaleIndex === nodeIndex ? nodeScaleCounter : 0
 
 			// NODO FINAL LISTA CIRCULAR
 			if (isCircular && nodeIndex === 0 && !isSimple) {
-				const nodeEndX = -530 + 150 * -1
+				const nodeEndX: number = -530 + 150 * -1
 
 				// CIRCULO
 				canvasCtx.beginPath()
@@ -124,7 +126,7 @@ drawInCanvas = () => {
 				canvasCtx.closePath()
 
 				// VALOR DE NODO
-				const nodeEndValue = linearStructure
+				const nodeEndValue: string = linearStructure
 					? linearStructure.obtener(linearStructureLength - 1).valor.toString()
 					: ''
 
@@ -179,7 +181,7 @@ drawInCanvas = () => {
 				canvasCtx.fill()
 			}
 
-			// DIBUJAR UN CUADRADO CON BORDES REDONDOS
+			// DIBUJAR UN CUADRADO CON BORDES REDONDOS (PILAS Y COLAS)
 			else {
 				canvasCtx.beginPath()
 				canvasCtx.roundRect(
@@ -203,7 +205,7 @@ drawInCanvas = () => {
 			canvasCtx.closePath()
 
 			// VALOR DE NODO
-			const nodeValue = linearStructure
+			const nodeValue: string = linearStructure
 				? linearStructure.obtener(nodeIndex).valor.toString()
 				: ''
 
@@ -229,7 +231,7 @@ drawInCanvas = () => {
 				!isLikeStack
 			) {
 				// ES LA FLECHA CIRCULAR AL FINAL
-				const isCircularEnd =
+				const isCircularEnd: boolean =
 					isCircular && nodeIndex === linearStructureLength - 1
 
 				// INICIAR
@@ -264,7 +266,7 @@ drawInCanvas = () => {
 			// NODO FINAL LISTA CIRCULAR
 			if (isCircular && nodeIndex === linearStructureLength - 1) {
 				// CIRCULO
-				const nodeRootX = -625 + 150 * (nodeIndex + 1)
+				const nodeRootX: number = -625 + 150 * (nodeIndex + 1)
 				canvasCtx.beginPath()
 				canvasCtx.arc(nodeRootX + addedX, 0, 30, 0, 2 * Math.PI)
 
@@ -289,7 +291,7 @@ drawInCanvas = () => {
 				canvasCtx.closePath()
 
 				// VALOR DE NODO
-				const nodeRootValue = linearStructure
+				const nodeRootValue: string = linearStructure
 					? linearStructure.obtener(0).valor.toString()
 					: ''
 
@@ -400,7 +402,7 @@ const removeNode = () => {
 
 		if (nodeOnStructure !== null) {
 			// 	INDICE
-			const nodeIndex = linearStructure.obtenerIndice(oldNodeValue)
+			const nodeIndex: number = linearStructure.obtenerIndice(oldNodeValue)
 
 			findNodeAnimation(nodeIndex, () => {
 				opacityEndCallback = () => {
@@ -434,9 +436,11 @@ const findNodeAnimation = (
 	withScale: boolean = true,
 ) => {
 	if (linearStructure) {
-		const index = selectedIndex || linearStructure.obtenerIndice(oldNodeValue)
-		const fase = isLikeStack ? 1.72 : 2.4
-		const middle = isLikeStack ? 2 : 4
+		// CONSTANTES DE DESPLAZAMIENTO
+		const index: number =
+			selectedIndex || linearStructure.obtenerIndice(oldNodeValue)
+		const fase: number = isLikeStack ? 1.72 : 2.4
+		const middle: number = isLikeStack ? 2 : 4
 
 		// ANIMACIÓN
 		resetCanvas()
@@ -495,7 +499,7 @@ const updateNode = () => {
 			(repeatValues || (newNodeOnStructure === null && !repeatValues))
 		) {
 			// 	INDICE
-			const nodeIndex = linearStructure.obtenerIndice(oldNodeValue)
+			const nodeIndex: number = linearStructure.obtenerIndice(oldNodeValue)
 			findNodeAnimation(nodeIndex, () => {
 				if (linearStructure)
 					// ACTUALIZAR

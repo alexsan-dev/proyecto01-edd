@@ -7,6 +7,14 @@ interface JSONInputFile {
 type LinearStructure = ListaSimple
 type LinearNode = NodoSimple
 
+type TreeStructure = ArbolBinario | ArbolAvl
+type TreeNode = NodoBinario | NodoAvl
+
+interface BTreeData {
+	values: NodoB[]
+	level: number
+}
+
 interface CanvasRenderingContext2D {
 	arrow: (
 		x: number,

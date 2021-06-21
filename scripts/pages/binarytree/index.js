@@ -1,2 +1,2 @@
 "use strict";
-setTreeStructure(new ArbolAvl());
+setTreeStructure(new ArbolBinario(), 'ArbolBST');

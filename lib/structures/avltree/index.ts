@@ -13,7 +13,7 @@ class NodoAvl{
 }
 
 class ArbolAvl{
-    private raiz:any
+    public raiz:any
 
     constructor(){
         this.raiz = null

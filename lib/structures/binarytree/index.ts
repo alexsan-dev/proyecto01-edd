@@ -13,7 +13,7 @@ class NodoBinario {
 }
 
 class ArbolBinario {
-	private raiz: any
+	public raiz: any
 
 	constructor() {
 		this.raiz = null
