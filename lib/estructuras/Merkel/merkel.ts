@@ -1,12 +1,14 @@
 class NodoMerkle{
     valor:any
+    hash:any
     tieneValor:boolean
     izquierdo:any
     derecho:any
     altura:number
 
-    constructor(valor:any, altura:number){
-        this.valor = valor
+    constructor(hash:any, altura:number){
+        this.hash = hash
+        this.valor = null
         this.izquierdo = null
         this.derecho = null
         this.tieneValor = false
@@ -35,7 +37,7 @@ class ArbolMerkle{
     hash(valor:any) {
         valor = valor.toString()
         const H   = 64
-        let total = 0
+        let total = 1
         for (var i = 0; i < valor.length; i++) {
           total += (H * total << 1) + valor.charCodeAt(i)
         }
@@ -47,7 +49,7 @@ class ArbolMerkle{
         valor = this.hash(valor)
         if(this.factor() <= 0){
             //Creando el Padre con izquierdo valor a la raiz
-            let padre = new NodoMerkle('null', 2)
+            let padre = new NodoMerkle(-1, 2)
             padre.izquierdo = this.raiz
 
             if(this.raiz != null){
@@ -55,7 +57,7 @@ class ArbolMerkle{
                 padre.altura = this.raiz.altura + 1
             }else{
                 //Raiz es nula por lo que se crea un nodo izquierdo y aumenta el maxValores
-                padre.izquierdo = new NodoMerkle('null', 1)
+                padre.izquierdo = new NodoMerkle(-1, 1)
                 this.maxValores = 1
             }
 
@@ -79,6 +81,7 @@ class ArbolMerkle{
             if(!this.agregado && !raiz.tieneValor){
                 this.agregado = true
                 raiz.valor = valor
+                raiz.hash = this.hash(valor)
                 raiz.tieneValor = true
                 this.valores ++
             }
@@ -100,7 +103,7 @@ class ArbolMerkle{
             raiz.izquierdo = this.actualizarPadre(raiz.izquierdo)
             raiz.derecho = this.actualizarPadre(raiz.derecho)
             if(raiz.altura > 1){
-                raiz.valor = raiz.izquierdo.valor + raiz.derecho.valor
+                raiz.hash = raiz.izquierdo.hash + raiz.derecho.hash
                 raiz.tieneValor = true
             }
         }
@@ -121,4 +124,3 @@ class ArbolMerkle{
     }
 
 }
-
