@@ -4,6 +4,26 @@ const localInitDarkValue: boolean =
 const darkBtn: HTMLElement | null = document.querySelector(
 	'#darkmode-btn > .icon-moon',
 )
+const indexSearchUL = document.getElementById('index-search-list')
+
+// GLOBALES
+const indexLinksList: IndexSearchItem[] = [
+	{ name: 'Lista simple', url: '/public/pages/simplelist' },
+	{ name: 'Lista doble', url: '/public/pages/doublelist' },
+	{ name: 'Lista circular', url: '/public/pages/circularsimplelist' },
+	{ name: 'Lista circular doble', url: '/public/pages/circulardoublelist' },
+	{ name: 'Pila', url: '/public/pages/stack' },
+	{ name: 'Cola', url: '/public/pages/queue' },
+	{ name: 'Cola de prioridad', url: '/public/pages/queue' },
+	{ name: 'Ordenamiento burbuja', url: '/public/pages/bubblesort' },
+	{ name: 'Ordenamiento por selección', url: '/public/pages/selectionsort' },
+	{ name: 'Ordenamiento por inserción', url: '/public/pages/insertionsort' },
+	{ name: 'Ordenamiento rápido', url: '/public/pages/quicksort' },
+	{ name: 'Árbol BST', url: '/public/pages/binarytree' },
+	{ name: 'Árbol AVL', url: '/public/pages/avltree' },
+	{ name: 'Árbol B', url: '/public/pages/btree' },
+	{ name: 'Árbol B+', url: '/public/pages/btree' },
+]
 
 // CAMBIAR DARKMODE
 const toggleDarkBtn = (): void => {
@@ -20,3 +40,33 @@ const setIconDark = (darkValue: boolean): void => {
 	if (darkBtn) darkBtn.className = darkValue ? 'icon-sun' : 'icon-moon'
 }
 setIconDark(localInitDarkValue)
+
+// MOSTRAR RESULTADOS DE BÚSQUEDA
+// @ts-ignore
+const ndf = (str: string): string =>
+	str
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.toLowerCase()
+		.trim()
+const onSearchInputChange = (ev: Event) => {
+	// INPUT
+	const target = ev.target as HTMLInputElement
+	const value: string = ndf(target.value)
+	const length: number = indexLinksList.length
+	const findValues: IndexSearchItem[] = []
+
+	// BUSCAR
+	for (let linksIndex: number = 0; linksIndex < length; linksIndex++)
+		if (ndf(indexLinksList[linksIndex].name).indexOf(value) !== -1)
+			findValues.push(indexLinksList[linksIndex])
+
+	// ASIGNAR EN LISTA HTML
+	if (indexSearchUL) {
+		indexSearchUL.innerHTML = ''
+		findValues.forEach(
+			(searchItem: IndexSearchItem) =>
+				(indexSearchUL.innerHTML += `<li><a href='${searchItem.url}' target='_blank' title='${searchItem.name}'>${searchItem.name}</a></li>`),
+		)
+	}
+}

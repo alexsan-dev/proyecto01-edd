@@ -37,6 +37,9 @@ var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance)
         bTreeStructure.insertar(5);
         bTreeStructure.insertar(6);
         bTreeStructure.insertar(7);
+        bTreeStructure.insertar(8);
+        bTreeStructure.insertar(9);
+        bTreeStructure.insertar(10);
     }
 };
 fileUploadCallback = function (json) {

@@ -15,6 +15,11 @@ interface BTreeData {
 	level: number
 }
 
+interface IndexSearchItem {
+	name: string
+	url: string
+}
+
 interface CanvasRenderingContext2D {
 	arrow: (
 		x: number,

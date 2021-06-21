@@ -50,6 +50,9 @@ const setTreeStructure = (
 		bTreeStructure.insertar(5)
 		bTreeStructure.insertar(6)
 		bTreeStructure.insertar(7)
+		bTreeStructure.insertar(8)
+		bTreeStructure.insertar(9)
+		bTreeStructure.insertar(10)
 	}
 }
 
