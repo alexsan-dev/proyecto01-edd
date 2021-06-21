@@ -55,6 +55,24 @@ const setLinearStructure = (
 	linearStructureLength = linearStructure?.getTamaño() || 5
 }
 
+// GUARDAR ARCHIVO
+const saveJSONLinearFile = () => {
+	if (linearStructure) {
+		// CONVERTIR A ARREGLO
+		const valores: (string | number)[] = []
+		for (
+			let linearIndex: number = 0;
+			linearIndex < linearStructureLength;
+			linearIndex++
+		) {
+			valores.push(linearStructure.obtener(linearIndex).valor)
+		}
+
+		// SUBIR
+		saveJSONFile(valores)
+	}
+}
+
 // LEER ARCHIVO
 fileUploadCallback = (json: JSONInputFile) => {
 	const { valores } = json
@@ -76,8 +94,15 @@ fileUploadCallback = (json: JSONInputFile) => {
 
 	// ITERAR
 	valores.forEach((valor: string | number) => {
-		newNodeValue = valor.toString()
-		addNode()
+		if (linearStructure) {
+			if (
+				repeatValues ||
+				(!repeatValues && linearStructure.buscar(valor.toString()) === null)
+			) {
+				newNodeValue = valor.toString()
+				addNode(false)
+			}
+		}
 	})
 
 	// ELEMENTOS
@@ -127,7 +152,7 @@ drawInCanvas = () => {
 
 				// VALOR DE NODO
 				const nodeEndValue: string = linearStructure
-					? linearStructure.obtener(linearStructureLength - 1).valor.toString()
+					? linearStructure.obtener(linearStructureLength - 1)?.valor.toString()
 					: ''
 
 				// TEXTO
@@ -206,13 +231,13 @@ drawInCanvas = () => {
 
 			// VALOR DE NODO
 			const nodeValue: string = linearStructure
-				? linearStructure.obtener(nodeIndex).valor.toString()
+				? linearStructure.obtener(nodeIndex)?.valor.toString() || ''
 				: ''
 
 			// TEXTO
 			if (linearStructure) {
 				canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
-				canvasCtx.font = `bold ${20 - nodeValue.length * 0.5}px Montserrat`
+				canvasCtx.font = `bold ${20 - nodeValue?.length * 0.5}px Montserrat`
 				canvasCtx.textAlign = 'center'
 				canvasCtx.fillText(
 					nodeValue,
@@ -348,7 +373,7 @@ const changeInsertMode = (ev: Event) => {
 }
 
 // AGREGAR NODO
-const addNode = () => {
+const addNode = (withAnimation: boolean = true) => {
 	if (linearStructure && newNodeValue.length > 0) {
 		// BUSCAR NODO
 		const nodeOnStructure: LinearNode | null =
@@ -360,21 +385,24 @@ const addNode = () => {
 			scaleCounter = 0
 			nodeScaleIndex = -1
 
-			findNodeAnimation(
-				linearStructureLength - 1,
-				() => {
-					if (linearStructure) {
-						if (insertMode === 'start') linearStructure.push(newNodeValue)
-						else if (insertMode === 'end')
-							linearStructure.insertar(newNodeValue)
+			const addOnStructure = () => {
+				if (linearStructure) {
+					if (insertMode === 'start') linearStructure.push(newNodeValue)
+					else if (insertMode === 'end') linearStructure.insertar(newNodeValue)
 
-						// RE DIMENSION
-						linearStructureLength = linearStructure.getTamaño()
-						setElementsLength(linearStructureLength)
-					}
-				},
-				false,
-			)
+					// RE DIMENSION
+					linearStructureLength = linearStructure.getTamaño()
+					setElementsLength(linearStructureLength)
+				}
+			}
+
+			if (withAnimation)
+				findNodeAnimation(
+					insertMode === 'start' ? 0 : linearStructureLength - 1,
+					addOnStructure,
+					false,
+				)
+			else addOnStructure()
 
 			// AGREGAR MUESTRA DE CÓDIGO
 			addTestCode(

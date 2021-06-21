@@ -33,6 +33,15 @@ var setLinearStructure = function (newLinearStructure, linearClassName, simple, 
     }
     linearStructureLength = (linearStructure === null || linearStructure === void 0 ? void 0 : linearStructure.getTamaño()) || 5;
 };
+var saveJSONLinearFile = function () {
+    if (linearStructure) {
+        var valores = [];
+        for (var linearIndex = 0; linearIndex < linearStructureLength; linearIndex++) {
+            valores.push(linearStructure.obtener(linearIndex).valor);
+        }
+        saveJSONFile(valores);
+    }
+};
 fileUploadCallback = function (json) {
     var valores = json.valores;
     if (linearStructure)
@@ -42,12 +51,18 @@ fileUploadCallback = function (json) {
     if (editor)
         editor.innerHTML = "<strong style=\"color:var(--monoConstIce)\">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style=\"color:var(--monoClassIce)\">" + className + "</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--monoNumberIce)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
     valores.forEach(function (valor) {
-        newNodeValue = valor.toString();
-        addNode();
+        if (linearStructure) {
+            if (repeatValues ||
+                (!repeatValues && linearStructure.buscar(valor.toString()) === null)) {
+                newNodeValue = valor.toString();
+                addNode(false);
+            }
+        }
     });
     setElementsLength(linearStructure ? linearStructure.getTamaño() : 0);
 };
 drawInCanvas = function () {
+    var _a, _b;
     if (canvasCtx) {
         canvasCtx.globalCompositeOperation = 'destination-over';
         for (var nodeIndex = 0; nodeIndex < linearStructureLength; nodeIndex++) {
@@ -75,7 +90,7 @@ drawInCanvas = function () {
                 canvasCtx.fill();
                 canvasCtx.closePath();
                 var nodeEndValue = linearStructure
-                    ? linearStructure.obtener(linearStructureLength - 1).valor.toString()
+                    ? (_a = linearStructure.obtener(linearStructureLength - 1)) === null || _a === void 0 ? void 0 : _a.valor.toString()
                     : '';
                 if (linearStructure) {
                     canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
@@ -122,11 +137,11 @@ drawInCanvas = function () {
             }
             canvasCtx.closePath();
             var nodeValue = linearStructure
-                ? linearStructure.obtener(nodeIndex).valor.toString()
+                ? ((_b = linearStructure.obtener(nodeIndex)) === null || _b === void 0 ? void 0 : _b.valor.toString()) || ''
                 : '';
             if (linearStructure) {
                 canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
-                canvasCtx.font = "bold " + (20 - nodeValue.length * 0.5) + "px Montserrat";
+                canvasCtx.font = "bold " + (20 - (nodeValue === null || nodeValue === void 0 ? void 0 : nodeValue.length) * 0.5) + "px Montserrat";
                 canvasCtx.textAlign = 'center';
                 canvasCtx.fillText(nodeValue, (isLikeStack ? nodeX - nodeX / 3.5 - 160 : nodeX) + addedX, (isLikeStack ? -55 : -50) -
                     (nodeScaleIndex === nodeIndex ? nodeScaleCounter : 0));
@@ -206,13 +221,14 @@ var changeInsertMode = function (ev) {
     var target = ev.target;
     insertMode = target.value;
 };
-var addNode = function () {
+var addNode = function (withAnimation) {
+    if (withAnimation === void 0) { withAnimation = true; }
     if (linearStructure && newNodeValue.length > 0) {
         var nodeOnStructure = linearStructure.buscar(newNodeValue);
         if (repeatValues || (!repeatValues && nodeOnStructure === null)) {
             scaleCounter = 0;
             nodeScaleIndex = -1;
-            findNodeAnimation(linearStructureLength - 1, function () {
+            var addOnStructure = function () {
                 if (linearStructure) {
                     if (insertMode === 'start')
                         linearStructure.push(newNodeValue);
@@ -221,7 +237,11 @@ var addNode = function () {
                     linearStructureLength = linearStructure.getTamaño();
                     setElementsLength(linearStructureLength);
                 }
-            }, false);
+            };
+            if (withAnimation)
+                findNodeAnimation(insertMode === 'start' ? 0 : linearStructureLength - 1, addOnStructure, false);
+            else
+                addOnStructure();
             addTestCode(insertMode === 'start'
                 ? 'push'
                 : insertMode === 'end'

@@ -58,8 +58,10 @@ var onChangeUploadInput = function (ev) {
         globalJSONInput = json;
         fileUploadCallback(json);
     };
-    if (file)
+    if (file) {
         reader.readAsText(file);
+        input.value = '';
+    }
 };
 var saveJSONFile = function (valores) {
     var strJSON = JSON.stringify(__assign(__assign({}, globalJSONInput), { valores: valores }));

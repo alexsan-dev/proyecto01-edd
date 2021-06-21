@@ -65,7 +65,10 @@ const onChangeUploadInput = (ev: Event): void => {
 	}
 
 	// LEER
-	if (file) reader.readAsText(file)
+	if (file) {
+		reader.readAsText(file)
+		input.value = ''
+	}
 }
 
 // GUARDAR UN ARCHIVO

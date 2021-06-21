@@ -42,9 +42,9 @@ const setIconDark = (darkValue: boolean): void => {
 setIconDark(localInitDarkValue)
 
 // MOSTRAR RESULTADOS DE BÚSQUEDA
-// @ts-ignore
 const ndf = (str: string): string =>
 	str
+		// @ts-ignore
 		.normalize('NFD')
 		.replace(/[\u0300-\u036f]/g, '')
 		.toLowerCase()
