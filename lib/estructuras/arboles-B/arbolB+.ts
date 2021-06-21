@@ -237,6 +237,11 @@ class ArbolBplus{
                 raiz.hijos[i] = this.delete(valor, raiz.hijos[i], i, repetido)
             }
         }
+
+        if(!raiz.minValores() && pos != -1){
+            raiz = this.merge(raiz, pos)
+        }
+        
         return raiz
     }
 
@@ -276,7 +281,7 @@ class ArbolBplus{
                     
                     raiz = this.prestarIzquierdo(raiz, lado)
                 }else{
-                    raiz = this.prestarDerecho(raiz, pos, lado)
+                    raiz = this.prestarDerecho(raiz, lado)
                 }
 
             }else{
@@ -293,7 +298,7 @@ class ArbolBplus{
         return raiz
     }
 
-    private prestarDerecho(raiz:any, pos:number, der:number){
+    private prestarDerecho(raiz:any, der:number){
         raiz.agregarValor(raiz.padre.hijos[der].valores[0])
         raiz.padre.eliminarValor(raiz.padre.hijos[der].valores.shift()) 
         raiz.padre.agregarValor(raiz.padre.hijos[der].valores[0])  
