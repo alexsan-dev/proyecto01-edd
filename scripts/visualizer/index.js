@@ -1,10 +1,22 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var sortRuntime = document.getElementById('sort-runtime');
 var sortLengthText = document.getElementById('sort-length');
 var editor = document.querySelector('.editor > pre > code');
 var startButton = document.getElementById('start-btn');
 var sortBanner = document.getElementById('sort-banner');
 var navBtns = document.querySelectorAll('.nav-btn');
+var globalJSONInput = null;
 var canvasBannerDif = 20;
 var repeatValues = true;
 var newNodeValue = '';
@@ -43,10 +55,21 @@ var onChangeUploadInput = function (ev) {
     reader.onload = function () {
         var text = reader.result;
         var json = JSON.parse(typeof text === 'string' ? text : '{}');
+        globalJSONInput = json;
         fileUploadCallback(json);
     };
     if (file)
         reader.readAsText(file);
+};
+var saveJSONFile = function (valores) {
+    var strJSON = JSON.stringify(__assign(__assign({}, globalJSONInput), { valores: valores }));
+    var uriData = "data:text/json;charset=utf-8," + encodeURIComponent(strJSON);
+    var a = document.createElement('a');
+    a.href = uriData;
+    a.download = 'data.json';
+    a.innerHTML = 'download JSON';
+    a.click();
+    hideNavMenu(0);
 };
 var onChangeSortVelocity = function (ev) {
     var target = ev.target;

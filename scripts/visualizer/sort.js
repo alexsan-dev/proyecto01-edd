@@ -24,6 +24,11 @@ var codeDataArray = document.getElementById('code-data-array');
 var sortStepText = document.getElementById('sort-step-text');
 var sortPerformance = document.getElementById('sort-performance');
 var sortMethod = function () { return null; };
+var saveSortJSONFile = function () {
+    return saveJSONFile(allStrings
+        ? globalSortData.map(function (wIndex) { return globalCopyStringData[wIndex - 1]; })
+        : globalSortData);
+};
 fileUploadCallback = function (json) {
     var valores = json.valores;
     globalCopySortData = valores;
