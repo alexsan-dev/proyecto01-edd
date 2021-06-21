@@ -48,6 +48,8 @@ const setTreeStructure = (
 		bTreeStructure.insertar(3)
 		bTreeStructure.insertar(4)
 		bTreeStructure.insertar(5)
+		bTreeStructure.insertar(6)
+		bTreeStructure.insertar(7)
 	}
 }
 
@@ -274,7 +276,6 @@ drawInCanvas = () => {
 									-2,
 								0,
 							)
-							console.log(treeNodesPerLevel, treeNodeTotalLength - 1)
 						}
 
 						// TEXTO DE NODOS
@@ -344,10 +345,13 @@ drawInCanvas = () => {
 
 // AGREGAR NODO
 const addNodeOnTree = () => {
-	if (treeStructure && newNodeValue.length > 0) {
+	if (newNodeValue.length > 0) {
 		// INSERTAR
-		treeStructure.insertar(newNodeValue)
-		maxTreeHeight = treeStructure.raiz.altura
+		if (isBTree && bTreeStructure) bTreeStructure.insertar(newNodeValue)
+		else if (treeStructure) {
+			treeStructure.insertar(newNodeValue)
+			maxTreeHeight = treeStructure.raiz.altura
+		}
 
 		// RE DIMENSION
 		setElementsLength(treeElementsLength + 1)
@@ -363,10 +367,13 @@ const addNodeOnTree = () => {
 
 // ELIMINAR NODO
 const removeNodeOnTree = () => {
-	if (treeStructure && oldNodeValue.length > 0) {
-		// INSERTAR
-		treeStructure.eliminar(oldNodeValue)
-		maxTreeHeight = treeStructure.raiz.altura
+	if (oldNodeValue.length > 0) {
+		// ELIMINAR
+		if (isBTree && bTreeStructure) bTreeStructure.eliminar(oldNodeValue)
+		else if (treeStructure) {
+			treeStructure.eliminar(oldNodeValue)
+			maxTreeHeight = treeStructure.raiz.altura
+		}
 
 		// RE DIMENSION
 		setElementsLength(treeElementsLength - 1)
@@ -382,10 +389,14 @@ const removeNodeOnTree = () => {
 
 // ACTUALIZAR NODO
 const updateNodeOnTree = () => {
-	if (treeStructure && oldNodeValue.length > 0 && newNodeValue.length > 0) {
-		// INSERTAR
-		treeStructure.actualizar(oldNodeValue, newNodeValue)
-		maxTreeHeight = treeStructure.raiz.altura
+	if (oldNodeValue.length > 0 && newNodeValue.length > 0) {
+		// ACTUALIZAR
+		if (isBTree && bTreeStructure)
+			bTreeStructure.actualizar(oldNodeValue, newNodeValue)
+		else if (treeStructure) {
+			treeStructure.actualizar(oldNodeValue, newNodeValue)
+			maxTreeHeight = treeStructure.raiz.altura
+		}
 
 		// AGREGAR MUESTRA DE CÓDIGO
 		addTestCode('actualizar', `${oldNodeValue},${newNodeValue}`)

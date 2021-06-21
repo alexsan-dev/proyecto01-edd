@@ -35,6 +35,8 @@ var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance)
         bTreeStructure.insertar(3);
         bTreeStructure.insertar(4);
         bTreeStructure.insertar(5);
+        bTreeStructure.insertar(6);
+        bTreeStructure.insertar(7);
     }
 };
 fileUploadCallback = function (json) {
@@ -154,7 +156,6 @@ drawInCanvas = function () {
                             canvasCtx.translate((translateMargin * (treeNodeTotalLength - 1) +
                                 70 * treeNodesPerLevel) /
                                 -2, 0);
-                            console.log(treeNodesPerLevel, treeNodeTotalLength - 1);
                         }
                         for (var nodeContentIndex = 0; nodeContentIndex < nodeContentLength; nodeContentIndex++) {
                             var nodeContent = node.valores[nodeContentIndex];
@@ -193,9 +194,13 @@ drawInCanvas = function () {
     }
 };
 var addNodeOnTree = function () {
-    if (treeStructure && newNodeValue.length > 0) {
-        treeStructure.insertar(newNodeValue);
-        maxTreeHeight = treeStructure.raiz.altura;
+    if (newNodeValue.length > 0) {
+        if (isBTree && bTreeStructure)
+            bTreeStructure.insertar(newNodeValue);
+        else if (treeStructure) {
+            treeStructure.insertar(newNodeValue);
+            maxTreeHeight = treeStructure.raiz.altura;
+        }
         setElementsLength(treeElementsLength + 1);
         addTestCode('insertar', newNodeValue);
         hideNavMenu(1);
@@ -203,9 +208,13 @@ var addNodeOnTree = function () {
     }
 };
 var removeNodeOnTree = function () {
-    if (treeStructure && oldNodeValue.length > 0) {
-        treeStructure.eliminar(oldNodeValue);
-        maxTreeHeight = treeStructure.raiz.altura;
+    if (oldNodeValue.length > 0) {
+        if (isBTree && bTreeStructure)
+            bTreeStructure.eliminar(oldNodeValue);
+        else if (treeStructure) {
+            treeStructure.eliminar(oldNodeValue);
+            maxTreeHeight = treeStructure.raiz.altura;
+        }
         setElementsLength(treeElementsLength - 1);
         addTestCode('eliminar', oldNodeValue);
         hideNavMenu(1);
@@ -213,9 +222,13 @@ var removeNodeOnTree = function () {
     }
 };
 var updateNodeOnTree = function () {
-    if (treeStructure && oldNodeValue.length > 0 && newNodeValue.length > 0) {
-        treeStructure.actualizar(oldNodeValue, newNodeValue);
-        maxTreeHeight = treeStructure.raiz.altura;
+    if (oldNodeValue.length > 0 && newNodeValue.length > 0) {
+        if (isBTree && bTreeStructure)
+            bTreeStructure.actualizar(oldNodeValue, newNodeValue);
+        else if (treeStructure) {
+            treeStructure.actualizar(oldNodeValue, newNodeValue);
+            maxTreeHeight = treeStructure.raiz.altura;
+        }
         addTestCode('actualizar', oldNodeValue + "," + newNodeValue);
         hideNavMenu(1);
         removeBanner();
