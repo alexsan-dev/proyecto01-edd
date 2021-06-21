@@ -188,6 +188,9 @@ var ArbolBplus = (function () {
                 raiz.hijos[i] = this.delete(valor, raiz.hijos[i], i, repetido);
             }
         }
+        if (!raiz.minValores() && pos != -1) {
+            raiz = this.merge(raiz, pos);
+        }
         return raiz;
     };
     ArbolBplus.prototype.deleteEnHoja = function (valor, raiz, pos, repetido) {
@@ -219,7 +222,7 @@ var ArbolBplus = (function () {
                     raiz = this.prestarIzquierdo(raiz, lado);
                 }
                 else {
-                    raiz = this.prestarDerecho(raiz, pos, lado);
+                    raiz = this.prestarDerecho(raiz, lado);
                 }
             }
             else {
@@ -234,7 +237,7 @@ var ArbolBplus = (function () {
         raiz.agregarValor(raiz.padre.hijos[izq].valores.pop());
         return raiz;
     };
-    ArbolBplus.prototype.prestarDerecho = function (raiz, pos, der) {
+    ArbolBplus.prototype.prestarDerecho = function (raiz, der) {
         raiz.agregarValor(raiz.padre.hijos[der].valores[0]);
         raiz.padre.eliminarValor(raiz.padre.hijos[der].valores.shift());
         raiz.padre.agregarValor(raiz.padre.hijos[der].valores[0]);
