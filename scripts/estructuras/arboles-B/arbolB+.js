@@ -1,13 +1,14 @@
 "use strict";
-var NodoB = (function () {
-    function NodoB(grado, esHoja) {
+var NodoBplus = (function () {
+    function NodoBplus(grado, esHoja) {
         this.grado = grado;
         this.valores = [];
         this.hijos = [];
         this.padre = null;
+        this.siguiente = null;
         this.esHoja = esHoja;
     }
-    NodoB.prototype.agregarValor = function (valor) {
+    NodoBplus.prototype.agregarValor = function (valor) {
         if (this.valores.length == 0) {
             this.valores.splice(0, 0, valor);
         }
@@ -21,13 +22,13 @@ var NodoB = (function () {
             }
         }
     };
-    NodoB.prototype.agregarHijo = function (hijo, valor) {
+    NodoBplus.prototype.agregarHijo = function (hijo, valor) {
         if (this.hijos.length == 0) {
             this.hijos.splice(0, 0, hijo);
         }
         else {
             if (valor < this.valores[0]) {
-                this.hijos.splice(0, 0, hijo);
+                this.hijos.splice(0, 0, valor);
             }
             else {
                 var i = this.buscarPos(valor);
@@ -35,7 +36,7 @@ var NodoB = (function () {
             }
         }
     };
-    NodoB.prototype.buscarHijo = function (valor) {
+    NodoBplus.prototype.buscarHijo = function (valor) {
         if (this.hijos.length != 0) {
             if (valor < this.valores[0]) {
                 return 0;
@@ -47,18 +48,23 @@ var NodoB = (function () {
         }
         return -1;
     };
-    NodoB.prototype.eliminarValor = function (valor) {
-        this.valores = this.eliminarElemento(this.valores, valor);
-    };
-    NodoB.prototype.eliminarElemento = function (arreglo, valor) {
+    NodoBplus.prototype.eliminarElemento = function (arreglo, valor) {
         return arreglo.filter(function (e) {
             return e !== valor;
         });
     };
-    NodoB.prototype.eliminarHijo = function (valor) {
+    NodoBplus.prototype.eliminarHijo = function (valor) {
         this.hijos = this.eliminarElemento(this.hijos, valor);
     };
-    NodoB.prototype.contiene = function (valor) {
+    NodoBplus.prototype.eliminarValor = function (valor) {
+        this.valores = this.eliminarElemento(this.valores, valor);
+    };
+    NodoBplus.prototype.estaLleno = function () {
+        if (this.valores.length >= this.grado)
+            return true;
+        return false;
+    };
+    NodoBplus.prototype.contiene = function (valor) {
         for (var _i = 0, _a = this.valores; _i < _a.length; _i++) {
             var n = _a[_i];
             if (valor == n) {
@@ -67,43 +73,38 @@ var NodoB = (function () {
         }
         return false;
     };
-    NodoB.prototype.estaLleno = function () {
-        if (this.valores.length >= this.grado)
-            return true;
-        return false;
-    };
-    NodoB.prototype.minValores = function () {
-        if (this.valores.length >= Math.round(this.grado - 1) / 2) {
-            return true;
-        }
-        return false;
-    };
-    NodoB.prototype.buscarPos = function (valor) {
+    NodoBplus.prototype.buscarPos = function (valor) {
         var i = 0;
-        while (valor > this.valores[i]) {
+        while (valor >= this.valores[i]) {
             if (i > this.valores.length)
                 break;
             i++;
         }
         return i;
     };
-    return NodoB;
+    NodoBplus.prototype.minValores = function () {
+        if (this.valores.length >= Math.round(this.grado - 1) / 2) {
+            return true;
+        }
+        return false;
+    };
+    return NodoBplus;
 }());
-var ArbolB = (function () {
-    function ArbolB(grado) {
+var ArbolBplus = (function () {
+    function ArbolBplus(grado) {
         this.raiz = null;
         this.grado = grado;
     }
-    ArbolB.prototype.actualizar = function (valor, nuevo) {
+    ArbolBplus.prototype.actualizar = function (valor, nuevo) {
         this.eliminar(valor);
         this.insertar(nuevo);
     };
-    ArbolB.prototype.insertar = function (valor) {
+    ArbolBplus.prototype.insertar = function (valor) {
         this.raiz = this.insertarNodo(valor, this.raiz);
     };
-    ArbolB.prototype.insertarNodo = function (valor, raiz) {
+    ArbolBplus.prototype.insertarNodo = function (valor, raiz) {
         if (raiz == null) {
-            raiz = new NodoB(this.grado, true);
+            raiz = new NodoBplus(this.grado, true);
             raiz.agregarValor(valor);
         }
         else {
@@ -120,84 +121,97 @@ var ArbolB = (function () {
         }
         return raiz;
     };
-    ArbolB.prototype.separar = function (raiz) {
-        var nodo = new NodoB(this.grado, false);
+    ArbolBplus.prototype.separar = function (raiz) {
+        var nodo = new NodoBplus(this.grado, false);
         if (raiz.esHoja) {
             nodo.esHoja = true;
         }
         var m = raiz.valores.slice(raiz.valores.length / 2, raiz.valores.length / 2 + 1);
-        nodo.valores = raiz.valores.slice(raiz.valores.length / 2 + 1, raiz.valores.length);
-        nodo.hijos = raiz.hijos.slice(raiz.hijos.length / 2, raiz.hijos.length);
+        if (raiz.esHoja) {
+            nodo.valores = raiz.valores.slice(raiz.valores.length / 2, raiz.valores.length);
+        }
+        else {
+            nodo.valores = raiz.valores.slice(raiz.valores.length / 2 + 1, raiz.valores.length);
+            nodo.hijos = raiz.hijos.slice(raiz.hijos.length / 2 + 1, raiz.hijos.length);
+        }
         for (var n in nodo.hijos) {
             nodo.hijos[n].padre = nodo;
         }
         raiz.valores = raiz.valores.slice(0, raiz.valores.length / 2);
-        raiz.hijos = raiz.hijos.slice(0, raiz.hijos.length / 2);
+        raiz.hijos = raiz.hijos.slice(0, raiz.hijos.length / 2 + 1);
         if (raiz.padre == null) {
-            var padre = new NodoB(this.grado, false);
+            var padre = new NodoBplus(this.grado, false);
             padre.agregarValor(m[0]);
             padre.agregarHijo(raiz, raiz.valores[raiz.valores.length - 1]);
             padre.agregarHijo(nodo, nodo.valores[nodo.valores.length - 1]);
             raiz.padre = nodo.padre = padre;
+            if (raiz.esHoja)
+                raiz.siguiente = nodo;
             return padre;
         }
         else {
             raiz.padre.agregarValor(m[0]);
             nodo.padre = raiz.padre;
             raiz.padre.agregarHijo(nodo, nodo.valores[nodo.valores.length - 1]);
+            if (raiz.esHoja)
+                raiz.siguiente = nodo;
         }
         return raiz;
     };
-    ArbolB.prototype.eliminar = function (valor) {
+    ArbolBplus.prototype.actualizarSig = function (raiz) {
+        for (var i in raiz.padre.hijos) {
+            raiz.padre.hijos[i].siguiente = raiz.padre.hijos[i + 1];
+        }
+        return raiz;
+    };
+    ArbolBplus.prototype.eliminar = function (valor) {
         if (this.raiz != null) {
-            this.raiz = this.delete(valor, this.raiz, -1);
+            this.raiz = this.delete(valor, this.raiz, -1, false);
         }
         if (this.raiz.valores.length == 0) {
             this.raiz.padre = null;
             this.raiz = this.raiz.hijos[0];
         }
     };
-    ArbolB.prototype.delete = function (valor, raiz, pos) {
-        if (raiz.contiene(valor)) {
+    ArbolBplus.prototype.delete = function (valor, raiz, pos, repetido) {
+        if (raiz != null) {
             if (raiz.esHoja) {
-                raiz = this.deleteEnHoja(valor, raiz, pos);
+                if (raiz.contiene(valor)) {
+                    raiz = this.deleteEnHoja(valor, raiz, pos, repetido);
+                }
             }
-            else if (!raiz.esHoja) {
-                raiz = this.deleteEnRama(valor, raiz);
-            }
-        }
-        else {
-            if (!raiz.esHoja) {
+            else {
                 var i = raiz.buscarHijo(valor);
-                raiz.hijos[i] = this.delete(valor, raiz.hijos[i], i);
+                if (raiz.contiene(valor)) {
+                    repetido = true;
+                }
+                raiz.hijos[i] = this.delete(valor, raiz.hijos[i], i, repetido);
             }
         }
-        if (!raiz.minValores() && pos != -1) {
-            raiz = this.merge(raiz, pos);
-        }
         return raiz;
     };
-    ArbolB.prototype.deleteEnRama = function (valor, raiz) {
+    ArbolBplus.prototype.deleteEnHoja = function (valor, raiz, pos, repetido) {
         raiz.eliminarValor(valor);
-        var val = this.prestarRama(raiz.hijos[0]);
-        raiz.agregarValor(val);
-        raiz.hijos[0] = this.delete(val, raiz.hijos[0], 0);
-        return raiz;
-    };
-    ArbolB.prototype.prestarRama = function (raiz) {
-        if (raiz.esHoja) {
-            return raiz.valores[raiz.valores.length - 1];
+        if (repetido) {
+            raiz.padre = this.deleteRepetido(valor, raiz.valores[0], raiz.padre);
         }
-        return this.prestarRama(raiz.hijos[raiz.valores.length]);
-    };
-    ArbolB.prototype.deleteEnHoja = function (valor, raiz, pos) {
-        raiz.eliminarValor(valor);
         if (!raiz.minValores() && pos != -1) {
             raiz = this.prestarHoja(raiz, pos);
         }
         return raiz;
     };
-    ArbolB.prototype.prestarHoja = function (raiz, pos) {
+    ArbolBplus.prototype.deleteRepetido = function (valor, nuevo, raiz) {
+        if (raiz.contiene(valor)) {
+            raiz.eliminarValor(valor);
+            raiz.agregarValor(nuevo);
+            return raiz;
+        }
+        else {
+            raiz.padre = this.deleteRepetido(valor, nuevo, raiz.padre);
+        }
+        return raiz;
+    };
+    ArbolBplus.prototype.prestarHoja = function (raiz, pos) {
         if (pos != -1) {
             var lado = this.getLadoPrestamo(raiz, pos - 1, pos + 1);
             if (lado != -1) {
@@ -214,19 +228,19 @@ var ArbolB = (function () {
         }
         return raiz;
     };
-    ArbolB.prototype.prestarIzquierdo = function (raiz, izq) {
-        raiz.agregarValor(raiz.padre.valores[izq]);
-        raiz.padre.eliminarValor(raiz.padre.valores[izq]);
-        raiz.padre.agregarValor(raiz.padre.hijos[izq].valores.pop());
+    ArbolBplus.prototype.prestarIzquierdo = function (raiz, izq) {
+        raiz.padre.agregarValor(raiz.padre.hijos[izq].valores[raiz.padre.hijos[izq].valores.length - 1]);
+        raiz.padre.eliminarValor(raiz.valores[0]);
+        raiz.agregarValor(raiz.padre.hijos[izq].valores.pop());
         return raiz;
     };
-    ArbolB.prototype.prestarDerecho = function (raiz, pos, der) {
-        raiz.agregarValor(raiz.padre.valores[pos]);
-        raiz.padre.eliminarValor(raiz.padre.valores[pos]);
-        raiz.padre.agregarValor(raiz.padre.hijos[der].valores.shift());
+    ArbolBplus.prototype.prestarDerecho = function (raiz, pos, der) {
+        raiz.agregarValor(raiz.padre.hijos[der].valores[0]);
+        raiz.padre.eliminarValor(raiz.padre.hijos[der].valores.shift());
+        raiz.padre.agregarValor(raiz.padre.hijos[der].valores[0]);
         return raiz;
     };
-    ArbolB.prototype.getLadoPrestamo = function (raiz, izq, der) {
+    ArbolBplus.prototype.getLadoPrestamo = function (raiz, izq, der) {
         if (izq > -1) {
             if (raiz.padre.hijos[izq].valores.length > (this.grado - 1) / 2) {
                 return izq;
@@ -239,7 +253,7 @@ var ArbolB = (function () {
         }
         return -1;
     };
-    ArbolB.prototype.merge = function (raiz, pos) {
+    ArbolBplus.prototype.merge = function (raiz, pos) {
         if (pos == 0) {
             raiz = this.mergeDerecho(raiz, pos);
         }
@@ -248,9 +262,10 @@ var ArbolB = (function () {
         }
         return raiz;
     };
-    ArbolB.prototype.mergeIzquierdo = function (raiz, pos) {
+    ArbolBplus.prototype.mergeIzquierdo = function (raiz, pos) {
         var valores = raiz.padre.hijos[pos - 1].valores;
-        valores = valores.concat(raiz.padre.valores[pos - 1]);
+        if (!raiz.esHoja)
+            valores = valores.concat(raiz.padre.valores[pos - 1]);
         var hijos = raiz.padre.hijos[pos - 1].hijos;
         raiz.padre.eliminarHijo(raiz.padre.hijos[pos - 1]);
         raiz.padre.eliminarValor(raiz.padre.valores[pos - 1]);
@@ -263,11 +278,13 @@ var ArbolB = (function () {
             n.padre = raiz;
             raiz.agregarHijo(n, n.valores[n.valores.length - 1]);
         }
+        this.actualizarSig(raiz);
         return raiz;
     };
-    ArbolB.prototype.mergeDerecho = function (raiz, pos) {
+    ArbolBplus.prototype.mergeDerecho = function (raiz, pos) {
         var valores = raiz.padre.hijos[pos + 1].valores;
-        valores = valores.concat(raiz.padre.valores[pos]);
+        if (!raiz.esHoja)
+            valores = valores.concat(raiz.padre.valores[pos + 1]);
         var hijos = raiz.padre.hijos[pos + 1].hijos;
         raiz.padre.eliminarHijo(raiz.padre.hijos[pos + 1]);
         raiz.padre.eliminarValor(raiz.padre.valores[pos]);
@@ -280,24 +297,31 @@ var ArbolB = (function () {
             n.padre = raiz;
             raiz.agregarHijo(n, n.valores[n.valores.length - 1]);
         }
+        this.actualizarSig(raiz);
         return raiz;
     };
-    ArbolB.prototype.print = function () {
+    ArbolBplus.prototype.print = function () {
         if (this.raiz != null) {
-            this.printNodo(this.raiz);
+            this.printNodo(this.raiz, 0);
         }
     };
-    ArbolB.prototype.printNodo = function (raiz) {
+    ArbolBplus.prototype.printNodo = function (raiz, valor) {
         if (raiz != null) {
             console.log();
             if (raiz.padre != null) {
                 console.log('Padre: ' + raiz.padre.valores);
             }
             console.log(raiz.valores);
+            if (raiz.siguiente != null) {
+                console.log('Siguiente: ' + raiz.siguiente.valores);
+            }
+            else {
+                console.log('Siguiente: ' + 'null');
+            }
             for (var i in raiz.hijos) {
-                this.printNodo(raiz.hijos[i]);
+                this.printNodo(raiz.hijos[i], valor + 1);
             }
         }
     };
-    return ArbolB;
+    return ArbolBplus;
 }());

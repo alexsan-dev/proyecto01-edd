@@ -1,6 +1,7 @@
-class NodoB{
+class NodoBplus{
     public valores:any
     public padre:any
+    public siguiente:any
     public hijos:any
     public grado:number
     public esHoja:boolean
@@ -10,6 +11,7 @@ class NodoB{
         this.valores = []
         this.hijos = []
         this.padre = null
+        this.siguiente = null
         this.esHoja = esHoja
     }
 
@@ -33,7 +35,7 @@ class NodoB{
             this.hijos.splice(0,0,hijo)
         }else{
             if(valor < this.valores[0]){
-                this.hijos.splice(0,0,hijo) 
+                this.hijos.splice(0,0,valor) 
             }else{
                 let i = this.buscarPos(valor)
                 this.hijos.splice(i,0,hijo)
@@ -54,11 +56,8 @@ class NodoB{
         return -1
     }
 
-    //ELIMINACIÓN ----------------------------------------------------------------------->
-    eliminarValor(valor:any){
-        this.valores = this.eliminarElemento(this.valores, valor)
-    }
-
+    
+    //ELIMINAR ---------------------------------------------------------------------------------->
     private eliminarElemento(arreglo:any, valor:any){
         return arreglo.filter( function( e:any ) {
             return e !== valor;
@@ -69,7 +68,18 @@ class NodoB{
         this.hijos = this.eliminarElemento(this.hijos, valor)
     }
 
-    //Si el nodo contiene un valor
+    eliminarValor(valor:any){
+        this.valores = this.eliminarElemento(this.valores, valor)
+    }
+
+    //VERIFICACIONES ----------------------------------------------------------------------------->
+    estaLleno(){
+        if(this.valores.length >= this.grado)
+            return true
+        return false
+    }
+
+
     contiene(valor:any){
         for(let n of this.valores){
             if(valor == n){
@@ -78,26 +88,11 @@ class NodoB{
         }
         return false
     }
+    
 
-    //Si el nodo superó el límite de valores permitidos
-    estaLleno(){
-        if(this.valores.length >= this.grado)
-            return true
-        return false
-    }
-
-    //Si el nodo contiene el minimo de valores permitidos
-    minValores(){
-        if(this.valores.length >= Math.round(this.grado-1)/2){
-            return true
-        }
-        return false
-    }
-
-    //Busca lo posicion
     buscarPos(valor:any){
         let i = 0
-        while(valor > this.valores[i]){
+        while(valor >= this.valores[i]){
             if(i > this.valores.length)
                 break
             i++
@@ -105,10 +100,16 @@ class NodoB{
         return i
     }
 
+    minValores(){
+        if(this.valores.length >= Math.round(this.grado-1)/2){
+            return true
+        }
+        return false
+    }
+
 }
 
-
-class ArbolB{
+class ArbolBplus{
 
     public raiz:any
     private grado:number
@@ -131,7 +132,7 @@ class ArbolB{
 
     private insertarNodo(valor:any, raiz:any){
         if(raiz == null){
-            raiz = new NodoB(this.grado, true)
+            raiz = new NodoBplus(this.grado, true)
             raiz.agregarValor(valor)
         }else{
             if(raiz.esHoja){
@@ -148,10 +149,9 @@ class ArbolB{
         return raiz
     }
 
-    //REAJUSTE DE ARBOL --------------------------------------------------------------------------->
-    private separar(raiz:any){
-        //Crear Hermano
-        let nodo = new NodoB(this.grado, false)
+    separar(raiz:any){
+        //Crear un nuevo nodo
+        let nodo = new NodoBplus(this.grado, false)
         if(raiz.esHoja){
             nodo.esHoja = true
         }
@@ -160,9 +160,13 @@ class ArbolB{
         let m = raiz.valores.slice(raiz.valores.length/2, raiz.valores.length/2+1)
 
         //Nodo de la Derecha
-        nodo.valores = raiz.valores.slice(raiz.valores.length/2+1, raiz.valores.length)
-        nodo.hijos = raiz.hijos.slice(raiz.hijos.length/2, raiz.hijos.length)
-
+        if(raiz.esHoja){
+            nodo.valores = raiz.valores.slice(raiz.valores.length/2, raiz.valores.length)
+        }else{
+            nodo.valores = raiz.valores.slice(raiz.valores.length/2+1, raiz.valores.length)
+            nodo.hijos = raiz.hijos.slice(raiz.hijos.length/2+1, raiz.hijos.length)
+        }
+    
         //Actualizar el padre si el nodo derecho obtiene hijos
         for(let n in nodo.hijos){
             nodo.hijos[n].padre = nodo
@@ -170,17 +174,19 @@ class ArbolB{
 
         //Nodo de la izquierda
         raiz.valores = raiz.valores.slice(0, raiz.valores.length/2)
-        raiz.hijos = raiz.hijos.slice(0, raiz.hijos.length/2)
+        raiz.hijos = raiz.hijos.slice(0, raiz.hijos.length/2+1)
 
         if(raiz.padre == null){
             //Si la raiz no tiene padre entonces se crea
-            let padre = new NodoB(this.grado, false)
+            let padre = new NodoBplus(this.grado, false)
             //Ingresar valor al padre y luego los hijos
             padre.agregarValor(m[0])
             padre.agregarHijo(raiz, raiz.valores[raiz.valores.length-1])
             padre.agregarHijo(nodo, nodo.valores[nodo.valores.length-1])
 
             raiz.padre = nodo.padre = padre
+            if(raiz.esHoja)
+                raiz.siguiente = nodo
             //retorna el padre como la raiz
             return padre
 
@@ -189,80 +195,90 @@ class ArbolB{
             raiz.padre.agregarValor(m[0])
             nodo.padre = raiz.padre
             raiz.padre.agregarHijo(nodo, nodo.valores[nodo.valores.length-1])
+            if(raiz.esHoja)
+                raiz.siguiente = nodo
         }
 
         return raiz
     }
 
-    //ELIMINACIÓN --------------------------------------------------------------------------------->
+
+    actualizarSig(raiz:any){
+        for(let i in raiz.padre.hijos){
+            raiz.padre.hijos[i].siguiente = raiz.padre.hijos[i+1]
+        }
+        return raiz
+    }
+
+    //ELIMINACIÓN ---------------------------------------------------------------------------------->
 
     eliminar(valor:any){
         if(this.raiz != null){
-            this.raiz = this.delete(valor, this.raiz, -1)
+            this.raiz = this.delete(valor, this.raiz, -1, false)
         }
+
         if(this.raiz.valores.length == 0){
             this.raiz.padre = null
             this.raiz = this.raiz.hijos[0]
         }
     }
 
-    private delete(valor:any, raiz:any, pos:number){
-        if(raiz.contiene(valor)){
+    delete(valor:any, raiz:NodoBplus, pos:number, repetido:boolean){
+        if(raiz != null){
             if(raiz.esHoja){
-                raiz = this.deleteEnHoja(valor, raiz, pos)
-            }else if(!raiz.esHoja){
-                raiz = this.deleteEnRama(valor, raiz)
-            }
-        }else{
-            if(!raiz.esHoja){
+                if(raiz.contiene(valor)){
+                    raiz = this.deleteEnHoja(valor, raiz, pos, repetido)
+                }
+            }else{
                 let i = raiz.buscarHijo(valor)
-                raiz.hijos[i] = this.delete(valor, raiz.hijos[i], i)
+                if(raiz.contiene(valor)){
+                    repetido = true
+                }
+                raiz.hijos[i] = this.delete(valor, raiz.hijos[i], i, repetido)
             }
         }
-        
-
-        if(!raiz.minValores() && pos != -1){
-            raiz = this.merge(raiz, pos)
-        }
-
         return raiz
     }
 
-    private deleteEnRama(valor:any, raiz:any){
-        //Elimina el valor en la rama
+    deleteEnHoja(valor:any, raiz:NodoBplus, pos:number, repetido:boolean){
         raiz.eliminarValor(valor)
-        //Obtiene el valor del mayor valor del lado izquierdo
-        let val = this.prestarRama(raiz.hijos[0])
-        raiz.agregarValor(val)
-        //Borrar el valor que el hijo presto del mismo hijo
-        raiz.hijos[0] = this.delete(val, raiz.hijos[0], 0)
-        return raiz
-    }
-
-    private prestarRama(raiz:any): any{
-        if(raiz.esHoja){
-            return raiz.valores[raiz.valores.length-1]
+        if(repetido){
+            raiz.padre = this.deleteRepetido(valor, raiz.valores[0], raiz.padre)
         }
-        return this.prestarRama(raiz.hijos[raiz.valores.length])
-    }
 
-    private deleteEnHoja(valor:any, raiz:any, pos:number){
-        raiz.eliminarValor(valor)
-        if(!raiz.minValores() && pos != -1){
+        if(!raiz.minValores()&& pos != -1){
             raiz = this.prestarHoja(raiz, pos)
         }
+
+
         return raiz
     }
 
-    private prestarHoja(raiz:any, pos:number){
+    //Borra el valor si esta en la Rama
+    deleteRepetido(valor:any, nuevo:any, raiz:NodoBplus){
+        if(raiz.contiene(valor)){
+            raiz.eliminarValor(valor)
+            raiz.agregarValor(nuevo)
+            return raiz
+        }else{
+            raiz.padre = this.deleteRepetido(valor,nuevo, raiz.padre)
+        }
+        return raiz
+    }
+
+    prestarHoja(raiz:NodoBplus, pos:number){
         if(pos != -1){
-            let lado = this.getLadoPrestamo(raiz, pos-1,pos+1)
+            let lado = this.getLadoPrestamo(raiz, pos-1, pos+1)
+
             if(lado != -1){
+
                 if(lado < pos){
+                    
                     raiz = this.prestarIzquierdo(raiz, lado)
                 }else{
                     raiz = this.prestarDerecho(raiz, pos, lado)
                 }
+
             }else{
                 raiz = this.merge(raiz, pos)
             }
@@ -270,24 +286,22 @@ class ArbolB{
         return raiz
     }
 
-    //Presta un valor al hermano izquierdo
-    private prestarIzquierdo(raiz:any, izq:number){
-        raiz.agregarValor(raiz.padre.valores[izq])
-        raiz.padre.eliminarValor(raiz.padre.valores[izq])
-        raiz.padre.agregarValor(raiz.padre.hijos[izq].valores.pop())
+    prestarIzquierdo(raiz:any ,izq:number){
+        raiz.padre.agregarValor(raiz.padre.hijos[izq].valores[raiz.padre.hijos[izq].valores.length-1])
+        raiz.padre.eliminarValor(raiz.valores[0])
+        raiz.agregarValor(raiz.padre.hijos[izq].valores.pop())
         return raiz
     }
 
-    //Presta un valor al hermano derecho
     private prestarDerecho(raiz:any, pos:number, der:number){
-        raiz.agregarValor(raiz.padre.valores[pos]) 
-        raiz.padre.eliminarValor(raiz.padre.valores[pos]) 
-        raiz.padre.agregarValor(raiz.padre.hijos[der].valores.shift()) 
+        raiz.agregarValor(raiz.padre.hijos[der].valores[0])
+        raiz.padre.eliminarValor(raiz.padre.hijos[der].valores.shift()) 
+        raiz.padre.agregarValor(raiz.padre.hijos[der].valores[0])  
         return raiz
     }
 
-    //Obtiene el hermano que puede prestar
-    private getLadoPrestamo(raiz:any, izq:number, der:number){
+
+    getLadoPrestamo(raiz:NodoBplus, izq:number, der:number){
         if(izq > -1){
             if(raiz.padre.hijos[izq].valores.length > (this.grado-1)/2){
                 return izq
@@ -316,7 +330,8 @@ class ArbolB{
     private mergeIzquierdo(raiz:any, pos:number){
         //Obtener valores para juntar
         let valores = raiz.padre.hijos[pos-1].valores
-        valores = valores.concat(raiz.padre.valores[pos-1])
+        if(!raiz.esHoja)
+            valores = valores.concat(raiz.padre.valores[pos-1])
         //Obtener hijos del izquierdo
         let hijos = raiz.padre.hijos[pos-1].hijos
         //Eliminar hermano izquierdo
@@ -331,13 +346,15 @@ class ArbolB{
             n.padre = raiz
             raiz.agregarHijo(n, n.valores[n.valores.length-1])
         }
+        this.actualizarSig(raiz)
         return raiz
-    }  
+    }
 
     private mergeDerecho(raiz:any, pos:number){
         //Obtener valores para juntar
         let valores = raiz.padre.hijos[pos+1].valores
-        valores = valores.concat(raiz.padre.valores[pos])
+        if(!raiz.esHoja)
+            valores = valores.concat(raiz.padre.valores[pos+1])
         //Obtener hijos del derecho
         let hijos = raiz.padre.hijos[pos+1].hijos
         //Eliminar el hermano derecho
@@ -352,28 +369,35 @@ class ArbolB{
             n.padre = raiz
             raiz.agregarHijo(n, n.valores[n.valores.length-1])
         }
+        this.actualizarSig(raiz)
         return raiz
     }
 
     //METODOS DE PRUEBA ---------------------------------------------------------------------------->
     print(){
         if(this.raiz!=null){
-            this.printNodo(this.raiz)
+            this.printNodo(this.raiz, 0)
         }
     }
 
-    printNodo(raiz:any){
+    printNodo(raiz:any, valor:number){
         if(raiz != null){
             console.log()
             if(raiz.padre != null){
                 console.log('Padre: '+ raiz.padre.valores)
             }
             console.log(raiz.valores)
+            if(raiz.siguiente != null){
+                console.log('Siguiente: '+raiz.siguiente.valores)
+            }else{
+                console.log('Siguiente: '+'null')
+            }
 
             for (let i in raiz.hijos){
-                this.printNodo(raiz.hijos[i])
+                this.printNodo(raiz.hijos[i], valor+1)
             }
         }
     }
+
 
 }
