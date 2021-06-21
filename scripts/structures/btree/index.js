@@ -73,7 +73,7 @@ var NodoB = (function () {
         return false;
     };
     NodoB.prototype.minValores = function () {
-        if (this.valores.length >= Math.round(5 - 1) / 2) {
+        if (this.valores.length >= Math.round(this.grado - 1) / 2) {
             return true;
         }
         return false;
