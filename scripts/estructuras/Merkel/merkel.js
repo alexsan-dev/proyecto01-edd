@@ -19,8 +19,18 @@ var ArbolMerkle = (function () {
     ArbolMerkle.prototype.factor = function () {
         return this.maxValores - this.valores;
     };
+    ArbolMerkle.prototype.hash = function (valor) {
+        valor = valor.toString();
+        var H = 64;
+        var total = 0;
+        for (var i = 0; i < valor.length; i++) {
+            total += (H * total << 1) + valor.charCodeAt(i);
+        }
+        return total;
+    };
     ArbolMerkle.prototype.insertar = function (valor) {
         this.agregado = false;
+        valor = this.hash(valor);
         if (this.factor() <= 0) {
             var padre = new NodoMerkle('null', 2);
             padre.izquierdo = this.raiz;
@@ -55,7 +65,7 @@ var ArbolMerkle = (function () {
     };
     ArbolMerkle.prototype.crecer = function (raiz, altura) {
         if (altura > 0) {
-            raiz = new NodoMerkle('null', altura);
+            raiz = new NodoMerkle(this.hash(-1), altura);
             raiz.izquierdo = this.crecer(raiz.izquierdo, altura - 1);
             raiz.derecho = this.crecer(raiz.derecho, altura - 1);
         }

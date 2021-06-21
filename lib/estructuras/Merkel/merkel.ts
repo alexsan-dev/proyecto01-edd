@@ -32,8 +32,19 @@ class ArbolMerkle{
         return this.maxValores - this.valores
     }
 
+    hash(valor:any) {
+        valor = valor.toString()
+        const H   = 64
+        let total = 0
+        for (var i = 0; i < valor.length; i++) {
+          total += (H * total << 1) + valor.charCodeAt(i)
+        }
+        return total;
+    }
+
     insertar(valor:any){
         this.agregado = false
+        valor = this.hash(valor)
         if(this.factor() <= 0){
             //Creando el Padre con izquierdo valor a la raiz
             let padre = new NodoMerkle('null', 2)
@@ -77,7 +88,7 @@ class ArbolMerkle{
 
     private crecer(raiz:NodoMerkle, altura:number){
         if(altura > 0){
-            raiz = new NodoMerkle('null', altura)
+            raiz = new NodoMerkle(this.hash(-1), altura)
             raiz.izquierdo = this.crecer(raiz.izquierdo, altura-1)
             raiz.derecho = this.crecer(raiz.derecho, altura-1)
         }
