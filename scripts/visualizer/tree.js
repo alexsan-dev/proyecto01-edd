@@ -49,6 +49,10 @@ fileUploadCallback = function (json) {
     treeElementsLength = 0;
     if (editor)
         editor.innerHTML = "<strong style=\"color:var(--monoConstIce)\">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style=\"color:var(--monoClassIce)\">" + treeClassName + "</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--monoNumberIce)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
+    if (isBTree) {
+        bTreeGrade = (globalJSONInput === null || globalJSONInput === void 0 ? void 0 : globalJSONInput.grado) || 3;
+        bTreeStructure = new ArbolB(bTreeGrade);
+    }
     valores.forEach(function (valor) {
         newNodeValue = valor.toString();
         addNodeOnTree();
@@ -163,8 +167,8 @@ drawInCanvas = function () {
                         for (var nodeContentIndex = 0; nodeContentIndex < nodeContentLength; nodeContentIndex++) {
                             var nodeContent = node.valores[nodeContentIndex];
                             canvasCtx.strokeStyle = canvasObjectColors[level];
-                            canvasCtx.translate(70, 0);
-                            if (node) {
+                            if (node && nodeContent.toString().length) {
+                                canvasCtx.translate(70, 0);
                                 canvasCtx.beginPath();
                                 canvasCtx.fillStyle = isDarkMode
                                     ? 'hsl(0deg 0% 57%)'

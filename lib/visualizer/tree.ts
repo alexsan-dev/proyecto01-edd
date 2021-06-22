@@ -70,6 +70,12 @@ fileUploadCallback = (json: JSONInputFile) => {
 		editor.innerHTML = `<strong style="color:var(--monoConstIce)">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style="color:var(--monoClassIce)">${treeClassName}</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--monoNumberIce)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()\n`
 
 	// ITERAR
+	if (isBTree) {
+		bTreeGrade = globalJSONInput?.grado || 3
+		bTreeStructure = new ArbolB(bTreeGrade)
+	}
+
+	// AGREGAR AL ARBOL
 	valores.forEach((valor: string | number) => {
 		newNodeValue = valor.toString()
 		addNodeOnTree()
@@ -294,10 +300,10 @@ drawInCanvas = () => {
 							// COLOR
 							canvasCtx.strokeStyle = canvasObjectColors[level]
 
-							// POSICIÓN
-							canvasCtx.translate(70, 0)
+							if (node && nodeContent.toString().length) {
+								// POSICIÓN
+								canvasCtx.translate(70, 0)
 
-							if (node) {
 								// CUADRO RECUBRIDOR
 								canvasCtx.beginPath()
 								canvasCtx.fillStyle = isDarkMode
