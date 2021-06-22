@@ -62,6 +62,8 @@ class Queue{
             aux.siguiente = this.raiz
 
             this.raiz = aux
+
+            this.tamaño++
         }
         else{
 
@@ -74,13 +76,11 @@ class Queue{
 
             this.raiz.siguiente = aux;
 
+            this.tamaño++
+
         }
 
         return this.raiz
-
-
-
-
     }
 
 
