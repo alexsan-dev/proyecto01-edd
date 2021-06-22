@@ -31,7 +31,6 @@ var ArbolMerkle = (function () {
     };
     ArbolMerkle.prototype.insertar = function (valor) {
         this.agregado = false;
-        valor = this.hash(valor);
         if (this.factor() <= 0) {
             var padre = new NodoMerkle(-1, 2);
             padre.izquierdo = this.raiz;
@@ -65,9 +64,45 @@ var ArbolMerkle = (function () {
         }
         return raiz;
     };
+    ArbolMerkle.prototype.eliminar = function (valor) {
+        this.raiz = this.delete(valor, this.raiz, this.raiz.altura);
+        this.raiz = this.actualizarPadre(this.raiz);
+    };
+    ArbolMerkle.prototype.delete = function (valor, raiz, altura) {
+        if (altura > 1) {
+            raiz.izquierdo = this.delete(valor, raiz.izquierdo, altura - 1);
+            raiz.derecho = this.delete(valor, raiz.derecho, altura - 1);
+        }
+        else {
+            if (raiz.valor == valor) {
+                raiz.valor = null;
+                raiz.hash = -1;
+                raiz.tieneValor = false;
+                this.valores--;
+            }
+        }
+        return raiz;
+    };
+    ArbolMerkle.prototype.actualizar = function (valor, nuevo) {
+        this.raiz = this.actualiza(valor, nuevo, this.raiz, this.raiz.altura);
+        this.raiz = this.actualizarPadre(this.raiz);
+    };
+    ArbolMerkle.prototype.actualiza = function (valor, nuevo, raiz, altura) {
+        if (altura > 1) {
+            raiz.izquierdo = this.actualiza(valor, nuevo, raiz.izquierdo, altura - 1);
+            raiz.derecho = this.actualiza(valor, nuevo, raiz.derecho, altura - 1);
+        }
+        else {
+            if (raiz.valor == valor) {
+                raiz.valor = nuevo;
+                raiz.hash = this.hash(nuevo);
+            }
+        }
+        return raiz;
+    };
     ArbolMerkle.prototype.crecer = function (raiz, altura) {
         if (altura > 0) {
-            raiz = new NodoMerkle(this.hash(-1), altura);
+            raiz = new NodoMerkle(-1, altura);
             raiz.izquierdo = this.crecer(raiz.izquierdo, altura - 1);
             raiz.derecho = this.crecer(raiz.derecho, altura - 1);
         }
