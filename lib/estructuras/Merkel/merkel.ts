@@ -46,7 +46,6 @@ class ArbolMerkle{
 
     insertar(valor:any){
         this.agregado = false
-        valor = this.hash(valor)
         if(this.factor() <= 0){
             //Creando el Padre con izquierdo valor a la raiz
             let padre = new NodoMerkle(-1, 2)
@@ -89,9 +88,49 @@ class ArbolMerkle{
         return raiz
     }
 
+    eliminar(valor:any){
+        this.raiz = this.delete(valor, this.raiz, this.raiz.altura)
+        this.raiz = this.actualizarPadre(this.raiz)
+    }
+
+    private delete(valor:any, raiz:NodoMerkle, altura:number){
+        if(altura > 1){
+            //Si no es nodo hoja va a buscarlos
+            raiz.izquierdo = this.delete(valor, raiz.izquierdo, altura-1)
+            raiz.derecho = this.delete(valor, raiz.derecho, altura-1)
+        }else{
+            if(raiz.valor == valor){
+                raiz.valor = null
+                raiz.hash = -1
+                raiz.tieneValor = false
+                this.valores --
+            }
+        }
+        return raiz
+    }
+
+    actualizar(valor:any, nuevo:any){
+        this.raiz = this.actualiza(valor, nuevo,this.raiz, this.raiz.altura)
+        this.raiz = this.actualizarPadre(this.raiz)
+    }
+
+    private actualiza(valor:any, nuevo:any, raiz:NodoMerkle, altura:number){
+        if(altura > 1){
+            //Si no es nodo hoja va a buscarlos
+            raiz.izquierdo = this.actualiza(valor, nuevo, raiz.izquierdo, altura-1)
+            raiz.derecho = this.actualiza(valor, nuevo, raiz.derecho, altura-1)
+        }else{
+            if(raiz.valor == valor){
+                raiz.valor = nuevo
+                raiz.hash = this.hash(nuevo)
+            }
+        }
+        return raiz
+    }
+
     private crecer(raiz:NodoMerkle, altura:number){
         if(altura > 0){
-            raiz = new NodoMerkle(this.hash(-1), altura)
+            raiz = new NodoMerkle(-1, altura)
             raiz.izquierdo = this.crecer(raiz.izquierdo, altura-1)
             raiz.derecho = this.crecer(raiz.derecho, altura-1)
         }
@@ -124,3 +163,4 @@ class ArbolMerkle{
     }
 
 }
+
