@@ -24,6 +24,7 @@ var Queue = (function () {
         if (this.raiz.priority > priority) {
             aux.siguiente = this.raiz;
             this.raiz = aux;
+            this.tamaño++;
         }
         else {
             while (this.raiz.siguiente != null && this.raiz.siguiente.priority < priority) {
@@ -31,6 +32,7 @@ var Queue = (function () {
             }
             aux.siguiente = this.raiz.siguiente;
             this.raiz.siguiente = aux;
+            this.tamaño++;
         }
         return this.raiz;
     };
